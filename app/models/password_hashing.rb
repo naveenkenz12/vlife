@@ -1,2 +1,3 @@
 require 'digest/sha1'
-encrypted_password = Digest::SHA1.hexdigest(password)
+salt = BCrypt::Engine.generate_salt
+encrypted_password = BCrypt::Engine.hash_secret(password, salt)
