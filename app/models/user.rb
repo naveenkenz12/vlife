@@ -13,12 +13,15 @@ class User < ActiveRecord::Base
 		self.password = nil
 	end
 
-	attr_accessor :u_id, :password, :password, :password_confirmation
+	attr_accessor :password
 	
-	self.primary_key = :id
-	#EMAIL_REGEX = /A[w+-.]+@[a-zd-.]+.[a-z]+z/i	
+	self.primary_key = :u_id
+	EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
 	validates :u_id, :presence => true, :uniqueness => true, :length => { :in => 3..20 }
-	validates :email, :presence => true, :uniqueness => true#, :format => EMAIL_REGEX
+	validates :email, :presence => true, length: { maximum: 255 }, format: { with: EMAIL_REGEX }, uniqueness: { case_sensitive: false }
 	validates :password, :confirmation => true
+	validates :phone_no, :presence => true, :uniqueness => true, :length => { :in => 10..10 }
 	validates_length_of :password, :in => 8..20, :on => :create
+
+	#attr_accessible :u_id, :password, :password_confirmation, :email, :phone_no
 end
