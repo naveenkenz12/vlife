@@ -1,0 +1,192 @@
+1. 	table USERs:
+	attributes:
+	a)	u_id varchar(10) not null
+	b) 	password char(128) not null
+	c) 	email_id varchar(256)
+	d) 	phone_no numeric(10,0)
+	e)	date_time timestamp
+	primary key	u_id
+	check ( email_id is not null or phone_no is not null)
+
+2. 	table USER_PROFILE
+	attributes:
+	a)	u_id varchar(10) not null
+	b) 	first_name varchar(50) not null
+	c) 	middle_name varchar(50)
+	d) 	last_name varchar(50)
+	e) 	gender varchar(10) not null
+	f) 	language varchar(100)
+	g)	bday date not null
+	h) 	rel_status varchar(30)
+	i)	privacy varchar(10) not null
+	j) 	country varchar(60)
+	k)	state varchar(60)
+	l)	city varchar(60)
+	primary key u_id
+	foreign key u_id referencing USER
+	foreign key country, city referencing LOCATION
+	check privacy in ('open', 'friends', 'closed')
+
+3.	table FRIEND
+	attributes:
+	a) 	user varchar(10) not null
+	b) 	friend varchar(10) not null
+	c)	status varchar(15) not null
+	primary key user, friend
+	foreign key user referencing USER
+	foreign key friend referencing USER
+	check status in ('waiting', 'following', 'accepted')
+
+4.	table LOCATION
+	attributes:
+	a)	country varchar(60) not null
+	b)	state varchar(60)
+	c) 	city varchar(60) not null
+	primary key city, country 
+
+4.	table INSTITUTION
+	attributes:
+	a)	ins_id varchar(10) not null
+	b) 	name varchar(150) not null
+	c)	country varchar(60)
+	d) 	state varchar(60)
+	e) 	city varchar(60)
+	primary key ins_id
+	foreign key country, city referencing LOCATION
+
+5.	table POST
+	attributes:
+	a)	p_id varchar(10) not null
+	b)	content text not null
+	c)	date_time timestamp
+	d)	country varchar(60)
+	e)	state varchar(60)
+	f) 	city varchar(60)
+	g)	posted_by_id varchar(10) not null
+	h)	media_id bytea
+	i)	posted_to_id varchar(10)
+	j)	page_id varchar(10)
+	primary key p_id
+	foreign key country, city referencing LOCATION
+	foreign key posted_by_id referencing USER
+	foreign key media_id referencing MEDIA
+	foreign key posted_to_id referencing USER
+	foreign key page_id referencing GROUP_PAGE
+	check ( posted_to_id is not null xor page_id is not null)
+
+6.	table GROUP_PAGE
+	attributes:
+	a)	page_id varchar(10) not null
+	b)	description varchar(100)
+	c)	date_time timestamp
+	d) 	page_pic bytea
+	primary key page_id
+	foreign key page_pic refrencing MEDIA
+
+7.	table QUESTION
+	attributes:
+	a)	q_id varchar(3) not null
+	b)	question_description varchar(100) not null
+	primary key q_id
+
+8. 	table SLAM
+	attributes:
+	a)	slam_id varchar(10) not null
+	b)	date_time timestamp not null
+	c)	user_1 varchar(10) not null
+	d) 	user_2 varchar(10) not null
+	primary key slam_id
+	foreign key user_1 referencing USER
+	foreign key user_2 referencing USER
+
+9. 	table SLAM_QUEST
+	attributes:
+	a) 	slam_id varchar(10) not null
+	b)	q_id varchar(10) not null
+	c) 	answer text not null
+	primary key slam_id, q_id
+	foreign key slam_id referencing SLAM
+	foreign key q_id referencing QUESTION
+
+10.	table MESSAGE
+	attributes:
+	a)	msg_id varchar(15) not null
+	b)	content varchar(1024)
+	c) 	user_1 varchar(10) not null
+	d) 	user_2 varchar(10) not null
+	e)	media_id bytea
+	primary key msg_id 
+	foreign key user_1 referencing USER
+	foreign key user_2 referencing USER
+	foreign key media_id referencing MEDIA
+
+11. table MEDIA
+	attributes:
+	a)	med_id varchar(12) not null
+	b)	description varchar(100)
+	c)	content bytea not null
+	d) 	country varchar(60)
+	e)	state varchar(60)
+	f)	city varchar(60)
+	primary key med_id
+	foreign key country, city referencing LOCATION
+
+12.	table EVENT
+	attributes:
+	a)	eve_id varchar(10) not null
+	b) 	description text not null
+	c)	date_created timestamp
+	d)	date_event timestamp not null
+	e)	country varchar(60) not null
+	f)	state varchar(60)
+	g)	city varchar(60) not null
+	h)	created_by_id varchar(10) not null
+	primary key eve_id
+	foreign key country, city referencing LOCATION
+	foreign key created_by_id referencing USER
+	check date_event > current_timestamp
+	
+13.	table EVENT_INVITES
+	attributes:
+	a)	eve_id varchar(10) not null
+	b)	u_id varchar(10) not null
+	c)	status varchar(15) not null
+	primary key eve_id, u_id
+	foreign key eve_id referencing EVENT
+	foreign key u_id referencing USER
+	check status in ('invited', 'notgoing', 'maybe', 'going')
+
+14.	table NESTED_POST
+	attributes:
+	a)	p_id1 varchar(10) not null
+	b)	p_id2 varchar(10) not null
+	primary key p_id1, p_id2
+	foreign key p_id1 referencing POST
+	foreign key p_id2 referencing POST
+
+15.	table GROUP_USER
+	attributes:
+	a)	page_id varchar(10) not null
+	b)	u_id varchar(10) not null
+	primary key page_id, u_id
+	foreign key page_id referencing GROUP_PAGE
+	foreign key u_id referencing USER
+
+16.	table NOTIFICATION
+	attributes:
+	a) 	not_id varchar(12) not null
+	b)	content varchar(60) not null
+	c)	eve_id varchar(10)
+	d)	p_id varchar(10)
+	primary key not_id
+	foreign key eve_id referencing EVENT
+	foreign key p_id referencing POST
+	check (eve_id is not null xor p_id is not null)
+
+17.	table NOTIFY_TO
+	attributes:
+	a)	not_id varchar(12) not null
+	b)	u_id varchar(10) not null
+	primary key not_id, u_id
+	foreign key not_id referencing NOTIFICATION
+	foreign key u_id referencing USER

@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'users/new'
+
   #define root of url
   root 'pages#index'
 
