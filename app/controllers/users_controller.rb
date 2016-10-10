@@ -18,9 +18,6 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    puts :u_id
-    puts :password
-    puts :password_confirmation
     params.require(:user).permit(:u_id, :email, :phone_no, :password, :password_confirmation, :salt)
   end
 
