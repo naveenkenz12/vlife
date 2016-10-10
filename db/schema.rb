@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161010112535) do
+ActiveRecord::Schema.define(version: 20161010165018) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -69,10 +69,8 @@ ActiveRecord::Schema.define(version: 20161010112535) do
   add_check "user_profiles", "(birthday < now())", name: "birthday_check"
 
   create_table "users", primary_key: "u_id", id: :string, force: :cascade do |t|
-    t.string   "password"
     t.string   "email",           null: false
     t.string   "phone_no",        null: false
-    t.string   "salt"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
     t.string   "remember_digest"

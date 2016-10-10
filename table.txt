@@ -113,6 +113,8 @@
 	foreign key user_1 referencing USER
 	foreign key user_2 referencing USER
 
+	///DONE///
+
 9. 	table SLAM_QUEST
 	attributes:
 	a) 	slam_id varchar(10) not null
