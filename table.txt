@@ -8,6 +8,8 @@
 	primary key	u_id
 	check ( email_id is not null or phone_no is not null)
 
+	///DONE///
+
 2. 	table USER_PROFILE
 	attributes:
 	a)	u_id varchar(10) not null
@@ -43,6 +45,8 @@
 	b)	state varchar(60)
 	c) 	city varchar(60) not null
 	primary key city, country 
+
+	///DONE///
 
 4.	table INSTITUTION
 	attributes:
@@ -190,3 +194,18 @@
 	primary key not_id, u_id
 	foreign key not_id referencing NOTIFICATION
 	foreign key u_id referencing USER
+
+
+###allowed column types 
+:binary
+:boolean
+:date
+:datetime
+:decimal
+:float
+:integer
+:primary_key
+:string
+:text
+:time
+:timestamp

@@ -1,3 +1,35 @@
-<% @page_title = "Profile" %>
-<h1>Pages#profile</h1>
-<p>Find me in app/views/pages/profile.html.erb</p>
+<% provide(:title , "VLife | SignUp") %>
+<div class = "col-xs-8 sign-right">
+<%= image_tag("logo.png") %>
+</div>
+<div class = "col-xs-4 form-box">
+
+    <div class="form-top">
+      <div class='form-top-left'>
+        <h2>Sign Up</h2>
+        <small>Become a part of it</small>
+      </div>
+      <div class="form-top-right">
+        <div class='glyphicon glyphicon-pencil'></div>
+      </div>
+    </div>
+    
+    <div class='form-bottom'>
+      <%= form_for(:user, :url => {:groupler => 'users', :action => 'create'}) do |f| %>
+      <%= f.text_field :u_id ,class:"form-group form-control",placeholder:"Username..." %>
+      <%= f.text_field :email ,class:"form-group form-control",placeholder:"Email..."%>
+      <%= f.text_field :phone_no ,class:"form-group form-control",placeholder:"Phone..."%>
+      <%= f.password_field :password ,class:"form-group form-control",placeholder:"Password..."%>
+      <%= f.password_field :password_confirmation ,class:"form-group form-control",placeholder:"Confirm Password..."%>
+      <%= f.submit :Signup, class: "btn btn-primary btn-width" %>
+      <% end %>
+      <% if @user.errors.any? %>
+      <ul class="Signup_Errors">
+      <% for message_error in @user.errors.full_messages %>
+        <li>* <%= message_error %></li>
+      <% end %>
+      </ul>
+    <% end %>
+    </div>
+</div>
+  

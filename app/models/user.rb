@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
-	before_save :encrypt_password
+	attr_accessor :remeber_token, :reset_token
+	before_save :encrypt_password, :lower_email
 	after_save :clear_password
 
 	def encrypt_password
@@ -9,12 +10,16 @@ class User < ActiveRecord::Base
 		end
 	end
 
+	def lower_email
+		if email.present?
+			self.email.downcase!
+		end
+	end
+
 	def clear_password
 		self.password = nil
 	end
 
-	attr_accessor :password
-	
 	self.primary_key = :u_id
 	EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
 	validates :u_id, :presence => true, :uniqueness => true, :length => { :in => 3..20 }
@@ -23,5 +28,45 @@ class User < ActiveRecord::Base
 	validates :phone_no, :presence => true, :uniqueness => true, :length => { :in => 10..10 }
 	validates_length_of :password, :in => 8..20, :on => :create
 
-	#attr_accessible :u_id, :password, :password_confirmation, :email, :phone_no
+	# Returns the hash digest of the given string.
+ 	def User.digest(string)
+		#cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :BCrypt::Engine.cost
+		cost = 10
+		BCrypt::Password.create(string, cost: cost)
+	end
+
+	#return a random token
+	def User.new_token
+		SecureRandom.urlsafe_base64
+	end
+
+	#remember a user
+	def remember
+		self.remember_token = User.new_token
+		update_attribute(:remember_digest, User.digest(remember_token))
+	end
+
+	def authenticated?(attribute, token)
+		digest = send("#{attribute}_digest")
+		return false if digest.nil?
+		BCrypt::Password.new(digest).is_password?(token)
+	end
+
+	def forget
+		update_attribute(:remember_digest, nil)
+	end
+
+	def create_reset_digest
+		self.reset_token = User.new_token
+		update_attribute(:reset_digest, user.digest(reset_token))
+		update_attribute(:reset_sent_at, Time.zone.now)
+	end
+
+	def send_password_reset_email
+		UserMailer.password_reset(self).deliver_now
+	end
+
+	def password_reset_expired?
+		reset_digest.nil? || reset_sent_at < 2.hours.ago
+	end
 end

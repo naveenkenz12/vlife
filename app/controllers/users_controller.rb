@@ -5,25 +5,36 @@ class UsersController < ApplicationController
 
   def create
   	@user = User.new(user_params)
-    puts "1\n"
-    puts user_params
-    puts "10\n"
   	if @user.save
-      puts "2\n"
+      log_in @user
   		flash[:notice] = "You signed up successfully"
   		flash[:color] = "valid"
+      redirect_to @user
   	else
-      puts "3\n"
   		flash[:notice] = "Bad username and password"
   		flash[:color] = "invalid"
   	end
-    puts "4\n"
   	render 'new'
-    puts "5\n"
   end
 
   def user_params
+    puts :u_id
+    puts :password
+    puts :password_confirmation
     params.require(:user).permit(:u_id, :email, :phone_no, :password, :password_confirmation, :salt)
+  end
+
+  def logged_in_user
+    unless logged_in?
+      flash[:danger] = "Please Log In"
+      redirect_to login_url
+    end
+  end
+
+
+  def correct_user
+    @user = User.find(params[:u_id])
+    redirect_to(root_url) unless current_user?
   end
 
 end
