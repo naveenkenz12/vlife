@@ -9,7 +9,7 @@ class UsersController < ApplicationController
       log_in @user
   		flash[:notice] = "You signed up successfully"
   		flash[:color] = "valid"
-      redirect_to @user
+      redirect_to '/home'
   	else
   		flash[:notice] = "Bad username and password"
   		flash[:color] = "invalid"

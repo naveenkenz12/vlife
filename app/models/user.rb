@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
-	attr_accessor :remeber_token, :reset_token
-	before_save :encrypt_password, :lower_email
+	attr_accessor :remember_token, :reset_token
+	before_save :lower_email
 	after_save :clear_password
 
 	def encrypt_password
@@ -24,9 +24,11 @@ class User < ActiveRecord::Base
 	EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
 	validates :u_id, :presence => true, :uniqueness => true, :length => { :in => 3..20 }
 	validates :email, :presence => true, length: { maximum: 255 }, format: { with: EMAIL_REGEX }, uniqueness: { case_sensitive: false }
+	has_secure_password
 	validates :password, :confirmation => true
 	validates :phone_no, :presence => true, :uniqueness => true, :length => { :in => 10..10 }
 	validates_length_of :password, :in => 8..20, :on => :create
+
 
 	# Returns the hash digest of the given string.
  	def User.digest(string)

@@ -12,12 +12,12 @@ Rails.application.routes.draw do
 
   get '/new' => 'users#new'
 
-  post '/session/create' => 'pages#profile'
-  get '/session/create' => 'pages#profile'
+  #post '/session/create' => 'pages#profile'
+  #get '/session/create' => 'pages#profile'
 
 
   get 'signup' => 'users#new'
-  get 'login' => 'sessions#new'
+  get 'login' => 'users#new'
   post 'login' => 'sessions#create'
   delete 'logout' => 'sessions#destroy'
 
