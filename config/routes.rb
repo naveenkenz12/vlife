@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   get 'users/new'
 
   #define root of url
-  root 'pages#index'
+  root 'users#new'
 
   get '/home' => 'pages#home'
 
@@ -10,7 +10,7 @@ Rails.application.routes.draw do
 
   get '/explore' => 'pages#explore'
 
-  get '/xxx' => 'users#new'
+  get '/new' => 'users#new'
 
   match ':controller(/:action(/:id))(.:format)', via: [:get, :post]
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

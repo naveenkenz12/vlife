@@ -1,3 +1,51 @@
 // Place all the styles related to the users controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.form-box {
+	margin-top: 20px;
+	font-family: Monospace;
+}
+
+.form-top {
+	overflow: hidden;
+	padding: 0 15% 1% 5%;
+	background: #d3d3d3;
+	-moz-border-radius: 4px 4px 0 0; -webkit-border-radius: 4px 4px 0 0; border-radius: 4px 4px 0 0;
+	text-align: left;
+}
+
+.form-top-left {
+	float: left;
+	width: 75%;
+	padding-top: 25px;
+	font-family: Monospace;
+}
+
+.form-top-left h2 { margin-top: 0; font-family: Monospace;}
+
+.form-top-right {
+	float: left;
+	width: 25%;
+	padding-top: 12px;
+	font-size: 60px;
+	color: #ddd;
+	line-height: 100px;
+	text-align: right;
+}
+
+.form-bottom {
+	padding: 25px 25px 30px 25px;
+	background: #eee;
+	-moz-border-radius: 0 0 4px 4px; -webkit-border-radius: 0 0 4px 4px; border-radius: 0 0 4px 4px;
+	text-align: left;
+}
+
+.btn-width{
+	width:	100%;
+}
+
+.sign-right{
+	padding-top: 10%;
+	padding-left:8%;
+}
