@@ -1,15 +1,19 @@
-<div class="row">
-	<div class ='col-xs-3'>
-		
-	</div>
-	<div class='col-xs-5'>
-	<p>Feed</p>
-	</div>
-	<div class='col-xs-4'>
-	<div class="panel panel-default">
-		  	<div class="panel-body">
-		    	Panel content
-		  	</div>
+<% if logged_in? %>
+	<div class="row">
+		<div class ='col-xs-3'>
+			
 		</div>
-	</div>>
-</div>
+		<div class='col-xs-5'>
+		<p>Feed</p>
+		</div>
+		<div class='col-xs-4'>
+		<div class="panel panel-default">
+			  	<div class="panel-body">
+			    	Panel content
+			  	</div>
+			</div>
+		</div>>
+	</div>
+<% else %>
+	<% render '/' %>
+<% end %>
