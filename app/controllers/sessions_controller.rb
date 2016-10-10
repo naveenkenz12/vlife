@@ -9,7 +9,7 @@ class SessionsController < ApplicationController
 			remember user
 			redirect_to '/home'
 		else
-			puts "denger\n"
+			puts "danger\n"
 			flash.now[:danger] = 'Invalid UserID/Password'
 			redirect_to root_url
 		end	
