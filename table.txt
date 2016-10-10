@@ -66,25 +66,28 @@
 
 	///DONE///
 
-5.	table POST
+5.	table POSTs
 	attributes:
 	a)	p_id varchar(10) not null
-	b)	content text not null
+	b)	content text 				<remove>not null
 	c)	date_time timestamp
 	d)	country varchar(60)
 	e)	state varchar(60)
 	f) 	city varchar(60)
 	g)	posted_by_id varchar(10) not null
-	h)	media_id bytea
+	h)	media_id varchar
 	i)	posted_to_id varchar(10)
 	j)	page_id varchar(10)
 	primary key p_id
 	foreign key country, city referencing LOCATION
 	foreign key posted_by_id referencing USER
-	foreign key media_id referencing MEDIA
+	foreign key media_id referencing MEDIA ??? blob ???
 	foreign key posted_to_id referencing USER
 	foreign key page_id referencing GROUP_PAGE
 	check ( posted_to_id is not null xor page_id is not null)
+	check (content is not null xor media_id is not null)
+
+	///DONE///
 
 6.	table GROUP_PAGE
 	attributes:
@@ -94,6 +97,8 @@
 	d) 	page_pic bytea
 	primary key page_id
 	foreign key page_pic refrencing MEDIA
+
+	///DONE///
 
 7.	table QUESTIONs
 	attributes:
@@ -136,7 +141,7 @@
 	foreign key user_2 referencing USER
 	foreign key media_id referencing MEDIA
 
-11. table MEDIA
+11. table MEDIA ??? name changed  to ??? blob // overwrite media everywhere // to blob
 	attributes:
 	a)	med_id varchar(12) not null
 	b)	description varchar(100)
@@ -146,6 +151,8 @@
 	f)	city varchar(60)
 	primary key med_id
 	foreign key country, city referencing LOCATION
+
+	///DONE///
 
 12.	table EVENT
 	attributes:

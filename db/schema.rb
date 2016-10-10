@@ -10,10 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161010165018) do
+ActiveRecord::Schema.define(version: 20161010201640) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "blobs", primary_key: "med_id", id: :string, force: :cascade do |t|
+    t.string   "description"
+    t.binary   "content",     null: false
+    t.string   "country"
+    t.string   "state"
+    t.string   "city"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
 
   create_table "friends", primary_key: ["user", "friend"], force: :cascade do |t|
     t.string   "user",                           null: false
@@ -41,6 +51,22 @@ ActiveRecord::Schema.define(version: 20161010165018) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "posts", primary_key: "p_id", id: :string, force: :cascade do |t|
+    t.string   "content"
+    t.string   "country"
+    t.string   "state"
+    t.string   "city"
+    t.string   "posted_by_id"
+    t.string   "media_id"
+    t.string   "posted_to_id"
+    t.string   "page_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_check "posts", "((posted_to_id IS NOT NULL) OR (posted_by_id IS NOT NULL))", name: "post_to_psge_or_user_check"
+  add_check "posts", "((content IS NOT NULL) OR (media_id IS NOT NULL))", name: "content_or_media_check"
 
   create_table "questions", primary_key: "q_id", id: :string, force: :cascade do |t|
     t.string   "question_description", null: false
@@ -81,9 +107,14 @@ ActiveRecord::Schema.define(version: 20161010165018) do
     t.index ["phone_no"], name: "index_users_on_phone_no", unique: true, using: :btree
   end
 
+  add_foreign_key "blobs", "locations", column: "country", primary_key: "country", name: "blobs_country_fkey"
   add_foreign_key "friends", "users", column: "friend", primary_key: "u_id", name: "friends_friend_fkey"
   add_foreign_key "friends", "users", column: "user", primary_key: "u_id", name: "friends_user_fkey"
   add_foreign_key "institutions", "locations", column: "country", primary_key: "country", name: "institutions_country_fkey"
+  add_foreign_key "posts", "blobs", column: "media_id", primary_key: "med_id", name: "posts_media_id_fkey"
+  add_foreign_key "posts", "locations", column: "country", primary_key: "country", name: "posts_country_fkey"
+  add_foreign_key "posts", "users", column: "posted_by_id", primary_key: "u_id", name: "posts_posted_by_id_fkey"
+  add_foreign_key "posts", "users", column: "posted_to_id", primary_key: "u_id", name: "posts_posted_to_id_fkey"
   add_foreign_key "user_profiles", "locations", column: "country", primary_key: "country", name: "user_profiles_country_fkey"
   add_foreign_key "user_profiles", "users", column: "u_id", primary_key: "u_id", name: "user_profiles_u_id_fkey"
 end
