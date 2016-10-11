@@ -17,8 +17,9 @@ class UsersController < ApplicationController
   	else
   		flash[:notice] = "Bad username and password"
   		flash[:color] = "invalid"
-  	end
-  	redirect_to 'new'
+  	  redirect_to root_url
+    end
+  	
   end
 
   def user_params

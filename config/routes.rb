@@ -3,17 +3,20 @@ Rails.application.routes.draw do
 
   #define root of url
   root 'users#new'
-
+  
   get '/home' => 'pages#home'
 
-  get '/:u_id' => 'pages#profile'
+  get '/:id/profile' => 'user_profiles#profile'
+  get '/:id/about' => 'user_profiles#about'
 
-  get '/explore' => 'pages#explore'
+  get '/:id/friends' => 'user_profiles#friends'
+
+  get '/:id/media' => 'user_profiles#media'
+  
 
   get '/new' => 'users#new'
 
-  #post '/session/create' => 'pages#profile'
-  #get '/session/create' => 'pages#profile'
+  get '/error' => 'pages#error'
 
 
   get '/signup' => 'users#new'
@@ -21,6 +24,7 @@ Rails.application.routes.draw do
   post '/login' => 'sessions#create'
   delete '/logout' => 'sessions#destroy'
 
+  resources :posts
   #User Posts
   match ':controller(/:action(/:id))(.:format)', via: [:get, :post]
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
