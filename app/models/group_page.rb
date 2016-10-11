@@ -1,0 +1,2 @@
+class GroupPage < ApplicationRecord
+end
