@@ -15,6 +15,34 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
-@import "pages.scss";
 @import "users.scss";
+@import "pages.scss";
+
+body {
+	font-family:monospace;
+}
+
+a:link {
+    background-color: none;
+    padding: 1% 1% 1% 1%;
+    color:black;
+}
+
+a:visited {
+    background-color: none;
+    padding: 1% 1% 1% 1%;
+    color:black;
+}
+
+a:hover {
+    background-color: #f3f3f3;
+    padding: 1% 1% 1% 1%;
+    color:black;
+}
+
+a:active {
+    background-color: none;
+    padding: 1% 1% 1% 1%;
+    color:black;
+}
 

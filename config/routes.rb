@@ -19,9 +19,9 @@ Rails.application.routes.draw do
   get '/signup' => 'users#new'
   get '/login' => 'users#new'
   post '/login' => 'sessions#create'
-  
   delete '/logout' => 'sessions#destroy'
 
+  #User Posts
   match ':controller(/:action(/:id))(.:format)', via: [:get, :post]
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

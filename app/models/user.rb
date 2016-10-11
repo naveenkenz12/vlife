@@ -29,6 +29,7 @@ class User < ActiveRecord::Base
 	validates :phone_no, :presence => true, :uniqueness => true, :length => { :in => 10..10 }
 	validates_length_of :password, :in => 8..20, :on => :create
 
+	has_many :posts, dependent: :destroy
 
 	# Returns the hash digest of the given string.
  	def User.digest(string)

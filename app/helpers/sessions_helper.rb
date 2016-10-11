@@ -43,7 +43,7 @@ module SessionsHelper
 		user.forget if !user.nil?
 		cookies.delete(:u_id)
 		#cookies.delete(:email)
-		c#ookies.delete(:phone_no)
+		#cookies.delete(:phone_no)
 		cookies.delete(:remember_token)
 	end
 
