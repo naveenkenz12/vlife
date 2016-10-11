@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161010201640) do
+ActiveRecord::Schema.define(version: 20161010204549) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,6 +34,13 @@ ActiveRecord::Schema.define(version: 20161010201640) do
   end
 
   add_check "friends", "((status)::text = ANY ((ARRAY['waiting'::character varying, 'following'::character varying, 'accepted'::character varying])::text[]))", name: "status_check"
+
+  create_table "group_pages", primary_key: "page_id", id: :string, force: :cascade do |t|
+    t.string   "description"
+    t.string   "page_pic"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
 
   create_table "institutions", primary_key: "ins_id", id: :string, force: :cascade do |t|
     t.string   "name",       null: false
@@ -110,6 +117,7 @@ ActiveRecord::Schema.define(version: 20161010201640) do
   add_foreign_key "blobs", "locations", column: "country", primary_key: "country", name: "blobs_country_fkey"
   add_foreign_key "friends", "users", column: "friend", primary_key: "u_id", name: "friends_friend_fkey"
   add_foreign_key "friends", "users", column: "user", primary_key: "u_id", name: "friends_user_fkey"
+  add_foreign_key "group_pages", "blobs", column: "page_pic", primary_key: "med_id", name: "group_pages_page_pic_fkey"
   add_foreign_key "institutions", "locations", column: "country", primary_key: "country", name: "institutions_country_fkey"
   add_foreign_key "posts", "blobs", column: "media_id", primary_key: "med_id", name: "posts_media_id_fkey"
   add_foreign_key "posts", "locations", column: "country", primary_key: "country", name: "posts_country_fkey"

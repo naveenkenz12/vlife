@@ -27,9 +27,9 @@ class PagesController < ApplicationController
   	end
   end
 
-  def post
+  def fpost
   	if logged_in?
-  		current_user.post.create(content: params[:post][:content])
+  		current_user.create.build(content: params[:post][:content])
   	else
   		redirect_to root_url
   	end

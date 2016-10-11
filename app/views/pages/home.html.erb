@@ -27,7 +27,7 @@
 						<%= image_tag("boy.jpg", class:'cuser-img' ) %>
 					</div>
 					<div class='col-xs-10'>	
-						<%= form_for(:post, :url => {:controller => 'pages', :action => 'post'},method: "post", :html => {:class =>'cuser-post-form'}) do |f| %>
+						<%= form_for(:post, :url => {:controller => 'pages', :action => 'fpost'},method: "post", :html => {:class =>'cuser-post-form'}) do |f| %>
 					    <%= f.text_field :content ,class:"cuser-post-textarea",placeholder:"Today's Thought" %>
 				    </div>
 	    		</div>
