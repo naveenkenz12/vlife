@@ -13,7 +13,16 @@ before_action :logged_in_user, only: [:create ,:edit, :update, :profile]
   end
   
   def create
-  	
+  	  if UserProfile.find_by(u_id: current_user.u_id).nil?
+          @newProfile = current_user.build_profile(post_params)
+          if @newProfile.save
+            flash[:notice] = "Profile Created Successfully"
+            redirect_to '/current_user.u_id/about'
+          end
+      else
+          flash[:danger] = "Something Went Wrong"
+        redirect_to '/error'
+      end
   end
 
   def about
@@ -39,4 +48,10 @@ before_action :logged_in_user, only: [:create ,:edit, :update, :profile]
     
   end
 
+
+  def post_params
+    params.require(:user_profile).permit(:first_name, :last_name, :birthday, :gender,:rel_status)
+  end
+
+  
 end
