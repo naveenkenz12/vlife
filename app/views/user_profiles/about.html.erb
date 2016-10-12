@@ -1,12 +1,12 @@
 <%= render '/layouts/profile_top' %>
 
-<% if @profile.nil? and @user.u_id == current_user.u_uid %>
-	<h3>Please Create Your Profile</h3>
-	<div class = "col-xs-4 sign-right">
+<% if @profile.nil? and @user.u_id == current_user.u_id %>
+	
+	<div class = "col-xs-2 sign-right">
 	
 	</div>
-	<div class = "col-xs-8 form-box">
-
+	<div class = "col-xs-7 form-box">
+	<h3>Please Create Your Profile</h3>
 	<div class="form-top">
 	  <div class='form-top-left'>
 	    <h2>Create Profile</h2>
@@ -21,27 +21,31 @@
 	  <%= form_for(@newProfile) do |f| %>
 	  <div class='form-inline'>
 	  <%= f.text_field :first_name ,class:"form-group form-control",placeholder:"First Name..." %>
-	  <%= f.text_field :last_name ,class:"form-group form-control",placeholder:"Last Name..." %>
+	  <%= f.text_field :last_name ,class:"form-group form-control",placeholder:"Last Name...", style:"float:right" %>
 	  </div>
-	  <div class ='form-inline'>
-	  <%= radio_button_tag :gender, 'Male', @profile.gender == :Male %> 
+	  <div class="form-group form-control profile-width">
+	  Birthday : <%= f.date_field :birthday ,style:"border-width:0px;border:none;" %>
+	  </div>
+	  <div class='form-group form-control profile-width'>
+	  Gender: 
+	  <%= f.radio_button :gender, 'M', checked: true %>
 	  <%= label_tag :Male, 'Male' %>
-	  <%= radio_button_tag :gender, 'Female', @profile.gender == :Female %> 
-	  <%= label_tag :Female, 'Female' %>
+	  <%= f.radio_button :gender, 'Female' %>
+	  <%= label_tag :Female, 'F' %>
 	  </div>
-	  <%= f.text_field :email ,class:"form-group form-control",placeholder:"Email..."%>
-	  <%= f.text_field :phone_no ,class:"form-group form-control",placeholder:"Phone..."%>
-	  <%= f.password_field :password ,class:"form-group form-control",placeholder:"Password..."%>
-	  <%= f.password_field :password_confirmation ,class:"form-group form-control",placeholder:"Confirm Password..."%>
-	  <%= f.submit :Signup, class: "btn btn-primary btn-width" %>
-	  <% end %>
-	  <% if @user.errors.any? %>
-	  <ul class="Signup_Errors">
-	  <% for message_error in @user.errors.full_messages %>
-	    <li>* <%= message_error %></li>
+	  <%= f.text_field :rel_status ,class:"form-group form-control profile-width",placeholder:"Relationship Status..." %>
+
+	  <button type="submit" class="btn btn-default">Create</button>
 	  <% end %>
 	  </ul>
-	<% end %>
 	</div>
 	</div>
+<% else %>
+	<!-- Show uSer details-->
+	<%= @profile.first_name %>
+	<%= @profile.last_name %>
+	<%= @profile.birthday %>
+	<%= @profile.rel_status %>
+	<%= @profile.gender %>
 	
+<% end %>

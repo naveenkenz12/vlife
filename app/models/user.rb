@@ -75,4 +75,8 @@ class User < ActiveRecord::Base
 	def password_reset_expired?
 		reset_digest.nil? || reset_sent_at < 2.hours.ago
 	end
+
+	def profile_user?(other)
+		self.u_id == other.u_id;
+	end
 end
