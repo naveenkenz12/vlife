@@ -4,9 +4,6 @@ class CommentsController < ApplicationController
 	def create
 		@new_comment = current_user.own_posts.build(comment_params)
 		@new_comment.p_id = Post.count.to_s(36)
-		puts @new_comment.parent_id
-		puts @new_comment.p_id
-		puts @new_comment.posted_by_id
 		if @new_comment.save
 			flash[:notice] = "Commenetd Succesfully"
 			msg = {:status => "ok"}

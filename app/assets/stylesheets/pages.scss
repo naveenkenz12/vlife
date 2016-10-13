@@ -33,6 +33,8 @@
 
 hr {
 	margin: 0.5% 0.2% 0.5% 0.2%;
+	display:block;
+	border-color:#d3d3d3;
 }
 
 .cuser-img {
@@ -56,19 +58,62 @@ hr {
 .user-post-top {
 	overflow :hidden;
 	padding: 1% 1% 1% 1%;
-	background: #ffffff;
+	background: #f3f3f3;
 	-moz-border-radius: 4px 4px 0 0; -webkit-border-radius: 4px 4px 0 0; border-radius: 4px 4px 0 0;
 	text-align: left;
 }
 
 .user-post-middle {
-	
+	padding: 2% 1% 2% 1%;
 }
 
 .user-post-bottom {
-	padding: 2% 1% 1% 1%;
+
+	padding: 0% 1% 1% 1%;
 	background: #f3f3f3;
+	width: 100%;
 }
+
+//Comment Section
+.comment-text {
+	width:100%;
+	padding: 0.5% 1% 0% 1%;
+	border-width:0px;
+	border:none;
+	outline:none;
+}
+
+.comment-section {
+	padding :1% 0% 0.5% 0%;
+	background: white;
+	border:1px solid #d3d3d3;
+	border-top:none;
+	margin-top:-0.2%;
+}
+
+.one-comment {
+	max-width:100%;
+	height:100%;
+	font-size:0.8em;
+	padding: 1% 1% 1% 1%;
+}
+
+.comment-left {
+	float:left;
+
+}
+.comment-right {
+	padding: 1% 0.5% 0.5% 0.5%;
+}
+
+.comment-image {
+	float:left;
+	height: auto; 
+    width: auto; 
+    max-width: 20px; 
+    max-height: 20px;
+}
+
 
 .profile-top {
 	width:100%; 
@@ -116,3 +161,4 @@ hr {
 	width:50%;
 
 }
+

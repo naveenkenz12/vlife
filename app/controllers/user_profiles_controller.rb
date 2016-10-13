@@ -7,7 +7,7 @@ before_action :logged_in_user, only: [:create ,:edit, :update, :profile]
   	if @user.nil?
   		redirect_to '/error'
   	else
-  		@newPost = current_user.user_posts.build
+  		@newPost = current_user.own_posts.build
   		@posts = Post.where(posted_to_id: @user.u_id)
   	end
   end
@@ -17,7 +17,7 @@ before_action :logged_in_user, only: [:create ,:edit, :update, :profile]
           @newProfile = current_user.build_profile(post_params)
           if @newProfile.save
             flash[:notice] = "Profile Created Successfully"
-            redirect_to '/current_user.u_id/about'
+            redirect_to '/'+current_user.u_id+'/about'
           end
       else
           flash[:danger] = "Something Went Wrong"

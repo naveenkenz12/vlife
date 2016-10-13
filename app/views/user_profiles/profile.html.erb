@@ -55,21 +55,11 @@
 	  			</div>
 	  			<% end %>
 	  		</div>
-	  		<hr>
+	  		<br>
+	  		<br>
 			 <!-- All other Users Post -->
 			 <% for @p in @posts %>
-			 <div class="well well-sm">
-			 	<div class="user-post-top">
-			 		<%= @p.posted_by_id %>	
-			 	</div>
-			 	<div class="user-post-middle">
-			 		<%= @p.content %>
-			 	</div>
-			 	<hr>
-			 	<div class="user-post-bottom">
-			 		
-			 	</div>
-			 </div>
+			 <%= render '/layouts/posts' %>
 			 <% end %>
 
 
