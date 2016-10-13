@@ -1,0 +1,25 @@
+<div class="well well-sm">
+ 	<div class="user-post-top">
+ 		<%= @p.posted_by_id %>	
+ 	</div>
+ 	<div class="user-post-middle">
+ 		<%= @p.content %>
+ 	</div>
+ 	<hr>
+ 	<div class="user-post-bottom">
+ 		<%= form_for @newPost , :html => {:class =>''} do |f| %>
+	    
+		<%= f.text_field :content ,class:"",placeholder:"Comment" %>
+		<%= f.text_field :parent_id, value:@p.p_id, type: "hidden", readonly: "true" %>
+		<button type="submit" class="btn btn-default" style="display:visible" >Comment</button>
+		<% end %>
+ 	</div>
+ 	<div class="user-post-bottom">
+ 		<%= form_for @newPost , :html => {:class =>''} do |f| %>
+	    
+		<%= f.text_field :content ,class:"",value:"_%20|_#", type: "hidden", readonly: "true" %>
+		<%= f.text_field :parent_id, value:@p.p_id, type: "hidden", readonly: "true" %>
+		<button type="submit" class="btn btn-default" style="display:visible" >Like</button>
+		<% end %>
+ 	</div>
+ </div>

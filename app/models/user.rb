@@ -31,7 +31,7 @@ class User < ActiveRecord::Base
 
 	has_many :own_posts, :class_name => 'Post' ,dependent: :destroy , :foreign_key => "posted_by_id", :inverse_of => :posted_by
 	has_many :user_posts, :class_name => 'Post' ,dependent: :destroy , :foreign_key => "posted_to_id", :inverse_of => :posted_to
-	
+
 	has_one  :profile, :class_name => 'UserProfile', dependent: :destroy, :foreign_key => "u_id"
 	
 	# Returns the hash digest of the given string.

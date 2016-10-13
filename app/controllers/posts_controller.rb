@@ -2,11 +2,13 @@ class PostsController < ApplicationController
 	before_action :logged_in_user , only: [:create, :destroy]
 	def create
 		@newPost = current_user.own_posts.build(post_params)
-		@newPost.p_id = Base64.encode64(Post.count.to_s);
+		@newPost.p_id = Post.count.to_s(36)
 		
 		if @newPost.posted_to_id.nil? 
 			@newPost.posted_to_id = current_user.u_id
 		end
+
+		
 		if @newPost.save
 			flash[:success] = "Posted Sucessfully"
 			redirect_to home_url
@@ -17,7 +19,7 @@ class PostsController < ApplicationController
 	end
 
 	def post_params
-		params.require(:post).permit(:content, :posted_to_id)
+		params.require(:post).permit(:content, :posted_to_id, :parent_id)
 	end
 
 

@@ -179,6 +179,9 @@
 	foreign key u_id referencing USER
 	check status in ('invited', 'notgoing', 'maybe', 'going')
 
+
+
+////
 14.	table NESTED_POST
 	attributes:
 	a)	p_id1 varchar(10) not null
@@ -186,6 +189,9 @@
 	primary key p_id1, p_id2
 	foreign key p_id1 referencing POST
 	foreign key p_id2 referencing POST
+
+	
+	////
 
 15.	table GROUP_USER
 	attributes:
