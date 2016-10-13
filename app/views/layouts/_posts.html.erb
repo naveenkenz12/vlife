@@ -1,25 +1,21 @@
 <div class="well well-sm">
  	<div class="user-post-top">
- 		<%= @p.posted_by_id %>	
+ 		<div>
+ 			<span style="float:left"> <%= @p.posted_by_id %> </span>
+ 			<span style="float:left"> <%= @p.city %> </span>
+ 			<span style="float:left"> <%= @p.country %> </span>
+ 			<span style="float:right"> <%= @p.updated_at %> </span>
+ 		</div>
  	</div>
  	<div class="user-post-middle">
  		<%= @p.content %>
  	</div>
  	<hr>
  	<div class="user-post-bottom">
- 		<%= form_for @newPost , :html => {:class =>''} do |f| %>
-	    
-		<%= f.text_field :content ,class:"",placeholder:"Comment" %>
-		<%= f.text_field :parent_id, value:@p.p_id, type: "hidden", readonly: "true" %>
-		<button type="submit" class="btn btn-default" style="display:visible" >Comment</button>
-		<% end %>
- 	</div>
- 	<div class="user-post-bottom">
- 		<%= form_for @newPost , :html => {:class =>''} do |f| %>
-	    
-		<%= f.text_field :content ,class:"",value:"_%20|_#", type: "hidden", readonly: "true" %>
-		<%= f.text_field :parent_id, value:@p.p_id, type: "hidden", readonly: "true" %>
-		<button type="submit" class="btn btn-default" style="display:visible" >Like</button>
+ 		<%= form_tag({controller: "comments", action: "create"}, method: "post", class:"") do %>
+			<%= text_field_tag :content ,"",class:"",placeholder:"Comment" %>
+			<%= text_field_tag :parent_id, @p.p_id, type: "hidden", readonly: "true" %>
+			<button type="submit" class="btn btn-default" style="display:none" >Comment</button>
 		<% end %>
  	</div>
  </div>
