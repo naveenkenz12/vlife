@@ -133,13 +133,13 @@
 	attributes:
 	a)	msg_id varchar(15) not null
 	b)	content varchar(1024)
-	c) 	user_1 varchar(10) not null
-	d) 	user_2 varchar(10) not null
-	e)	media_id bytea
+	c) 	sender varchar(10) not null
+	d) 	receiver varchar(10) not null
+	e)	med_id bytea
 	primary key msg_id 
-	foreign key user_1 referencing USER
-	foreign key user_2 referencing USER
-	foreign key media_id referencing MEDIA
+	foreign key sender referencing USER
+	foreign key receiver referencing USER
+	foreign key med_id referencing MEDIA
 
 11. table MEDIA ??? name changed  to ??? blob // overwrite media everywhere // to blob
 	attributes:
@@ -190,7 +190,7 @@
 	foreign key p_id1 referencing POST
 	foreign key p_id2 referencing POST
 
-	
+	NOT necessary now
 	////
 
 15.	table GROUP_USER

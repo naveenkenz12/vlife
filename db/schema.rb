@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161013142706) do
+ActiveRecord::Schema.define(version: 20161013201101) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -54,10 +54,25 @@ ActiveRecord::Schema.define(version: 20161013142706) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "last_msg_to_users", primary_key: "u_id", id: :string, force: :cascade do |t|
+    t.string   "msg_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "locations", primary_key: ["country", "city"], force: :cascade do |t|
     t.string   "country",    null: false
     t.string   "state"
     t.string   "city",       null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "messages", primary_key: "msg_id", id: :string, force: :cascade do |t|
+    t.string   "content"
+    t.string   "sender",     null: false
+    t.string   "receiver",   null: false
+    t.string   "med_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -124,6 +139,11 @@ ActiveRecord::Schema.define(version: 20161013142706) do
   add_foreign_key "friends", "users", column: "user", primary_key: "u_id", name: "friends_user_fkey"
   add_foreign_key "group_pages", "blobs", column: "page_pic", primary_key: "med_id", name: "group_pages_page_pic_fkey"
   add_foreign_key "institutions", "locations", column: "country", primary_key: "country", name: "institutions_country_fkey"
+  add_foreign_key "last_msg_to_users", "messages", column: "msg_id", primary_key: "msg_id", name: "last_msg_to_users_msg_id_fkey"
+  add_foreign_key "last_msg_to_users", "users", column: "u_id", primary_key: "u_id", name: "last_msg_to_users_u_id_fkey"
+  add_foreign_key "messages", "blobs", column: "med_id", primary_key: "med_id", name: "messages_med_id_fkey"
+  add_foreign_key "messages", "users", column: "receiver", primary_key: "u_id", name: "messages_receiver_fkey"
+  add_foreign_key "messages", "users", column: "sender", primary_key: "u_id", name: "messages_sender_fkey"
   add_foreign_key "posts", "blobs", column: "media_id", primary_key: "med_id", name: "posts_media_id_fkey"
   add_foreign_key "posts", "locations", column: "country", primary_key: "country", name: "posts_country_fkey"
   add_foreign_key "posts", "posts", column: "parent_id", primary_key: "p_id", name: "posts_parent_id_fkey"

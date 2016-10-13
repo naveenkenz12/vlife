@@ -1,0 +1,2 @@
+class LastMsgToUser < ApplicationRecord
+end
