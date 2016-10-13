@@ -1,3 +1,98 @@
-<% for @f in @all_friends %>
-	<%= @f.frn %>
-<% end %>
+<div class="row">
+	<div class ="col-xs-2 home-right">
+		<ul class ='list-group'>
+			<div class='media'>
+			<li class ="list-group-item"><%= current_user.u_id %> </li>
+			<li class ="list-group-item"><%= link_to("Edit Profile", "/"+@user.u_id+"/about" ) %></li>
+			</div>
+			<hr>
+			<li class ="list-group-item"><%= link_to("Feed", '/home') %></li>
+			<li class ="list-group-item"><%= link_to("Events", '/about') %></li>
+			<li class ="list-group-item"><%= link_to("Groups", '/groups') %></li>
+			<li class ="list-group-item"><%= link_to("Friends", "/"+@user.u_id+'/friends') %></li>
+		</ul>
+	</div>
+	
+	<div class="col-xs-7">
+		<nav class="navbar navbar-inverse">
+  			<div class="container-fluid">
+    			<ul class="nav navbar-nav">
+      				<li ><button id='_fr' class="btn btn-link" style="color:orange"><%= "Friends("+@count_friends.to_s+")" %></button></li>
+      				<li class=""><button id='_fl' class="btn btn-link"><%= "Followings("+@count_followings.to_s+")" %></button></li>
+      				<li class=""><button id='_rq' class="btn btn-link"><%= "Requests("+@count_requests.to_s+")" %></button></li>
+    			
+	    			<form class="form-inline pull-xs-right">
+	    				<button class="btn btn-outline-success" type="submit" style="display:none">Find</button>
+	    				<input class="form-control" type="text" placeholder="Search">
+	  				</form>
+  				</ul>
+  			</div>
+		</nav>
+
+		<!-- Current USer Post --> 
+	    <div class="cuser-post-top">
+	   		<div class="cuser-post-top-left"> 			
+	    	
+	    	</div>
+	    	<div class="cuser-post-top-right">
+	    	
+	    	</div>
+	    </div>
+	    	
+		<!-- All other Users Post -->
+		<div id = "_1">
+			<% for @p in @all_friends %>
+				<%= @p.frn %>
+			<% end %>
+		</div>
+		<div id = "_2">
+			<% for @p in @all_followings %>
+				<%= @p.frn %>
+			<% end %>
+		</div>
+		<div id = "_3">
+			<% for @p in @all_requests %>
+				<%= @p.frn %>
+			<% end %>
+		</div>
+
+
+		<script>
+			$("#_fr").on('click', function() {
+				document.getElementById("_fr").style.color = "orange";
+				document.getElementById("_fl").style.color = "";
+				document.getElementById("_rq").style.color = "";
+				document.getElementById("_1").style.display = "";
+				document.getElementById("_2").style.display = "none";
+				document.getElementById("_3").style.display = "none";
+			});
+
+			$("#_fl").on('click', function() {
+				document.getElementById("_fr").style.color = "";
+				document.getElementById("_fl").style.color = "orange";
+				document.getElementById("_rq").style.color = "";
+				document.getElementById("_1").style.display = "none";
+				document.getElementById("_2").style.display = "";
+				document.getElementById("_3").style.display = "none";
+			});
+
+			$("#_rq").on('click', function() {
+				document.getElementById("_fr").style.color = "";
+				document.getElementById("_fl").style.color = "";
+				document.getElementById("_rq").style.color = "orange";
+				document.getElementById("_1").style.display = "none";
+				document.getElementById("_2").style.display = "none";
+				document.getElementById("_3").style.display = "";	
+			});
+		</script>
+
+	</div>
+	
+	<div class="col-xs-3">
+		<div class="panel panel-default">
+			<div class="panel-body">
+			    Panel content
+			</div>
+		</div>
+	</div>
+</div>

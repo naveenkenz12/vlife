@@ -3,16 +3,16 @@
 			<ul class ='list-group'>
 				<div class='media'>
 				<li class ="list-group-item"><%= current_user.u_id %> </li>
-				<li class ="list-group-item"><%= link_to("Edit Profile", @user.u_id+"/about" ) %></li>
+				<li class ="list-group-item"><%= link_to("Edit Profile", "/"+@user.u_id+"/about" ) %></li>
 				</div>
 				<hr>
 				<li class ="list-group-item"><%= link_to("Feed", '/home') %></li>
 				<li class ="list-group-item"><%= link_to("Events", '/about') %></li>
 				<li class ="list-group-item"><%= link_to("Groups", '/groups') %></li>
-				<li class ="list-group-item"><%= link_to("Friends", @user.u_id+'/friends') %></li>
+				<li class ="list-group-item"><%= link_to("Friends", "/"+@user.u_id+'/friends') %></li>
 			</ul>
 		</div>
-		<div class="col-xs-6">
+		<div class="col-xs-7">
 					<!-- Current USer Post --> 
 	    	<div class="cuser-post-top">
 	    		<div class="cuser-post-top-left">
@@ -51,7 +51,7 @@
 
 
 		</div>
-		<div class="col-xs-4">
+		<div class="col-xs-3">
 		<div class="panel panel-default">
 			  	<div class="panel-body">
 			    	Panel content
