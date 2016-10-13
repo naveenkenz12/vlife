@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161010204549) do
+ActiveRecord::Schema.define(version: 20161013104800) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -70,6 +70,7 @@ ActiveRecord::Schema.define(version: 20161010204549) do
     t.string   "page_id"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
+    t.string   "parent_id"
   end
 
   add_check "posts", "((posted_to_id IS NOT NULL) OR (posted_by_id IS NOT NULL))", name: "post_to_psge_or_user_check"
@@ -121,6 +122,7 @@ ActiveRecord::Schema.define(version: 20161010204549) do
   add_foreign_key "institutions", "locations", column: "country", primary_key: "country", name: "institutions_country_fkey"
   add_foreign_key "posts", "blobs", column: "media_id", primary_key: "med_id", name: "posts_media_id_fkey"
   add_foreign_key "posts", "locations", column: "country", primary_key: "country", name: "posts_country_fkey"
+  add_foreign_key "posts", "posts", column: "parent_id", primary_key: "p_id", name: "posts_parent_id_fkey"
   add_foreign_key "posts", "users", column: "posted_by_id", primary_key: "u_id", name: "posts_posted_by_id_fkey"
   add_foreign_key "posts", "users", column: "posted_to_id", primary_key: "u_id", name: "posts_posted_to_id_fkey"
   add_foreign_key "user_profiles", "locations", column: "country", primary_key: "country", name: "user_profiles_country_fkey"
