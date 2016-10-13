@@ -3,10 +3,6 @@ class PostsController < ApplicationController
 	def create
 		@newPost = current_user.own_posts.build(post_params)
 		@newPost.p_id = Post.count.to_s(36)
-		
-		if @newPost.posted_to_id.nil? 
-			@newPost.posted_to_id = current_user.u_id
-		end
 
 		
 		if @newPost.save
