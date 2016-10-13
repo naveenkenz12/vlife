@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161013104800) do
+ActiveRecord::Schema.define(version: 20161013142706) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,6 +31,9 @@ ActiveRecord::Schema.define(version: 20161013104800) do
     t.string   "status",     default: "waiting", null: false
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
+    t.index ["friend"], name: "index_friends_on_friend", using: :btree
+    t.index ["user", "friend"], name: "index_friends_on_user_and_friend", unique: true, using: :btree
+    t.index ["user"], name: "index_friends_on_user", using: :btree
   end
 
   add_check "friends", "((status)::text = ANY ((ARRAY['waiting'::character varying, 'following'::character varying, 'accepted'::character varying])::text[]))", name: "status_check"
@@ -103,14 +106,15 @@ ActiveRecord::Schema.define(version: 20161013104800) do
   add_check "user_profiles", "(birthday < now())", name: "birthday_check"
 
   create_table "users", primary_key: "u_id", id: :string, force: :cascade do |t|
-    t.string   "email",           null: false
-    t.string   "phone_no",        null: false
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.string   "email",                          null: false
+    t.string   "phone_no",                       null: false
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
     t.string   "remember_digest"
     t.string   "password_digest"
     t.string   "reset_digest"
     t.datetime "reset_sent_at"
+    t.boolean  "status",          default: true
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["phone_no"], name: "index_users_on_phone_no", unique: true, using: :btree
   end

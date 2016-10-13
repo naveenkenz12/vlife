@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   get '/:id/profile' => 'user_profiles#profile'
   get '/:id/about' => 'user_profiles#about'
 
-  get '/:id/friends' => 'user_profiles#friends'
+  get '/:id/friends' => 'friends#show_accepted'
 
   get '/:id/media' => 'user_profiles#media'
   
