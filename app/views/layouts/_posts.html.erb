@@ -12,9 +12,9 @@
  	</div>
  	<hr>
  	<div class="user-post-bottom">
- 		<%= form_tag({controller: "comments", action: "create"}, method: "post", class:"") do %>
-			<%= text_field_tag :content ,"",class:"",placeholder:"Comment" %>
-			<%= text_field_tag :parent_id, @p.p_id, type: "hidden", readonly: "true" %>
+ 		<%= form_for(:comment, :url => {:controller => 'comments', :action => 'create'} ) do |f| %>
+			<%= f.text_field :content ,class:"",placeholder:"Comment" %>
+			<%= f.text_field :parent_id, value: @p.p_id, type: "hidden", readonly: "true" %>
 			<button type="submit" class="btn btn-default" style="display:none" >Comment</button>
 		<% end %>
  	</div>
