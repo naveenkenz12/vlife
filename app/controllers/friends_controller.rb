@@ -35,6 +35,13 @@ class FriendsController < ApplicationController
 		end
 	end
 
+	def delete_friend
+	end
+
+	def search_friend
+
+	end
+
 	def friend_params
 		params.require(:comment).permit(:friend)
 	end
