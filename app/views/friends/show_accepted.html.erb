@@ -21,7 +21,7 @@
       				<li class=""><button id='_fl' class="btn btn-link"><%= "Followings("+@count_followings.to_s+")" %></button></li>
       				<li class=""><button id='_rq' class="btn btn-link"><%= "Requests("+@count_requests.to_s+")" %></button></li>
     			
-	    			<%= form_for(:search, :url => {:controller => 'friends', :action => 'search'} , :html =>{:id =>'search-form'}) do |f| %>
+	    			<%= form_for(:search, :html =>{:id =>'search-form', :action => "#"}) do |f| %>
 					<%= f.text_field :term ,class:"form-control",placeholder:"Search...", id: "search" %>
 
 	  				<% end %>
