@@ -17,14 +17,7 @@
  </div>
  <div>
  <div class="comment-section" id= <%= @p.p_id %> style="margin-bottom:0%; display:none;">
- 	<div class="one-comment">
-		<a class="comment-left" href="">
-			<%= image_tag("boy.jpg", class:'comment-image' ) %>
-		</a>
-		<div class="comment-right">
-			<b class="comment-head"><%= @p.posted_by_id %></b>
-			Asdfasdfasd
-		</div>
+ 	<div class="comments" id = "c<%= @p.p_id %>" >
  	</div>
  	<div>
  		<%= form_for(:comment, :url => {:controller => 'comments', :action => 'create'} , :html =>{:id =>'comment-post'},remote: true) do |f| %>

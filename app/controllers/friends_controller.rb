@@ -35,21 +35,18 @@ class FriendsController < ApplicationController
 		end
 	end
 
-<<<<<<< HEAD
-	def search
+		def search
 
 		friends = User.find_by_sql("select u_id from users where u_id like" +" '"+params[:search][:term]+"%'")
 		render :json => friends.as_json
 	end
 
-=======
 	def delete_friend
 	end
 
 	def search_friend
 
 	end
->>>>>>> ecf3af9ca3c54e7ffa4fff578319fb91e1458266
 
 	def friend_params
 		params.require(:comment).permit(:friend)
