@@ -33,7 +33,9 @@ class User < ActiveRecord::Base
 	has_many :frq_sent, :class_name => 'Friend' , :foreign_key => "user", dependent: :destroy, :inverse_of => :friend_1
 	has_many :frq_recv, :class_name => 'Friend', :foreign_key => "friend", dependent: :destroy, :inverse_of => :friend_2
 	has_one  :profile, :class_name => 'UserProfile', dependent: :destroy, :foreign_key => "u_id"
-	
+	has_many :sent_messages, :class_name => 'Message', dependent: :destroy, :foreign_key => "sender", :inverse_of => :sent_by
+	has_many :received_messages, :class_name => 'Message', dependent: :destroy, :foreign_key => "receiver", :inverse_of => :sent_to
+
 	# Returns the hash digest of the given string.
  	def User.digest(string)
 		#cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :BCrypt::Engine.cost

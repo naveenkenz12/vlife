@@ -6,13 +6,15 @@ class FriendsController < ApplicationController
 	def show_accepted
 	  	@user = current_user
   	  	
+  	  	#no sql injection possible here as no term is taken as input from user
   	  	@all_friends = Friend.find_by_sql("select user as frn from friends where friend = '" + current_user.u_id +
   	   "' and status = 'accepted' union select friend as frn from friends where user = '"+ current_user.u_id + "' and "+
   	   " status = 'accepted' ")
   	  	@count_friends = @all_friends.count()
   	  	
+  	  	#following, request sent by user but yet to be accepted(waiting)
   	  	@all_followings = Friend.find_by_sql("select friend as frn from friends where user = '"+ current_user.u_id + "' and "+
-  	   " status = 'following' ")
+  	   " status = 'waiting' ")
 		@count_followings = @all_followings.count()
 
   	  	@all_requests = Friend.find_by_sql("select user as frn from friends where  friend = '"+ current_user.u_id + "' and "+
@@ -35,17 +37,15 @@ class FriendsController < ApplicationController
 		end
 	end
 
-		def search
-
-		friends = User.find_by_sql("select u_id from users where u_id like" +" '"+params[:search][:term]+"%'")
+	def search
+		#friends = User.find_by_sql("select u_id from users where u_id like" +" '"+params[:search][:term]+"%'")
+		friends = User.where('u_id like ?',params[:search][:term]+'%').pluck(:u_id)
 		render :json => friends.as_json
 	end
 
 	def delete_friend
-	end
-
-	def search_friend
-
+		@user = current_user
+		 
 	end
 
 	def friend_params
