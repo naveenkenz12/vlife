@@ -21,7 +21,7 @@
  	</div>
  	<div>
  		<%= form_for(:comment, :url => {:controller => 'comments', :action => 'create'} , :html =>{:id =>'comment-post'},remote: true) do |f| %>
-			<%= f.text_field :content ,class:"comment-text",placeholder:"Write Comment..." %>
+			<%= f.text_field :content ,class:"comment-text",id:"comment-text"+@p.p_id ,placeholder:"Write Comment..." %>
 			<%= f.text_field :parent_id, value: @p.p_id, type: "hidden", readonly: "true" %>
 			<button type="submit" class="btn btn-default" style="display:none" ></button>
 		<% end %>

@@ -1,15 +1,19 @@
+//post comments
 $(document).on("ajax:success", "#comment-post", function(event, data, status, xhr) {
   
- if( data.hasOwnProperty('status')){
-    alert(data.status);
+
+ if( data.hasOwnProperty('status') || status != "success"){
+    alert(status);
+
   }
   else {
     $("#c"+data.parent_id).append('<div class="one-comment"><a class="comment-left" href=""><Image></a><div class="comment-right"><b class="comment-head">'+data.posted_by_id+'</b> '+data.content+'</div></div>');
-    $()
+    $("#comment-text"+data.parent_id).val("");
   }
 
 });
 
+// comments
 $(document).ready(function(){
 	$(".comment-show").click(function(){
 		var secid = $(this).attr('data-show');
@@ -35,10 +39,8 @@ $(document).ready(function(){
     
   });
 //Search 
-	$("#search" ).autocomplete({
+	$("#search").autocomplete({
       source: function( request, response ) {
-          console.log("Search")
-        
         $.ajax( {
           url: "/friends/search/",
           data: $("#search-form").serialize(),
@@ -47,17 +49,17 @@ $(document).ready(function(){
           	var i;
           	for(i=0;i <data.length;i++){
 	          	$.each(data[i], function(k, v) {
-					final.push(v);	
-				});
+        					final.push(v);
+
+				        });
           	}
             response(final);
           }
         } );
       },
-      minLength: 2,      
+      minLength: 1,      
     } );
 
-// comments
 
 
 });
