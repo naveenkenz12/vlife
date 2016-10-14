@@ -7,10 +7,18 @@ class FriendsController < ApplicationController
 		#@friend = id of friend in between message is to be sent
 		@friend = parmas[:friend]
 
-		#@message_between = Message.where(:)
+		#top 10 messages order by desc time
+		@message_between = (Message.where(:sender => @user, :receiver => @friend).or(
+							Message.where(:sender => @friend, :receiver => @user))).limit(10)
+
+		#sorted in desc by time
+		#should be done opp while showing
+		@message_content = @message_between.pluck("content", "med_id", "sender")
+
+		render :json => @message_content
 	end
 
 	def send_message
-
+		
 	end
 end
