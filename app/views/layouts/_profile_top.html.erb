@@ -5,6 +5,17 @@
 		<div class = 'profile-top'>
 			<div class ='profile-image'>
 			</div>
+			<div class= 'friend-button'>
+			<% if @status == "accepted" %>
+				<button class ='btn btn-default' id='unfriend' data-id="<%= @user.u_id %>" >Friends</button>
+			<% elsif @status == "frs" %>
+				<button class ='btn btn-default' id='cancel' data-id="<%= @user.u_id %>">Freind Request Sent</button>
+			<% elsif @status == "afs" %>
+				<button class ='btn btn-default' id='accept' data-id="<%= @user.u_id %>">Accept Request</button>
+			<% else %>
+				<button class ='btn btn-default' id='request' data-id="<%= @user.u_id %>">Add Friend</button>
+			<% end %>
+			</div>
 		</div>
 		<hr>
 		<div class ='profile-bottom'>

@@ -9,6 +9,40 @@ before_action :logged_in_user, only: [:create ,:edit, :update, :profile]
   	else
   		@newPost = current_user.own_posts.build
   		@posts = Post.where(posted_to_id: @user.u_id)
+      #a = current user
+      #b = user whose profile 
+      #already friend 
+      #(a,b,accepted) or (b,a,accepted) should be in table
+
+      #friend request sent
+      #(a,b,waiting) is in tablee
+
+      #accept friend request 
+      #(b,a,waiting) is in table
+
+      #send friend request
+      #else
+      @status = Friend.where(:user => current_user.u_id, :friend => @user.u_id).pluck(:status)
+      
+      if !@status.blank?
+        @status = @status[0];
+        if @status=="accepted"
+          @status = "cnf"
+        elsif @status=="waiting"
+          @status = "frs"
+        end
+      end
+
+      if @status.blank?
+        s2 = Friend.where(:user => @user.u_id, :friend => current_user.u_id).pluck(:status)
+        @status = @status[0]
+        if @status=="accepted"
+          @status = "cnf"
+        elsif @status=="waiting"
+          @status = "afr"
+        end
+      end
+
   	end
   end
   

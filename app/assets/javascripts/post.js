@@ -29,7 +29,6 @@ $(document).ready(function(){
           data: {'secid':secid,
           },
           success: function( data ) {
-              alert(JSON.stringify(data));
               for (var i = data.length - 1; i >= 0; i--) {
                   $("#c"+secid).append('<div class="one-comment"><a class="comment-left" href=""><Image></a><div class="comment-right"><b class="comment-head">'+data[i].posted_by_id+'</b> '+data[i].content+'</div></div>');
                 }
@@ -45,21 +44,43 @@ $(document).ready(function(){
           url: "/friends/search/",
           data: $("#search-form").serialize(),
           success: function( data ) {
+            //count number of elements
           	var final = [];
           	var i;
           	for(i=0;i <data.length;i++){
-	          	$.each(data[i], function(k, v) {
-        					final.push(v);
-
-				        });
+	          	final.push(data[i]);
+              console.log(data[i]);
           	}
             response(final);
           }
         } );
       },
       minLength: 1,      
+      select: function( event, ui ) {
+        window.location = "/"+ui.item.value+"/profile";
+      }
+
     } );
 
+  //send friend request
+  $("#request").click(function(){
+   var friendid = $(this).attr('data-id');
+    console.log("Requested"); 
+    
+    $.ajax( {
+      url: "/friends/send_request/",
+      method: 'POST',
+      data: {'friendid':friendid,
+      },
+      success: function( data ) {
+        if(data.status == "ok")
+        { 
+          $(this).attr("id", "cancel");
+          $(this).html("Freind Request Sent");
+        }
+      }
+    });  
+  });
 
 
 });
