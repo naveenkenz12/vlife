@@ -6,14 +6,15 @@
 			<div class ='profile-image'>
 			</div>
 			<div class= 'friend-button'>
-			<% if @status == "accepted" %>
-				<button class ='btn btn-default' id='unfriend' data-id="<%= @user.u_id %>" >Friends</button>
+			<% if @status == "cnf" %>
+				<%= button_to "Friend, Click to Unfriend", {controller:"friends",action:"unfriend_f"}, remote:true, :method => :post, :class=>"btn btn-default", params:{ :req => {friend_id: @user.u_id }} ,:id => "f-button" %>
 			<% elsif @status == "frs" %>
-				<button class ='btn btn-default' id='cancel' data-id="<%= @user.u_id %>">Freind Request Sent</button>
-			<% elsif @status == "afs" %>
-				<button class ='btn btn-default' id='accept' data-id="<%= @user.u_id %>">Accept Request</button>
+				<%= button_to "Freind Request Sent, Click to cancel", {controller:"friends",action:"cancel_f"}, remote:true, :method => :post, :class=>"btn btn-default", params:{ :req => {friend_id: @user.u_id }}, :id => "f-button" %>
+			<% elsif @status == "afr" %>
+				<%= button_to "Accept Friend Request", {controller:"friends",action:"accept_f"}, remote:true, :method => :post, :class=>"btn btn-default", params:{ :req => {friend_id: @user.u_id }}, :id => "f-button" %>
+				<!-- <button class ='btn btn-default' id='accept' data-id="<%= @user.u_id %>">Accept Request</button> -->
 			<% else %>
-				<button class ='btn btn-default' id='request' data-id="<%= @user.u_id %>">Add Friend</button>
+			<%= button_to "Send Friend Request", {controller:"friends",action:"request_f"},:class=> "btn btn-default", remote:true,:method => :post, params:{ :req=> {friend_id: @user.u_id }} ,:id => "f-button"%>
 			<% end %>
 			</div>
 		</div>

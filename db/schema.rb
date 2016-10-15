@@ -25,15 +25,15 @@ ActiveRecord::Schema.define(version: 20161013201101) do
     t.datetime "updated_at",  null: false
   end
 
-  create_table "friends", primary_key: ["user", "friend"], force: :cascade do |t|
-    t.string   "user",                           null: false
-    t.string   "friend",                         null: false
+  create_table "friends", force: :cascade do |t|
+    t.string   "user_id",                        null: false
+    t.string   "friend_id",                      null: false
     t.string   "status",     default: "waiting", null: false
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
-    t.index ["friend"], name: "index_friends_on_friend", using: :btree
-    t.index ["user", "friend"], name: "index_friends_on_user_and_friend", unique: true, using: :btree
-    t.index ["user"], name: "index_friends_on_user", using: :btree
+    t.index ["friend_id"], name: "index_friends_on_friend_id", using: :btree
+    t.index ["user_id", "friend_id"], name: "index_friends_on_user_id_and_friend_id", unique: true, using: :btree
+    t.index ["user_id"], name: "index_friends_on_user_id", using: :btree
   end
 
   add_check "friends", "((status)::text = ANY ((ARRAY['waiting'::character varying, 'following'::character varying, 'accepted'::character varying])::text[]))", name: "status_check"
@@ -60,12 +60,13 @@ ActiveRecord::Schema.define(version: 20161013201101) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "locations", primary_key: ["country", "city"], force: :cascade do |t|
+  create_table "locations", force: :cascade do |t|
     t.string   "country",    null: false
     t.string   "state"
     t.string   "city",       null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["country", "city"], name: "index_locations_on_country_and_city", unique: true, using: :btree
   end
 
   create_table "messages", primary_key: "msg_id", id: :string, force: :cascade do |t|
@@ -134,21 +135,17 @@ ActiveRecord::Schema.define(version: 20161013201101) do
     t.index ["phone_no"], name: "index_users_on_phone_no", unique: true, using: :btree
   end
 
-  add_foreign_key "blobs", "locations", column: "country", primary_key: "country", name: "blobs_country_fkey"
-  add_foreign_key "friends", "users", column: "friend", primary_key: "u_id", name: "friends_friend_fkey"
-  add_foreign_key "friends", "users", column: "user", primary_key: "u_id", name: "friends_user_fkey"
+  add_foreign_key "friends", "users", column: "friend_id", primary_key: "u_id", name: "friends_friend_id_fkey"
+  add_foreign_key "friends", "users", primary_key: "u_id", name: "friends_user_id_fkey"
   add_foreign_key "group_pages", "blobs", column: "page_pic", primary_key: "med_id", name: "group_pages_page_pic_fkey"
-  add_foreign_key "institutions", "locations", column: "country", primary_key: "country", name: "institutions_country_fkey"
   add_foreign_key "last_msg_to_users", "messages", column: "msg_id", primary_key: "msg_id", name: "last_msg_to_users_msg_id_fkey"
   add_foreign_key "last_msg_to_users", "users", column: "u_id", primary_key: "u_id", name: "last_msg_to_users_u_id_fkey"
   add_foreign_key "messages", "blobs", column: "med_id", primary_key: "med_id", name: "messages_med_id_fkey"
   add_foreign_key "messages", "users", column: "receiver", primary_key: "u_id", name: "messages_receiver_fkey"
   add_foreign_key "messages", "users", column: "sender", primary_key: "u_id", name: "messages_sender_fkey"
   add_foreign_key "posts", "blobs", column: "media_id", primary_key: "med_id", name: "posts_media_id_fkey"
-  add_foreign_key "posts", "locations", column: "country", primary_key: "country", name: "posts_country_fkey"
   add_foreign_key "posts", "posts", column: "parent_id", primary_key: "p_id", name: "posts_parent_id_fkey"
   add_foreign_key "posts", "users", column: "posted_by_id", primary_key: "u_id", name: "posts_posted_by_id_fkey"
   add_foreign_key "posts", "users", column: "posted_to_id", primary_key: "u_id", name: "posts_posted_to_id_fkey"
-  add_foreign_key "user_profiles", "locations", column: "country", primary_key: "country", name: "user_profiles_country_fkey"
   add_foreign_key "user_profiles", "users", column: "u_id", primary_key: "u_id", name: "user_profiles_u_id_fkey"
 end

@@ -1,5 +1,5 @@
 class FriendsController < ApplicationController
-	before_action :logged_in_user , only: [:show_acceptd, :send_request]
+	before_action :logged_in_user , only: [:show_acceptd, :request, :cancel]
 	#all friends which are accepted only
 	#status = accepted
 
@@ -21,18 +21,57 @@ class FriendsController < ApplicationController
   	   " status = 'waiting' ")
 		@count_requests = @all_requests.count()
 	end
-
-	def send_request
+	
+	#send request
+	def request_f
 		@newFriend = current_user.frq_sent.build(friend_params)
-		@newFriend.user = current_user.u_id
 		@newFriend.status = 'waiting'
 		if @newFriend.save
 			flash[:notice] = "Friend Request Sent"
-			msg = {:status => "ok"}
+			msg = {:button_value => "Friend Request Sent, Click to cancel", :action_value => "cancel_f"}
 			render :json => msg
 		else
 			flash[:notice] = "Error!, try again"
-			msg = {:status => "err"}
+			msg = {:button_value => "", :action_value => ""}
+			render :json => msg
+		end
+	end
+
+	#cancel sent request
+	def cancel_f
+		if Friend.delete_all "user_id = '"+current_user.u_id+"' AND friend_id = '"+params[:req][:friend_id]+"'"
+			flash[:notice] = "Friend Request Cancelled"
+			msg = {:button_value => "Send Friend Request", :action_value => "request_f"}
+			render :json => msg
+		elsif 
+			flash[:notice] = "Error!, try again"
+			msg = {:button_value => "", :action_value => ""}
+			render :json => msg
+		end
+	end
+
+	#accept friend request
+	def accept_f
+		if Friend.where("user_id = ? and friend_id = ?",params[:req][:friend_id], current_user.u_id).update_all(:status => 'accepted')
+			flash[:notice] = "Friend Request Accepted"
+			msg = {:button_value => "Friend, Click to Unfriend", :action_value => "unfriend_f"}
+			render :json => msg
+		elsif 
+			flash[:notice] = "Error!, try again"
+			msg = {:button_value => "", :action_value => ""}
+			render :json => msg
+		end
+	end
+
+	#unfriend friend
+	def unfriend_f
+		if Friend.delete_all "(user_id = '"+current_user.u_id+"' AND friend_id = '"+params[:req][:friend_id]+"') or "+ " (friend_id = '"+current_user.u_id+"' AND user_id = '"+params[:req][:friend_id]+"')"
+			flash[:notice] = "Unfriend"
+			msg = {:button_value => "Send Friend Request", :action_value => "request_f"}
+			render :json => msg
+		elsif 
+			flash[:notice] = "Error!, try again"
+			msg = {:button_value => "", :action_value => ""}
 			render :json => msg
 		end
 	end
@@ -43,13 +82,8 @@ class FriendsController < ApplicationController
 		render :json => friends.as_json
 	end
 
-	def delete_friend
-		@user = current_user
-		 
-	end
-
 	def friend_params
-		params.require(:comment).permit(:friend)
+		params.require(:req).permit(:friend_id)
 	end
 
 end

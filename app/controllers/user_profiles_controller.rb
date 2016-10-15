@@ -22,7 +22,7 @@ before_action :logged_in_user, only: [:create ,:edit, :update, :profile]
 
       #send friend request
       #else
-      @status = Friend.where(:user => current_user.u_id, :friend => @user.u_id).pluck(:status)
+      @status = Friend.where(:user_id => current_user.u_id, :friend_id => @user.u_id).pluck(:status)
       
       if !@status.blank?
         @status = @status[0];
@@ -34,7 +34,7 @@ before_action :logged_in_user, only: [:create ,:edit, :update, :profile]
       end
 
       if @status.blank?
-        s2 = Friend.where(:user => @user.u_id, :friend => current_user.u_id).pluck(:status)
+        @status = Friend.where(:user_id => @user.u_id, :friend_id => current_user.u_id).pluck(:status)
         @status = @status[0]
         if @status=="accepted"
           @status = "cnf"

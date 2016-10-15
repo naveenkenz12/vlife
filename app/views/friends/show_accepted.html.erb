@@ -18,7 +18,7 @@
   			<div class="container-fluid">
     			<ul class="nav navbar-nav">
       				<li ><button id='_fr' class="btn btn-link" style="color:orange"><%= "Friends("+@count_friends.to_s+")" %></button></li>
-      				<li class=""><button id='_fl' class="btn btn-link"><%= "Followings("+@count_followings.to_s+")" %></button></li>
+      				<li class=""><button id='_fl' class="btn btn-link"><%= "Request Sent("+@count_followings.to_s+")" %></button></li>
       				<li class=""><button id='_rq' class="btn btn-link"><%= "Requests("+@count_requests.to_s+")" %></button></li>
     			
 	    			<%= form_for(:search, :html =>{:id =>'search-form', :action => "#"}) do |f| %>
@@ -45,12 +45,12 @@
 				<%= @p.frn %>
 			<% end %>
 		</div>
-		<div id = "_2">
+		<div id = "_2" style="display:none">
 			<% for @p in @all_followings %>
 				<%= @p.frn %>
 			<% end %>
 		</div>
-		<div id = "_3">
+		<div id = "_3" style="display:none">
 			<% for @p in @all_requests %>
 				<%= @p.frn %>
 			<% end %>

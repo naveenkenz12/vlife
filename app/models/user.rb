@@ -30,8 +30,8 @@ class User < ActiveRecord::Base
 	validates_length_of :password, :in => 8..20, :on => :create
 
 	has_many :own_posts, :class_name => 'Post' ,dependent: :destroy , :foreign_key => "posted_by_id", :inverse_of => :posted_by
-	has_many :frq_sent, :class_name => 'Friend' , :foreign_key => "user", dependent: :destroy, :inverse_of => :friend_1
-	has_many :frq_recv, :class_name => 'Friend', :foreign_key => "friend", dependent: :destroy, :inverse_of => :friend_2
+	has_many :frq_sent, :class_name => 'Friend' , :foreign_key => "user_id", dependent: :destroy, :inverse_of => :friend_1
+	has_many :frq_recv, :class_name => 'Friend', :foreign_key => "friend_id", dependent: :destroy, :inverse_of => :friend_2
 	has_one  :profile, :class_name => 'UserProfile', dependent: :destroy, :foreign_key => "u_id"
 	has_many :sent_messages, :class_name => 'Message', dependent: :destroy, :foreign_key => "sender", :inverse_of => :sent_by
 	has_many :received_messages, :class_name => 'Message', dependent: :destroy, :foreign_key => "receiver", :inverse_of => :sent_to

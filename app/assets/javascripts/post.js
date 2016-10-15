@@ -62,25 +62,22 @@ $(document).ready(function(){
 
     } );
 
-  //send friend request
-  $("#request").click(function(){
-   var friendid = $(this).attr('data-id');
-    console.log("Requested"); 
-    
-    $.ajax( {
-      url: "/friends/send_request/",
-      method: 'POST',
-      data: {'friendid':friendid,
-      },
-      success: function( data ) {
-        if(data.status == "ok")
-        { 
-          $(this).attr("id", "cancel");
-          $(this).html("Freind Request Sent");
-        }
-      }
-    });  
-  });
 
+});
+
+//msg = {:sadas => "asdas", :Asda => "asdas" }
+//render :json => msg
+$(document).on("ajax:success", ".button_to", function(event, data, status, xhr) {
+    
+    alert("sent");
+
+    if(data.buttonvalue != "" && data.action_value !="")
+    {
+      $("#f-button").val(data.button_value);
+      $(".button_to").attr("action" , "/friends/"+data.action_value+"/"); 
+    }
+    else{
+      alert("Error!!!!");
+    }
 
 });

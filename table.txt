@@ -36,8 +36,8 @@
 
 3.	table FRIENDs
 	attributes:
-	a) 	user varchar(10) not null
-	b) 	friend varchar(10) not null
+	a) 	user varchar(10) not null  ??? user ---> changed to user_id
+	b) 	friend varchar(10) not null   ??? friend ---> changed to friend_id
 	c)	status varchar(15) not null
 	primary key user, friend
 	foreign key user referencing USER
