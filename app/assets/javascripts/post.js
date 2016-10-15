@@ -1,3 +1,4 @@
+
 //post comments
 $(document).on("ajax:success", "#comment-post", function(event, data, status, xhr) {
   
