@@ -7,19 +7,60 @@ class FriendsController < ApplicationController
 	  	@user = current_user
   	  	
   	  	#no sql injection possible here as no term is taken as input from user
-  	  	@all_friends = Friend.find_by_sql("select user as frn from friends where friend = '" + current_user.u_id +
-  	   "' and status = 'accepted' union select friend as frn from friends where user = '"+ current_user.u_id + "' and "+
+  	  	@all_friends = Friend.find_by_sql("select user_id as frn from friends where friend_id = '" + current_user.u_id +
+  	   "' and status = 'accepted' union select friend_id as frn from friends where user_id = '"+ current_user.u_id + "' and "+
   	   " status = 'accepted' ")
   	  	@count_friends = @all_friends.count()
+
+  	  	@all_friends = @all_friends.pluck(:frn)
+  	  	@prof = []
+  	  	@name_fr = []
+  	  	@location_fr = []
+  	  	for @u in @all_friends
+  	  		@prof.push(UserProfile.find(@u))
+  	  	end
+
+  	  	@name_fr = @prof.pluck(:first_name, :middle_name, :last_name)
+  	  	@location_fr = @prof.pluck(:city, :state, :country)
+
+  	  	@all_friends = @all_friends.zip(@name_fr, @location_fr)
   	  	
   	  	#following, request sent by user but yet to be accepted(waiting)
-  	  	@all_followings = Friend.find_by_sql("select friend as frn from friends where user = '"+ current_user.u_id + "' and "+
+  	  	@all_followings = Friend.find_by_sql("select friend_id as frn from friends where user_id = '"+ current_user.u_id + "' and "+
   	   " status = 'waiting' ")
 		@count_followings = @all_followings.count()
 
-  	  	@all_requests = Friend.find_by_sql("select user as frn from friends where  friend = '"+ current_user.u_id + "' and "+
+		@all_followings = @all_followings.pluck(:frn)
+  	  	@prof = []
+  	  	@name_fol = []
+  	  	@location_fol = []
+  	  	for @u in @all_followings
+  	  		@prof.push(UserProfile.find(@u))
+  	  	end
+
+  	  	@name_fol = @prof.pluck(:first_name, :middle_name, :last_name)
+  	  	@location_fol = @prof.pluck(:city, :state, :country)
+
+  	  	@all_followings = @all_followings.zip(@name_fol, @location_fol)
+
+  	  	###
+  	  	@all_requests = Friend.find_by_sql("select user_id as frn from friends where friend_id = '"+ current_user.u_id + "' and "+
   	   " status = 'waiting' ")
 		@count_requests = @all_requests.count()
+
+		@all_requests = @all_requests.pluck(:frn)
+  	  	@prof = []
+  	  	@name_re = []
+  	  	@location_re = []
+  	  	for @u in @all_requests
+  	  		@prof.push(UserProfile.find(@u))
+  	  	end
+
+  	  	@name_re = @prof.pluck(:first_name, :middle_name, :last_name)
+  	  	@location_re = @prof.pluck(:city, :state, :country)
+
+  	  	@all_requests = @all_requests.zip(@name_re, @location_re)
+
 	end
 	
 	#send request

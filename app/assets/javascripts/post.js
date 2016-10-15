@@ -1,4 +1,4 @@
-
+$(document).on("turbolinks:load", function() {
 //post comments
 $(document).on("ajax:success", "#comment-post", function(event, data, status, xhr) {
   
@@ -31,7 +31,7 @@ $(document).ready(function(){
           },
           success: function( data ) {
               for (var i = data.length - 1; i >= 0; i--) {
-                  $("#c"+secid).append('<div class="one-comment"><a class="comment-left" href=""><Image></a><div class="comment-right"><b class="comment-head">'+data[i].posted_by_id+'</b> '+data[i].content+'</div></div>');
+                  $("#c"+secid).append('<div class="one-comment"><a class="comment-left" href=""><Image></a><div class="comment-right"><b class="comment-head"><a href=/'+data[i].posted_by_id+'/profile/ >'+data[i].posted_by_id+'</a></b> '+data[i].content+'</div></div>');
                 }
               }
         });  
@@ -80,5 +80,10 @@ $(document).on("ajax:success", ".button_to", function(event, data, status, xhr) 
     else{
       alert("Error!!!!");
     }
+
+});
+
+
+
 
 });

@@ -1,7 +1,7 @@
 <div class="well well-sm" style="padding-bottom:0%;margin-bottom:0%;">
  	<div class="user-post-top">
  		<div>
- 			<span style="float:left"> <a href=''> <%= @p.posted_by_id %> </a> </span>
+ 			<span style="float:left"> <%= link_to(@p.posted_by_id, '/'+@p.posted_by_id+'/profile/') %> </span>
  			<span style="float:center"> <%= @p.city %> <%= @p.country %> </span>
  			<span style="float:right"> <%= @p.updated_at %> </span>
  		</div>
