@@ -74,8 +74,8 @@
 								IIT Bombay
 
 								<div style="margin-top:13%">
-									<span class ="glyphicon glyphicon-pencil" style='font-size:1.7em;margin-right:15%;'></span>
-									<span class ="glyphicon glyphicon-envelope" style='font-size:1.7em;margin-left:15%;'></span>
+									<span class ="glyphicon glyphicon-pencil" title = "post" style='font-size:1.7em;margin-right:15%;'></span>
+									<span class ="glyphicon glyphicon-envelope" title = "message" style='font-size:1.7em;margin-left:15%;'></span>
 								</div>
 								
 							</div>
@@ -126,8 +126,8 @@
 								IIT Bombay
 
 								<div style="margin-top:13%">
-									<span class ="glyphicon glyphicon-pencil" style='font-size:1.7em;margin-right:15%;'></span>
-									<span class ="glyphicon glyphicon-envelope" style='font-size:1.7em;margin-left:15%;'></span>
+									<span class ="glyphicon glyphicon-pencil" title = "post" style='font-size:1.7em;margin-right:15%;'></span>
+									<span class ="glyphicon glyphicon-envelope" title = "message" style='font-size:1.7em;margin-left:15%;'></span>
 								</div>
 							</div>
 							<h4 style="margin-bottom:1%; margin-top:2.5%;"><%= link_to(@username, '/'+@p[0]+'/profile/', :style => "color:#3333ff") %></h4>
@@ -172,11 +172,17 @@
 									@userloc = @userloc + @p[2][2]
 								end								
 								%>
+
+							<!-- <div class='friend-list-right' style="float:right;"> -->
+								
+							<!-- </div> -->
+
 							<div class='friend-list-right' style="float:right;margin-top:2.5%">
 								IIT Bombay
+
 								<div style="margin-top:13%">
-									<span class ="glyphicon glyphicon-pencil" style='font-size:1.7em;margin-right:15%;'></span>
-									<span class ="glyphicon glyphicon-envelope" style='font-size:1.7em;margin-left:15%;'></span>
+									<span class ="glyphicon glyphicon-pencil" title = "post" style='font-size:1.7em;margin-right:15%;'></span>
+									<span class ="glyphicon glyphicon-envelope" title = "message" style='font-size:1.7em;margin-left:15%;'></span>
 								</div>
 							</div>
 							<h4 style="margin-bottom:1%; margin-top:2.5%;"><%= link_to(@username, '/'+@p[0]+'/profile/', :style => "color:#3333ff") %></h4>
@@ -185,6 +191,9 @@
 							<br style="margin:0.5% 0% 1% 0%;">
 							<%= link_to(@userloc, "google-map") %>
 							</h6>
+							<div class= 'friend-button' style="margin-bottom:8%; margin-right:22%;">
+								<%= button_to "Accept", {controller:"friends",action:"accept_f"}, remote:true, :method => :post, :class=>"btn btn-default", params:{ :req => {friend_id: @p[0] }}, :id => "f-button" %>
+							</div>
 				    	</div>
 	    			</div>
 	  			</div>

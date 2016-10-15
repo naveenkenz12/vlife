@@ -84,6 +84,4 @@ $(document).on("ajax:success", ".button_to", function(event, data, status, xhr) 
 });
 
 
-
-
 });
