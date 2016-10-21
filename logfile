@@ -1,0 +1,30 @@
+LOG:  database system was shut down at 2016-10-21 01:22:10 IST
+LOG:  MultiXact member wraparound protections are now enabled
+LOG:  database system is ready to accept connections
+LOG:  autovacuum launcher started
+ERROR:  relation "userss" does not exist at character 15
+STATEMENT:  select * from userss;
+ERROR:  relation "datetime" does not exist at character 15
+STATEMENT:  select * from DateTime
+	;
+ERROR:  function datetime() does not exist at character 15
+HINT:  No function matches the given name and argument types. You might need to add explicit type casts.
+STATEMENT:  select * from DateTime();
+ERROR:  function datetime() does not exist at character 15
+HINT:  No function matches the given name and argument types. You might need to add explicit type casts.
+STATEMENT:  select * from datetime();
+ERROR:  function date() does not exist at character 15
+HINT:  No function matches the given name and argument types. You might need to add explicit type casts.
+STATEMENT:  select * from date();
+ERROR:  column "date" does not exist at character 8
+STATEMENT:  select date from now();
+ERROR:  relation "current_timestampl" does not exist at character 18
+STATEMENT:  select date from current_timestampl
+	;
+ERROR:  column "date" does not exist at character 8
+STATEMENT:  select date from current_timestamp;
+ERROR:  function to_timestamp(timestamp with time zone, unknown) does not exist at character 15
+HINT:  No function matches the given name and argument types. You might need to add explicit type casts.
+STATEMENT:  select * from to_timestamp(current_timestamp, 'HH24:MI:SS');
+ERROR:  cached plan must not change result type
+STATEMENT:  SELECT  "users".* FROM "users" WHERE "users"."u_id" = $1 LIMIT $2

@@ -66,6 +66,18 @@ $(document).ready(function(){
 
 });
 
+//online
+$(document).ready(function() {
+    setInterval(function(){ 
+      $.ajax( {
+          url: "/save/online/",
+          data: {},
+          success: function( data ) {
+            
+          }
+        } ); }, 120000); //every 120s
+});
+
 //msg = {:sadas => "asdas", :Asda => "asdas" }
 //render :json => msg
 $(document).on("ajax:success", ".button_to", function(event, data, status, xhr) {

@@ -1,5 +1,5 @@
 class FriendsController < ApplicationController
-	before_action :logged_in_user , only: [:show_acceptd, :request, :cancel]
+	before_action :logged_in_user , only: [:show_acceptd, :request_f, :cancel_f, :unfriend_f, :accept_f, :search]
 	#all friends which are accepted only
 	#status = accepted
 

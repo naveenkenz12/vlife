@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  before_action :logged_in_user , only: [:save_online]
   def new
     if logged_in?
       redirect_to home_url
@@ -37,6 +38,11 @@ class UsersController < ApplicationController
   def correct_user
     @user = User.find(params[:u_id])
     redirect_to(root_url) unless current_user?
+  end
+
+  def save_online
+    dt = Time.now.strftime("%Y-%m-%d %H:%M")
+    User.find(current_user.u_id).update(:last_online => dt)
   end
 
 end
