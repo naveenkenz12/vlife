@@ -73,9 +73,9 @@ $(document).ready(function() {
           url: "/save/online/",
           data: {},
           success: function( data ) {
-            
+            console.log(data)
           }
-        } ); }, 120000); //every 120s
+        } ); }, 50000); //every 50s
 });
 
 //msg = {:sadas => "asdas", :Asda => "asdas" }

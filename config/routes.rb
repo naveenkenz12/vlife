@@ -11,7 +11,7 @@ Rails.application.routes.draw do
 
   get '/:id/friends' => 'friends#show_accepted'
   
-
+  get '/:id/messages' => 'messages#show_message'
 
   get '/:id/media' => 'user_profiles#media'
 

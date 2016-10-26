@@ -1,11 +1,11 @@
-class FriendsController < ApplicationController
+class MessagesController < ApplicationController
 	before_action :logged_in_user , only: [:show_message, :send_message]
 
 	def show_message
 		#@user = user id of current request
 		@user = current_user.u_id
 		#@friend = id of friend in between message is to be sent
-		@friend = parmas[:friend]
+		@friend = params[:friend]
 
 		#top 10 messages order by desc time
 		@message_between = (Message.where(:sender => @user, :receiver => @friend).or(

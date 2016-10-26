@@ -41,8 +41,13 @@ class UsersController < ApplicationController
   end
 
   def save_online
-    dt = Time.now.strftime("%Y-%m-%d %H:%M")
+    dt = Time.now.strftime("%Y-%m-%d %H:%M:%S")
     User.find(current_user.u_id).update(:last_online => dt)
+
+    friends_online = User.find_by_sql("select u_id, last_online from users where ('" + current_user.u_id + "', users.u_id) in (select user_id, friend_id from friends where status = 'accepted') or (users.u_id, '" + current_user.u_id + "') in (select user_id, friend_id from friends where status = 'accepted')")
+
+    msg = {:status => "ok", :value => friends_online}
+    render :json => msg
   end
 
 end

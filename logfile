@@ -28,3 +28,41 @@ HINT:  No function matches the given name and argument types. You might need to 
 STATEMENT:  select * from to_timestamp(current_timestamp, 'HH24:MI:SS');
 ERROR:  cached plan must not change result type
 STATEMENT:  SELECT  "users".* FROM "users" WHERE "users"."u_id" = $1 LIMIT $2
+ERROR:  column "friend" does not exist at character 8
+HINT:  Perhaps you meant to reference the column "friends.friend_id".
+STATEMENT:  select friend as frn from friends where user = 'naveenkenz12' union select user as frn where friend = 'naveenkenz12' 
+ERROR:  column "friend" does not exist at character 8
+HINT:  Perhaps you meant to reference the column "friends.friend_id".
+STATEMENT:  select friend as frn from friends where user = 'naveenkenz12' union select user as frn from friends where friend = 'naveenkenz12' 
+ERROR:  syntax error at or near "fr" at character 46
+STATEMENT:  SELECT "users".* FROM "users" WHERE (u_id in fr)
+ERROR:  syntax error at or near "friends" at character 61
+STATEMENT:  select * from users where (users.u_id, 'yak','accepted') in friends;
+ERROR:  syntax error at or near "," at character 31
+STATEMENT:  select u_id from users where (, users.u_id) in (select user_id, friend_id from friends where status = 'accepted') or (users.u_id, 'naveenkenz12') in (select user_id, friend_id from friends where status = 'accepted')
+ERROR:  syntax error at or near "~" at character 1
+STATEMENT:  ~
+	select * from users;
+ERROR:  syntax error at or near "~" at character 1
+STATEMENT:  ~
+	select * from users;
+ERROR:  syntax error at or near "~" at character 1
+STATEMENT:  ~
+	select * from users;
+LOG:  received fast shutdown request
+LOG:  aborting any active transactions
+LOG:  autovacuum launcher shutting down
+FATAL:  terminating connection due to administrator command
+LOG:  shutting down
+LOG:  database system is shut down
+LOG:  database system was shut down at 2016-10-22 13:38:31 IST
+LOG:  MultiXact member wraparound protections are now enabled
+LOG:  autovacuum launcher started
+LOG:  database system is ready to accept connections
+LOG:  received fast shutdown request
+LOG:  aborting any active transactions
+FATAL:  terminating connection due to administrator command
+LOG:  autovacuum launcher shutting down
+FATAL:  terminating connection due to administrator command
+LOG:  shutting down
+LOG:  database system is shut down
