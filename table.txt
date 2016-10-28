@@ -111,12 +111,12 @@
 8. 	table SLAM
 	attributes:
 	a)	slam_id varchar(10) not null
-	b)	date_time timestamp not null
-	c)	user_1 varchar(10) not null
-	d) 	user_2 varchar(10) not null
+	b)	date_time timestamp not null //automatically stored//
+	c)	filled_by varchar(10) not null
+	d) 	filled_for varchar(10) not null
 	primary key slam_id
-	foreign key user_1 referencing USER
-	foreign key user_2 referencing USER
+	foreign key filled_by referencing USER
+	foreign key filled_for referencing USER
 
 	///DONE///
 
@@ -129,6 +129,8 @@
 	foreign key slam_id referencing SLAM
 	foreign key q_id referencing QUESTION
 
+	///DONE///
+
 10.	table MESSAGE
 	attributes:
 	a)	msg_id varchar(15) not null
@@ -140,6 +142,8 @@
 	foreign key sender referencing USER
 	foreign key receiver referencing USER
 	foreign key med_id referencing MEDIA
+
+	///DONE///
 
 11. table MEDIA ??? name changed  to ??? blob // overwrite media everywhere // to blob
 	attributes:

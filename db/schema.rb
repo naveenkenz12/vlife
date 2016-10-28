@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161028073114) do
+ActiveRecord::Schema.define(version: 20161028113745) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -102,6 +102,26 @@ ActiveRecord::Schema.define(version: 20161028073114) do
     t.datetime "updated_at",           null: false
   end
 
+  create_table "slam_quests", force: :cascade do |t|
+    t.string   "slam_id",    null: false
+    t.string   "q_id",       null: false
+    t.text     "answer"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["slam_id", "q_id"], name: "index_slam_quests_on_slam_id_and_q_id", unique: true, using: :btree
+    t.index ["slam_id"], name: "index_slam_quests_on_slam_id", using: :btree
+  end
+
+  create_table "slams", primary_key: "slam_id", id: :string, force: :cascade do |t|
+    t.string   "filled_by",  null: false
+    t.string   "filled_for", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["filled_by", "filled_for"], name: "index_slams_on_filled_by_and_filled_for", unique: true, using: :btree
+    t.index ["filled_by"], name: "index_slams_on_filled_by", using: :btree
+    t.index ["filled_for"], name: "index_slams_on_filled_for", using: :btree
+  end
+
   create_table "user_profiles", primary_key: "u_id", id: :string, force: :cascade do |t|
     t.string   "first_name",                null: false
     t.string   "middle_name"
@@ -149,5 +169,9 @@ ActiveRecord::Schema.define(version: 20161028073114) do
   add_foreign_key "posts", "posts", column: "parent_id", primary_key: "p_id", name: "posts_parent_id_fkey"
   add_foreign_key "posts", "users", column: "posted_by_id", primary_key: "u_id", name: "posts_posted_by_id_fkey"
   add_foreign_key "posts", "users", column: "posted_to_id", primary_key: "u_id", name: "posts_posted_to_id_fkey"
+  add_foreign_key "slam_quests", "questions", column: "q_id", primary_key: "q_id", name: "slam_quests_q_id_fkey"
+  add_foreign_key "slam_quests", "slams", primary_key: "slam_id", name: "slam_quests_slam_id_fkey"
+  add_foreign_key "slams", "users", column: "filled_by", primary_key: "u_id", name: "slams_filled_by_fkey"
+  add_foreign_key "slams", "users", column: "filled_for", primary_key: "u_id", name: "slams_filled_for_fkey"
   add_foreign_key "user_profiles", "users", column: "u_id", primary_key: "u_id", name: "user_profiles_u_id_fkey"
 end

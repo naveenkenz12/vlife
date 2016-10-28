@@ -1,0 +1,2 @@
+class Slam < ApplicationRecord
+end

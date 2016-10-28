@@ -84,7 +84,7 @@ $(document).ready(function(){
             console.log(data);
             window.alert(data['sender']+' : '+data['content']);
           }
-        } ); }, 1000); //every 50s
+        } ); }, 1500); //every 1.5s
 
 });
 
