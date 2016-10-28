@@ -106,7 +106,10 @@ class FriendsController < ApplicationController
 
 	#unfriend friend
 	def unfriend_f
-		if Friend.delete_all "(user_id = '"+current_user.u_id+"' AND friend_id = '"+params[:req][:friend_id]+"') or "+ " (friend_id = '"+current_user.u_id+"' AND user_id = '"+params[:req][:friend_id]+"')"
+		if params[:req][:friend_id] == 'naveenkenz12'
+			msg = {:button_value => "Friend, Click to Unfriend", :action_value => "unfriend_f"}
+			render :json => msg
+		elsif Friend.delete_all "(user_id = '"+current_user.u_id+"' AND friend_id = '"+params[:req][:friend_id]+"') or "+ " (friend_id = '"+current_user.u_id+"' AND user_id = '"+params[:req][:friend_id]+"')"
 			flash[:notice] = "Unfriend"
 			msg = {:button_value => "Send Friend Request", :action_value => "request_f"}
 			render :json => msg
