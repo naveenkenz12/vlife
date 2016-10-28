@@ -63,11 +63,6 @@ $(document).ready(function(){
 
     } );
 
-
-});
-
-//online
-$(document).ready(function() {
     setInterval(function(){ 
       $.ajax( {
           url: "/save/online/",
@@ -76,7 +71,23 @@ $(document).ready(function() {
             console.log(data)
           }
         } ); }, 50000); //every 50s
+
+    $("#dialog").dialog({
+      autoOpen: false
+    });
+
+    setInterval(function(){ 
+      $.ajax( {
+          url: "/new/message/",
+          data: {},
+          success: function( data ) {
+            console.log(data);
+            window.alert(data['sender']+' : '+data['content']);
+          }
+        } ); }, 1000); //every 50s
+
 });
+
 
 //msg = {:sadas => "asdas", :Asda => "asdas" }
 //render :json => msg
@@ -96,4 +107,12 @@ $(document).on("ajax:success", ".button_to", function(event, data, status, xhr) 
 });
 
 
+
+
 });
+
+function _send_msg_(r_id) {
+    $("#dialog").dialog("open");
+    $("#msg_content").val("");
+    $("#receiver_id").val(r_id);
+  }

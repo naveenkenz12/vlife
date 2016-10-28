@@ -19,6 +19,30 @@ class MessagesController < ApplicationController
 	end
 
 	def send_message
-		
+		@newMessage = current_user.sent_messages.build(message_params)
+		@newMessage.msg_id = Message.count.to_s(36)
+		@newMessage.status = "sent"
+		if @newMessage.save
+			flash[:notice] = "Message Sent"
+			msg = {:value => "ok"}
+			render :json => msg
+		else
+			flash[:notice] = "Error!, try again"
+			msg = {:button_value => "", :action_value => ""}
+			render :json => msg
+		end
+	end
+
+	def new_message
+		msg = Message.where(:receiver => current_user.u_id,:status => 'sent').last
+		if !msg.nil?
+			msg.update(:status => 'delievered')
+			js = {:content => msg.content, :media => msg.med_id, :sender => msg.sender }
+			render :json => js
+		end
+	end
+
+	def message_params
+		params.require(:message).permit(:receiver, :content, :med_id)
 	end
 end
