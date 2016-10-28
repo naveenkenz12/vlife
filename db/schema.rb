@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161028113745) do
+ActiveRecord::Schema.define(version: 20161028195720) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -136,6 +136,7 @@ ActiveRecord::Schema.define(version: 20161028113745) do
     t.string   "city"
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
+    t.string   "profile_pic"
   end
 
   add_check "user_profiles", "((gender)::text = ANY ((ARRAY['M'::character varying, 'F'::character varying, 'O'::character varying])::text[]))", name: "gender_check"
@@ -173,5 +174,6 @@ ActiveRecord::Schema.define(version: 20161028113745) do
   add_foreign_key "slam_quests", "slams", primary_key: "slam_id", name: "slam_quests_slam_id_fkey"
   add_foreign_key "slams", "users", column: "filled_by", primary_key: "u_id", name: "slams_filled_by_fkey"
   add_foreign_key "slams", "users", column: "filled_for", primary_key: "u_id", name: "slams_filled_for_fkey"
+  add_foreign_key "user_profiles", "blobs", column: "profile_pic", primary_key: "med_id", name: "user_profiles_profile_pic_fkey"
   add_foreign_key "user_profiles", "users", column: "u_id", primary_key: "u_id", name: "user_profiles_u_id_fkey"
 end

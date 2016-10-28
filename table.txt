@@ -24,6 +24,7 @@
 	j) 	country varchar(60)
 	k)	state varchar(60)
 	l)	city varchar(60)
+	m)	profile_pic varchar--- blobs  foreign key
 	primary key u_id
 	foreign key u_id referencing USER
 	foreign key country, city referencing LOCATION
@@ -224,6 +225,8 @@
 	foreign key not_id referencing NOTIFICATION
 	foreign key u_id referencing USER
 
+
+18.	
 
 ###allowed column types 
 :binary
