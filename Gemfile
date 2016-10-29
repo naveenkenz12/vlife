@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 # Modification
 gem 'bootstrap-sass', '~> 3.3.6'
-gem 'carrierwave', '~> 0.10.0'
+gem 'carrierwave', '~> 1.0.0.beta'
 gem 'mini_magick', '~> 4.3'
 gem 'jquery-ui-rails'
 
@@ -57,3 +57,6 @@ gem 'bcrypt', :require => 'bcrypt'
 gem 'postgresql-check'
 
 gem 'composite_primary_keys'
+
+gem 'fog', '~> 1.38.0'
+

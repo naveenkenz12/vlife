@@ -14,6 +14,16 @@
 		</div>
 		<div class="col-xs-7">
 					<!-- Current USer Post --> 
+	    	<%= form_for @blob, :html => {:multipart => true} do |f| %>
+    			My Avatar
+    		<%= f.file_field :med_id %>
+    		<%= f.text_field :content, type:"hidden" ,value:"Image"%>
+    		<%= f.submit %>
+			<% end %>
+			<%= notice %>
+			<% for @b in @images %>
+				<img src="<%= @b.med_id.url %>" />
+	    	<% end %>
 	    	<div class="cuser-post-top">
 	    		<div class="cuser-post-top-left">
 	    			
