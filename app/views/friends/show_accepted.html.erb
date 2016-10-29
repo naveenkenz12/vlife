@@ -12,7 +12,6 @@
 			<li class ="list-group-item"><%= link_to("Friends", "/"+@user.u_id+'/friends') %></li>
 		</ul>
 	</div>
-	
 	<div class="col-xs-7">
 		<nav class="navbar navbar-inverse">
   			<div class="container-fluid">
@@ -29,16 +28,13 @@
   			</div>
 		</nav>
 
-		<!-- Current USer Post --> 
-	    <div class="cuser-post-top">
-	   		<div class="cuser-post-top-left"> 			
-	    	
-	    	</div>
-	    	<div class="cuser-post-top-right">
-	    	
-	    	</div>
-	    </div>
-	    	
+		<div id="dialog">
+			<%= form_for(:message, :url => {:controller => 'messages', :action => 'send_message'} , :html =>{:id =>'msg_form'},remote: true) do |f| %>
+			<%= f.text_field :content ,class:"comment-text",id:"msg_content" ,placeholder:"Write Message..." %>
+			<%= f.text_field :receiver,id: "receiver_id", type: "hidden", value: "" %>
+			<button type="submit" class="btn btn-default" >Message</button>
+			<% end %>
+		</div>	
 		<!-- All other Users Post -->
 		<div id = "_1">
 			<% for @p in @all_friends %>			
@@ -74,8 +70,8 @@
 								IIT Bombay
 
 								<div style="margin-top:13%">
-									<a href=""><span class ="glyphicon glyphicon-pencil" title = "post" style='font-size:1.7em;margin-right:15%;'></span></a>
-									<a href="/<%= current_user.u_id %>/messages/?friend=<%= @p[0] %>"><span class ="glyphicon glyphicon-envelope" title = "message" style='font-size:1.7em;margin-left:15%;'></span></a>
+									<span class ="glyphicon glyphicon-pencil" title = "post" style='font-size:1.7em;margin-right:15%;'></span>
+									<!-- <a href="/<%= current_user.u_id %>/messages/?friend=<%= @p[0] %>"> --><span class ="glyphicon glyphicon-envelope" onClick = "_send_msg_('<%= @p[0] %>')" title = "message" style='font-size:1.7em;margin-left:15%;'></span>
 								</div>
 								
 							</div>
@@ -125,8 +121,8 @@
 								IIT Bombay
 
 								<div style="margin-top:13%">
-									<span class ="glyphicon glyphicon-pencil" title = "post" style='font-size:1.7em;margin-right:15%;'></span>
-									<span class ="glyphicon glyphicon-envelope" title = "message" style='font-size:1.7em;margin-left:15%;'></span>
+									<<span class ="glyphicon glyphicon-pencil" title = "post" style='font-size:1.7em;margin-right:15%;'></span>
+									<!-- <a href="/<%= current_user.u_id %>/messages/?friend=<%= @p[0] %>"> --><span class ="glyphicon glyphicon-envelope" onClick = "_send_msg_('<%= @p[0] %>')" title = "message" style='font-size:1.7em;margin-left:15%;'></span>
 								</div>
 							</div>
 							<h4 style="margin-bottom:1%; margin-top:2.5%;"><%= link_to(@username, '/'+@p[0]+'/profile/', :style => "color:#3333ff") %></h4>
@@ -181,7 +177,7 @@
 
 								<div style="margin-top:13%">
 									<span class ="glyphicon glyphicon-pencil" title = "post" style='font-size:1.7em;margin-right:15%;'></span>
-									<span class ="glyphicon glyphicon-envelope" title = "message" style='font-size:1.7em;margin-left:15%;'></span>
+									<!-- <a href="/<%= current_user.u_id %>/messages/?friend=<%= @p[0] %>"> --><span class ="glyphicon glyphicon-envelope" onClick = "_send_msg_('<%= @p[0] %>')" title = "message" style='font-size:1.7em;margin-left:15%;'></span>
 								</div>
 							</div>
 							<h4 style="margin-bottom:1%; margin-top:2.5%;"><%= link_to(@username, '/'+@p[0]+'/profile/', :style => "color:#3333ff") %></h4>
@@ -239,4 +235,5 @@
 			</div>
 		</div>
 	</div>
+
 </div>

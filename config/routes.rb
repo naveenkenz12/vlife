@@ -15,7 +15,9 @@ Rails.application.routes.draw do
 
   get '/:id/media' => 'user_profiles#media'
 
-  get '/save/online/' => 'users#save_online'  
+  get '/save/online/' => 'users#save_online'
+  get '/new/message/' => 'messages#new_message'  
+
 
   get '/new' => 'users#new'
 
