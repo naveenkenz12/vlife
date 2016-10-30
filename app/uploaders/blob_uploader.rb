@@ -35,7 +35,7 @@ class BlobUploader < CarrierWave::Uploader::Base
   end
  
   version :large do
-    process resize_to_fit: [500, nil]
+    process resize_to_limit: [800, 800]
     process :crop
     process resize_to_fit: [500, 500]
   end

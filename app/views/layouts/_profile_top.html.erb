@@ -73,8 +73,7 @@ function imfile(input) {
         reader.onload = function (e) {          
             $('#image_file')
                 .attr('src', e.target.result)
-                .height(500)
-                .attr('style','max-width:800px');
+                .attr('style', 'max-width:800px;max-height:800px;');
                 
         };
         reader.readAsDataURL(input.files[0]);
@@ -103,7 +102,7 @@ function imfile(input) {
       }
     });
     
-	setTimeout("api = $.Jcrop('#image_file',{ aspectRatio: 1, onSelect: showCoords, onChange: showCoords     });",100);
+	setTimeout("api = $.Jcrop('#image_file',{ aspectRatio: 1, onSelect: showCoords, onChange: showCoords     });",500);
 };
 
 function showCoords(c)
