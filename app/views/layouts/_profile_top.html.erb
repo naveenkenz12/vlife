@@ -72,7 +72,7 @@ function imfile(input) {
         reader.onload = function (e) {
             $('#image_file')
                 .attr('src', e.target.result)
-                .height(400);
+                .height(500);
                 
         };
 
@@ -85,7 +85,7 @@ function imfile(input) {
       scrollable: true,
       width: 'auto',
       height: 'auto',
-      position: { my: "top", at: "top+120", of: window },
+      position: { my: "top", at: "top+80", of: window },
       buttons: {
         Ok: function() {
           $("#im-dialog").dialog("close");
@@ -98,14 +98,18 @@ function imfile(input) {
       	 
       }
     });
+    
+    load_jcrop();
+};
 
-    $('#image_file').Jcrop({
+function load_jcrop(){
+	$('#image_file').Jcrop({
     	aspectRatio: 1,
     	onChange: showCoords,
 		onSelect: showCoords
-    });
+ });
 
-};
+}
 
 function showCoords(c)
 {
