@@ -3,8 +3,10 @@ source 'https://rubygems.org'
 # Modification
 gem 'bootstrap-sass', '~> 3.3.6'
 gem 'carrierwave', '~> 1.0.0.beta'
-gem 'mini_magick', '~> 4.3'
+gem 'mini_magick'
 gem 'jquery-ui-rails'
+gem "rmagick"
+
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.0.0', '>= 5.0.0.1'

@@ -6,7 +6,7 @@
 
 # Ignore bundler config.
 /.bundle
-/public/upload/*
+public/
 
 # Ignore all logfiles and tempfiles.
 /log/*

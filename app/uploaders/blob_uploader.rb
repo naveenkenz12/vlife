@@ -1,6 +1,8 @@
 class BlobUploader < CarrierWave::Uploader::Base
   require 'resolv-replace'
   include CarrierWave::MiniMagick
+  include CarrierWave::RMagick
+
  
   storage :fog
   @name =""
@@ -8,8 +10,6 @@ class BlobUploader < CarrierWave::Uploader::Base
     super
     time = Time.new
     @name=Digest::SHA256.hexdigest(time.year.to_s+time.month.to_s+(time.hour*3600+time.min*60+time.sec).to_s)
-    
-    
   end
 
  
@@ -19,9 +19,14 @@ class BlobUploader < CarrierWave::Uploader::Base
 
   def filename
     #hash of filename
-    if !File.extname(original_filename).blank? and File.extname(@name).blank?
-      @name = @name+File.extname(original_filename)
+    if !original_filename.nil? 
+      if !File.extname(original_filename).blank? and File.extname(@name).blank?
+        @name = @name+File.extname(original_filename)
+      end
+    elsif File.extname(@name).blank?
+      @name = @name + '.jpg'
     end
+
     @name
   end
 
@@ -30,16 +35,22 @@ class BlobUploader < CarrierWave::Uploader::Base
   end
  
   version :large do
-    process resize_to_limit: [800, 800]
+    process resize_to_fit: [400, 400]
+    process :crop
   end
  
-  version :medium do
-    process resize_to_limit: [500, 500]
+  version :medium, from_version: :large do
+    process resize_to_fit: [500, 500]
   end
 
-  version :small do
-    process resize_to_limit: [160, 160]
+  version :small, from_version: :large do
+    process resize_to_fit: [160, 160]
+  end
+
+  def crop
+    manipulate! do |img|
+      img.crop!(model.x.to_i,model.y.to_i,model.w.to_i,model.h.to_i,true)
+    end
   end
   
- 
 end
