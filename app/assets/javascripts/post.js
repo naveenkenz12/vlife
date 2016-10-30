@@ -70,7 +70,7 @@ $(document).ready(function(){
           success: function( data ) {
             console.log(data)
           }
-        } ); }, 50000); //every 50s
+        } ); }, 50000000); //every 50s
 
     $("#dialog").dialog({
       autoOpen: false
@@ -84,7 +84,7 @@ $(document).ready(function(){
             console.log(data);
             window.alert(data['sender']+' : '+data['content']);
           }
-        } ); }, 1500); //every 1.5s
+        } ); }, 1500000); //every 1.5s
 
 });
 
@@ -116,3 +116,4 @@ function _send_msg_(r_id) {
     $("#msg_content").val("");
     $("#receiver_id").val(r_id);
   }
+

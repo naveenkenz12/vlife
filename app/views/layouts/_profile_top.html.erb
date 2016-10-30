@@ -1,10 +1,24 @@
-
 <div class='container'>
 	<div class ='col-xs-0'>
 	</div>
 	<div class = 'col-xs-9'>
 		<div class = 'profile-top'>
 			<div class ='profile-image'>
+					<% if @dp.blank? %>
+						<%= image_tag("boy.jpg", class:'profile-image' , width:'160px', height:'160px', onclick:"dpupload()") %>
+					<% else %>
+						<img src="<%= @dp.med_id.small %>" class="profile-image" onclick='dpupload()'/>
+					<%end %>
+					<% if current_user.u_id == @user.u_id %>
+						<%= form_for @blob, :html => {:multipart => true, :style => 'display:none'},:remote => 'true', :authenticity_token => true  do |f| %>
+	    				<%= f.file_field :med_id , type:"file", id:"dp_file" %>
+	    				<%= f.text_field :content, type:"hidden" ,value:"profile_pic"%>
+	    				<%= f.submit :submit ,id:'dp_submit' %>
+						<% end %>
+						<p class='dp-upload'>Change Profile Picture</p>
+					<% end %>
+					
+
 			</div>
 			<div class= 'friend-button'>
 			<% if @status == "cnf" %>
@@ -33,3 +47,20 @@
 	<div class = 'col-xs-3'>
 	</div>
 </div>
+
+<script>
+function dpupload()
+{
+ $("#dp_file").click();
+ console.log("DP UPLOAD");
+}
+
+$("#dp_file").on('change',function() {
+	console.log("submitted")
+    $("#dp_submit").click();
+});
+//ajax success request of photo change
+$(document).on("ajax:success", ".dp_submit", function(event, data, status, xhr) {
+    alert(data);
+});
+</script>

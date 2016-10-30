@@ -42,7 +42,10 @@ before_action :logged_in_user, only: [:create ,:edit, :update, :profile]
           @status = "afr"
         end
       end
-
+      @userprofile = UserProfile.find(@user.u_id)
+      #get the profile picture of user
+      @dp = Blob.find_by(med_id: @userprofile.profile_pic)
+      @blob = Blob.new
   	end
   end
   

@@ -1,6 +1,7 @@
 class BlobsController < ApplicationController
-  #before_action :set_blob, only: [:show, :edit, :update, :destroy]
- 
+  before_action  :logged_in_user, only: [:show, :edit, :update, :destroy]
+  
+
   # GET /blobs
   def index
     @blobs = Blob.all
@@ -22,11 +23,37 @@ class BlobsController < ApplicationController
   # POST /blobs
   def create
     @blob = Blob.new(post_blob_params)
- 
-    if @blob.save
-      redirect_to @blob, notice: 'Blob was successfully created.'
-    else
-      render :new
+    # default if error
+    msg = {:status => "Error ! Please Try Again"}
+    error= true;
+    
+    p @blob.med_id.filename
+    #if profile picture
+    if @blob.content=="profile_pic"
+      @userprofile = UserProfile.find(current_user.u_id)
+    
+      if !@userprofile.blank?
+        Blob.transaction do
+          if @blob.save
+            # update profile_pic column in user_profiles
+            @userprofile.update(profile_pic: @blob.med_id.filename)
+            error=false
+            render :json => @blob.as_json
+          end
+        end
+      end
+
+    elsif @blob.content=="post_pic"
+      #if post
+    elsif @blob.content =="album_pic"
+      #if album      
+    end
+
+
+    if error
+      flash[:notice] = "Error!, try again"
+      
+      render :json => msg
     end
   end
  
