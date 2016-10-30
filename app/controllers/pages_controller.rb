@@ -3,6 +3,9 @@ class PagesController < ApplicationController
 
   def home
   	if logged_in?
+      @userprofile = UserProfile.find(current_user.u_id)
+      @dp = Blob.find_by(med_id: @userprofile.profile_pic)
+
       @user = current_user
       @images = Blob.all
       @blob = Blob.new

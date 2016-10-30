@@ -76,6 +76,10 @@ $(document).ready(function(){
       autoOpen: false
     });
 
+    $("#dialog_post").dialog({
+      autoOpen: false
+    });
+
     setInterval(function(){ 
       $.ajax( {
           url: "/new/message/",
@@ -117,3 +121,9 @@ function _send_msg_(r_id) {
     $("#receiver_id").val(r_id);
   }
 
+
+function _send_post_(r_id){
+    $("#dialog_post").dialog("open");
+    $("#post_content").val("");
+    $("#posted_to_id").val(r_id);
+}

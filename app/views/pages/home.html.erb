@@ -32,7 +32,11 @@
 	    	<div class="cuser-post-middle">
 	    		<div class='media'>
 	    			<div class='col-xs-2'>
-						<%= image_tag("boy.jpg", class:'cuser-img' ) %>
+						<% if @dp.blank? %>
+							<%= image_tag("boy.jpg", class:'profile-image' , width:'160px', height:'160px') %>
+						<% else %>
+							<img src="<%= @dp.med_id.small %>" class="profile-image" />
+						<%end %>
 					</div>
 					<div class='col-xs-10'>	
 						<%= form_for @newPost , :html => {:class =>'cuser-post-form'} do |f| %>

@@ -63,12 +63,13 @@ before_action :logged_in_user, only: [:create ,:edit, :update, :profile]
   end
 
   def about
-  	
+  	@blob = Blob.new
   	@user = User.find_by(u_id: params[:id])
   	if @user.nil?
   		redirect_to '/error'
   	else
   		@profile = UserProfile.find_by(u_id: @user.u_id)	
+      @dp = Blob.find_by(med_id: @profile.profile_pic)
   		if @profile.nil? and @user.u_id == current_user.u_id
   			@newProfile = current_user.build_profile
   		end

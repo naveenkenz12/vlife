@@ -34,14 +34,82 @@
 			<%= f.text_field :receiver,id: "receiver_id", type: "hidden", value: "" %>
 			<button type="submit" class="btn btn-default" >Message</button>
 			<% end %>
+		</div>
+		<!-- Post to user's timelne -->
+		<div id="dialog_post">
+			<%= form_for(:post, :url => {:controller => 'posts', :action => 'send_post'} , :html =>{:id =>'post_form'},remote: true) do |f| %>
+			<%= f.text_field :content ,class:"comment-text",id:"post_content" ,placeholder:"Post ..." %>
+			<%= f.text_field :posted_to_id,id: "posted_to_id", type: "hidden", value: "" %>
+			<button type="submit" class="btn btn-default" >Post</button>
+			<% end %>
 		</div>	
+
 		<!-- All other Users Post -->
 		<div id = "_1">
 			<% for @p in @all_friends %>			
 				<div class="cuser-post-middle">
 	    			<div class='media'>
 	    				<div class='col-xs-2'>
-							<%= image_tag("boy.jpg", class:'cuser-img' ) %>
+							<% if @p[3].blank? %>
+								<%= image_tag("boy.jpg", class:'profile-image' , width:'80px', height:'80px') %>
+							<% else %>
+								<a href='/<%= @p[0]%>/profile/' ><img src="<%= @p[3].med_id.small %>" class="profile-image" /></a>
+							<%end %>
+						</div>
+						<div class='col-xs-10'>
+							<% @username = ""
+								if !@p[1][0].nil?
+									@username = @username + @p[1][0] + " "
+								end
+								if !@p[1][1].nil?
+									@username = @username + @p[1][1] + " "
+								end
+								if !@p[1][2].nil?
+									@username = @username + @p[1][2]
+								end
+
+								@userloc = ""
+								if !@p[2][0].nil?
+									@userloc = @userloc + @p[2][0] + ", "
+								end
+								if !@p[2][1].nil?
+									@userloc = @userloc + @p[2][1] + ", "
+								end
+								if !@p[2][2].nil?
+									@userloc = @userloc + @p[2][2]
+								end								
+								%>
+							<div class='friend-list-right' style="float:right;margin-top:2.5%">
+								IIT Bombay
+
+								<div style="margin-top:13%">
+									<span class ="glyphicon glyphicon-pencil" onClick = "_send_post_('<%= @p[0] %>')" title = "post" style='font-size:1.7em;margin-right:15%;'></span>
+									<!-- <a href="/<%= current_user.u_id %>/messages/?friend=<%= @p[0] %>"> --><span class ="glyphicon glyphicon-envelope" onClick = "_send_msg_('<%= @p[0] %>')" title = "message" style='font-size:1.7em;margin-left:15%;'></span>
+								</div>
+								
+							</div>
+							<h4 style="margin-bottom:1%; margin-top:2.5%;"><%= link_to(@username, '/'+@p[0]+'/profile/', :style => "color:#3333ff") %></h4>
+							<h6 style="margin-top:0%;">
+							<%= link_to(@p[0], '/'+@p[0]+'/profile/') %>
+							<br style="margin:0.5% 0% 1% 0%;">
+							<%= link_to(@userloc, "google-map") %>
+							</h6>
+				    	</div>
+	    			</div>
+	  			</div>
+	  			<hr>
+			<% end %>
+		</div>
+		<div id = "_2" style="display:none">
+			<% for @p in @all_followings %>
+				<div class="cuser-post-middle">
+	    			<div class='media'>
+	    				<div class='col-xs-2'>
+							<% if @p[3].blank? %>
+								<%= image_tag("boy.jpg", class:'profile-image' , width:'80px', height:'80px') %>
+							<% else %>
+								<a href='/<%= @p[0]%>/profile/' ><img src="<%= @p[3].med_id.small %>" class="profile-image" /></a>
+							<%end %>
 						</div>
 						<div class='col-xs-10'>
 							<% @username = ""
@@ -73,57 +141,6 @@
 									<span class ="glyphicon glyphicon-pencil" title = "post" style='font-size:1.7em;margin-right:15%;'></span>
 									<!-- <a href="/<%= current_user.u_id %>/messages/?friend=<%= @p[0] %>"> --><span class ="glyphicon glyphicon-envelope" onClick = "_send_msg_('<%= @p[0] %>')" title = "message" style='font-size:1.7em;margin-left:15%;'></span>
 								</div>
-								
-							</div>
-							<h4 style="margin-bottom:1%; margin-top:2.5%;"><%= link_to(@username, '/'+@p[0]+'/profile/', :style => "color:#3333ff") %></h4>
-							<h6 style="margin-top:0%;">
-							<%= link_to(@p[0], '/'+@p[0]+'/profile/') %>
-							<br style="margin:0.5% 0% 1% 0%;">
-							<%= link_to(@userloc, "google-map") %>
-							</h6>
-				    	</div>
-	    			</div>
-	  			</div>
-	  			<hr>
-			<% end %>
-		</div>
-		<div id = "_2" style="display:none">
-			<% for @p in @all_followings %>
-				<div class="cuser-post-middle">
-	    			<div class='media'>
-	    				<div class='col-xs-2'>
-							<%= image_tag("boy.jpg", class:'cuser-img' ) %>
-						</div>
-						<div class='col-xs-10'>
-							<% @username = ""
-								if !@p[1][0].nil?
-									@username = @username + @p[1][0] + " "
-								end
-								if !@p[1][1].nil?
-									@username = @username + @p[1][1] + " "
-								end
-								if !@p[1][2].nil?
-									@username = @username + @p[1][2]
-								end
-
-								@userloc = ""
-								if !@p[2][0].nil?
-									@userloc = @userloc + @p[2][0] + ", "
-								end
-								if !@p[2][1].nil?
-									@userloc = @userloc + @p[2][1] + ", "
-								end
-								if !@p[2][2].nil?
-									@userloc = @userloc + @p[2][2]
-								end								
-								%>
-							<div class='friend-list-right' style="float:right;margin-top:2.5%">
-								IIT Bombay
-
-								<div style="margin-top:13%">
-									<<span class ="glyphicon glyphicon-pencil" title = "post" style='font-size:1.7em;margin-right:15%;'></span>
-									<!-- <a href="/<%= current_user.u_id %>/messages/?friend=<%= @p[0] %>"> --><span class ="glyphicon glyphicon-envelope" onClick = "_send_msg_('<%= @p[0] %>')" title = "message" style='font-size:1.7em;margin-left:15%;'></span>
-								</div>
 							</div>
 							<h4 style="margin-bottom:1%; margin-top:2.5%;"><%= link_to(@username, '/'+@p[0]+'/profile/', :style => "color:#3333ff") %></h4>
 							<h6 style="margin-top:0%;">
@@ -142,7 +159,11 @@
 				<div class="cuser-post-middle">
 	    			<div class='media'>
 	    				<div class='col-xs-2'>
-							<%= image_tag("boy.jpg", class:'cuser-img' ) %>
+							<% if @p[3].blank? %>
+								<%= image_tag("boy.jpg", class:'profile-image' , width:'80px', height:'80px') %>
+							<% else %>
+								<a href='/<%= @p[0]%>/profile/' ><img src="<%= @p[3].med_id.small %>" class="profile-image" /></a>
+							<%end %>
 						</div>
 						<div class='col-xs-10'>
 							<% @username = ""

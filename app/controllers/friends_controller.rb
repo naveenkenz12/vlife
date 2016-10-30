@@ -16,14 +16,20 @@ class FriendsController < ApplicationController
   	  	@prof = []
   	  	@name_fr = []
   	  	@location_fr = []
+  	  	@dp_fr = []
   	  	for @u in @all_friends
   	  		@prof.push(UserProfile.find(@u))
   	  	end
 
+  	  	for @u in @prof
+  	  		@dp_fr.push(Blob.find_by(med_id: @u.profile_pic))
+  	  	end
+
   	  	@name_fr = @prof.pluck(:first_name, :middle_name, :last_name)
   	  	@location_fr = @prof.pluck(:city, :state, :country)
+  	  	#insert dp also
 
-  	  	@all_friends = @all_friends.zip(@name_fr, @location_fr)
+  	  	@all_friends = @all_friends.zip(@name_fr, @location_fr, @dp_fr)
   	  	
   	  	#following, request sent by user but yet to be accepted(waiting)
   	  	@all_followings = Friend.find_by_sql("select friend_id as frn from friends where user_id = '"+ current_user.u_id + "' and "+
@@ -33,15 +39,21 @@ class FriendsController < ApplicationController
 		@all_followings = @all_followings.pluck(:frn)
   	  	@prof = []
   	  	@name_fol = []
+  	  	@dp_fol = []
   	  	@location_fol = []
   	  	for @u in @all_followings
   	  		@prof.push(UserProfile.find(@u))
   	  	end
 
+  	  	for @u in @prof
+  	  		@dp_fol.push(Blob.find_by(med_id: @u.profile_pic))
+  	  	end
+
   	  	@name_fol = @prof.pluck(:first_name, :middle_name, :last_name)
   	  	@location_fol = @prof.pluck(:city, :state, :country)
+  	  	#insert dp also
 
-  	  	@all_followings = @all_followings.zip(@name_fol, @location_fol)
+  	  	@all_followings = @all_followings.zip(@name_fol, @location_fol, @dp_fol)
 
   	  	###
   	  	@all_requests = Friend.find_by_sql("select user_id as frn from friends where friend_id = '"+ current_user.u_id + "' and "+
@@ -51,15 +63,21 @@ class FriendsController < ApplicationController
 		@all_requests = @all_requests.pluck(:frn)
   	  	@prof = []
   	  	@name_re = []
+  	  	@dp_re = []
   	  	@location_re = []
   	  	for @u in @all_requests
   	  		@prof.push(UserProfile.find(@u))
   	  	end
 
+  	  	for @u in @prof
+  	  		@dp_re.push(Blob.find_by(med_id: @u.profile_pic))
+  	  	end
+
   	  	@name_re = @prof.pluck(:first_name, :middle_name, :last_name)
   	  	@location_re = @prof.pluck(:city, :state, :country)
+  	  	#insert dp also
 
-  	  	@all_requests = @all_requests.zip(@name_re, @location_re)
+  	  	@all_requests = @all_requests.zip(@name_re, @location_re, @dp_re)
 
 	end
 	

@@ -7,7 +7,7 @@
 					<% if @dp.blank? %>
 						<%= image_tag("boy.jpg", class:'profile-image' , width:'160px', height:'160px', onclick:"dpupload()") %>
 					<% else %>
-						<img src="<%= @dp.med_id.small %>" class="profile-image" onclick='dpupload()'/>
+						<img src="<%= @dp.med_id.medium %>" class="profile-image" onclick='dpupload()'/>
 					<%end %>
 					<% if current_user.u_id == @user.u_id %>
 						<%= form_for @blob, :html => {:multipart => true, :style => 'display:none'},:remote => 'true', :authenticity_token => true  do |f| %>

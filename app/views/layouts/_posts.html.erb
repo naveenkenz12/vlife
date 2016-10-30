@@ -1,7 +1,20 @@
 <div class="well well-sm" style="padding-bottom:0%;margin-bottom:0%;">
  	<div class="user-post-top">
+ 		
  		<div>
- 			<span style="float:left"> <%= link_to(@p.posted_by_id, '/'+@p.posted_by_id+'/profile/') %> </span>
+ 			<% 	@up = UserProfile.find_by(u_id: @p.posted_by_id) 
+ 				@d = nil
+ 				if !@up.nil?
+ 					@d = Blob.find_by(med_id: @up.profile_pic)
+ 				end
+ 			%>
+
+ 			<% if @d.blank? %>
+				<%= image_tag("boy.jpg", class:'profile-image' , width:'40px', height:'40px') %>
+			<% else %>
+				<a href='/<%= @p.posted_by_id %>/profile/' ><img src="<%= @d.med_id.xsmall %>" class="profile-image" /></a>
+			<%end %>
+ 			<span style=""> <%= link_to(@p.posted_by_id, '/'+@p.posted_by_id+'/profile/') %> </span>
  			<span style="float:center"> <%= @p.city %> <%= @p.country %> </span>
  			<span style="float:right"> <%= @p.updated_at %> </span>
  		</div>
