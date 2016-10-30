@@ -22,7 +22,15 @@ class BlobsController < ApplicationController
  
   # POST /blobs
   def create
-    @blob = Blob.new(post_blob_params)
+    p params[:blob][:x]
+    p params[:blob][:y]
+    p params[:blob][:w]
+    p params[:blob][:h]
+    
+    @blob = Blob.new(post_blob_params.except(:med_id))
+    @blob.med_id = params[:blob][:med_id];
+
+    
     # default if error
     msg = {:status => "Error ! Please Try Again"}
     error= true;
@@ -38,6 +46,7 @@ class BlobsController < ApplicationController
             # update profile_pic column in user_profiles
             @userprofile.update(profile_pic: @blob.med_id.filename)
             error=false
+            
             render :json => @blob.as_json
           end
         end
@@ -80,6 +89,6 @@ class BlobsController < ApplicationController
  
     # Never trust parameters from the scary internet, only allow the white list through.
     def post_blob_params
-      params.require(:blob).permit(:med_id, :content)
+      params.require(:blob).permit(:med_id, :content,:x,:y,:w,:h)
     end
 end
