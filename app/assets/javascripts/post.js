@@ -76,6 +76,7 @@ $(document).ready(function(){
       autoOpen: false
     });
 
+
     $("#dialog_post").dialog({
       autoOpen: false
     });

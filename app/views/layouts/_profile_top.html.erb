@@ -57,6 +57,7 @@
 function dpupload()
 {
  $("#dp_file").val("");
+ $('#image_file').attr('src',"");
  $("#dp_file").click();
  console.log("DP UPLOAD");
  document.getElementById("dp_file").disabled = false;
@@ -69,47 +70,41 @@ function imfile(input) {
     if (input.files && input.files[0]) {
         var reader = new FileReader();
 
-        reader.onload = function (e) {
+        reader.onload = function (e) {          
             $('#image_file')
                 .attr('src', e.target.result)
-                .height(500);
+                .height(500)
+                .attr('style','max-width:800px');
                 
         };
-
         reader.readAsDataURL(input.files[0]);
 	}
 
+	
 	//show dialog
 	$("#im-dialog").dialog({
       modal: true,
       scrollable: true,
       width: 'auto',
       height: 'auto',
-      position: { my: "top", at: "top+80", of: window },
+      resizable: false,
+      position: { my: "left top", at: "left top", of:window,  collision: 'none'  },
       buttons: {
         Ok: function() {
-          $("#im-dialog").dialog("close");
           $("#dp_submit").click();
+          $("#im-dialog").dialog("close");
+          api.destroy(); 
 
         }
       },
       close: function() {
       	 $("#im-dialog").dialog("close");
-      	 
+      	 api.destroy();
       }
     });
     
-    load_jcrop();
+	setTimeout("api = $.Jcrop('#image_file',{ aspectRatio: 1, onSelect: showCoords, onChange: showCoords     });",100);
 };
-
-function load_jcrop(){
-	$('#image_file').Jcrop({
-    	aspectRatio: 1,
-    	onChange: showCoords,
-		onSelect: showCoords
- });
-
-}
 
 function showCoords(c)
 {
@@ -118,7 +113,7 @@ function showCoords(c)
 		$('#w').val(c.w);
 		$('#h').val(c.h);
 };
-	
+
 //ajax success request of photo change
 $(document).on("ajax:success", ".dp_submit", function(event, data, status, xhr) {
     alert(data);
