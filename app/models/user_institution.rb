@@ -1,0 +1,2 @@
+class UserInstitution < ApplicationRecord
+end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161028195720) do
+ActiveRecord::Schema.define(version: 20161031093613) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -122,6 +122,18 @@ ActiveRecord::Schema.define(version: 20161028195720) do
     t.index ["filled_for"], name: "index_slams_on_filled_for", using: :btree
   end
 
+  create_table "user_institutions", force: :cascade do |t|
+    t.string   "u_id",       null: false
+    t.string   "ins_id",     null: false
+    t.date     "start"
+    t.date     "end"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["ins_id"], name: "index_user_institutions_on_ins_id", using: :btree
+    t.index ["u_id", "ins_id"], name: "index_user_institutions_on_u_id_and_ins_id", unique: true, using: :btree
+    t.index ["u_id"], name: "index_user_institutions_on_u_id", using: :btree
+  end
+
   create_table "user_profiles", primary_key: "u_id", id: :string, force: :cascade do |t|
     t.string   "first_name",                null: false
     t.string   "middle_name"
@@ -174,6 +186,8 @@ ActiveRecord::Schema.define(version: 20161028195720) do
   add_foreign_key "slam_quests", "slams", primary_key: "slam_id", name: "slam_quests_slam_id_fkey"
   add_foreign_key "slams", "users", column: "filled_by", primary_key: "u_id", name: "slams_filled_by_fkey"
   add_foreign_key "slams", "users", column: "filled_for", primary_key: "u_id", name: "slams_filled_for_fkey"
+  add_foreign_key "user_institutions", "institutions", column: "ins_id", primary_key: "ins_id", name: "user_institutions_ins_id_fkey"
+  add_foreign_key "user_institutions", "users", column: "u_id", primary_key: "u_id", name: "user_institutions_u_id_fkey"
   add_foreign_key "user_profiles", "blobs", column: "profile_pic", primary_key: "med_id", name: "user_profiles_profile_pic_fkey"
   add_foreign_key "user_profiles", "users", column: "u_id", primary_key: "u_id", name: "user_profiles_u_id_fkey"
 end

@@ -1,5 +1,6 @@
 <%= render '/layouts/profile_top' %>
 
+
 <% if @profile.nil? and @user.u_id == current_user.u_id %>
 	
 	<div class = "col-xs-2 sign-right">
@@ -42,10 +43,125 @@
 	</div>
 <% else %>
 	<!-- Show uSer details-->
-	<%= @profile.first_name %>
-	<%= @profile.last_name %>
-	<%= @profile.birthday %>
-	<%= @profile.rel_status %>
-	<%= @profile.gender %>
+
+<div class="row" style="margin-top: 20px;">
+	<div class="col-lg-8 col-lg-offset-1" style="text-align: left;">
+		<div class="row">
+			<div class="edithover">
+			<p class="col-lg-6 edittitle">
+				<span class="editheading">Gender:</span>
+				<% if @profile.gender=='M' 
+					@gender = 'Male'
+					elsif @profile.gender=='F'
+					@gender = 'Female'
+					else
+					@gender = 'Other'
+					end %>
+				<%= @gender %>
+			</p>
+			<a href="" class="col-lg-1 editpencil">
+				<i class="fa fa-pencil">Edit</i>
+			</a>
+			</div>
+			<div class="col-lg-1"></div>
+			<p class="col-lg-4 editinfo">
+				<i class="fa fa-birthday-cake"></i>
+				<%= @profile.birthday %>
+			</p>
+		</div>
+		<hr class="col-lg-7 editline">
+
+		<div class="row">
+			<div class="edithover">
+			<p class="col-lg-6 edittitle">
+				<span class="editheading">Language:</span>
+				<%= @profile.language %>
+			</p>
+			<a href="" class="col-lg-1 editpencil">
+				<i class="fa fa-pencil">Edit</i>
+			</a>
+			</div>
+			<div class="col-lg-1"></div>
+			<p class="col-lg-4 editinfo">
+				<i class="fa fa-address-book"></i>
+				<% @us = User.find(current_user.u_id) %>
+				<%= @us.email %>
+			</p>
+		</div>
+		<hr class="col-lg-7 editline">
+
+		<div class="row">
+			<div class="edithover">
+			<p class="col-lg-6 edittitle">
+				<span class="editheading">Martial Status:</span>
+				<%= @profile.rel_status %>
+			</p>
+			<a href="" class="col-lg-1 editpencil">
+				<i class="fa fa-pencil">Edit</i>
+			</a>
+			</div>
+			<div class="col-lg-1"></div>
+			<p class="col-lg-4 editinfo">
+				<i class="fa fa-lg fa-mobile-phone"></i>
+				<%= @us.phone_no %>
+			</p>
+		</div>
+		<hr class="col-lg-7 editline">
+
+		<div class="row">
+			<p class="col-lg-12 edittitle">
+				<span class="editheading">Institutions:</span>
+				<br>
+				<%	@ins = UserInstitution.where(:u_id => current_user.u_id)
+					@ins_details = []
+					for @i in @ins
+						@ins_details.push(Institution.find(@i.ins_id))
+					end
+					@ins = @ins.zip(@ins_details)
+				%>
+				<ul>
+				<% for @i in @ins %>
+				<li>
+				<b><%= @i[1].name %></b><br>
+				<%= @i[1].city %>
+				<%= @i[1].state %>
+				<%= @i[1].country %>
+				<br><p>From: <%= @i[0].start %> To: <%= @i[0].end %></p>
+				</li>
+				<% end %>
+				</ul>
+			</p>
+		</div>
+	</div>
+</div>
 	
 <% end %>
+
+<style>
+.editline{
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+.edittitle{
+	margin-top: 8px;
+}
+.editinfo{
+	margin-top: 8px;
+}
+.editheading{
+	color:  #666666
+</style>
+
+<script>
+	$(".editpencil").css("visibility","hidden");
+	$(".edittitle").hover(function(){
+		$(this).siblings(".editpencil").css("visibility","visible");},
+		function(){
+		$(".editpencil").css("visibility","hidden");
+		});
+	$(".editpencil").hover(function(){
+		$(this).css("visibility","visible");},
+		function(){
+		$(".editpencil").css("visibility","hidden");
+		});
+</script>
