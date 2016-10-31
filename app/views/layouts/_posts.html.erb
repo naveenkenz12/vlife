@@ -24,8 +24,22 @@
  	</div>
  	<hr>
  	<div class="user-post-bottom">
- 		<button id='like' class='btn btn-default' style="height:10%;padding:0.5% 2% 0% 2%;border:none;background:#f3f3f3" ><span  class='glyphicon glyphicon-thumbs-up'></span></button>
- 		<button  class='btn btn-default comment-show' data-show=<%= @p.p_id %>  style="height:10%;padding:0.5% 2% 0% 2%;border:none;background:#f3f3f3">Comment</button>
+ 		<%= form_for(:post_like, :url => {:controller => 'post_likes', :action => 'create'} , :html =>{:id =>'like-post'+@p.p_id, :style =>"display:none;"},remote: true, :authenticity_token => true) do |f| %>
+			<%= f.text_field :p_id, value: @p.p_id, type: "hidden", readonly: "true" %>
+		<% end %>
+		
+		<%	@u_like = PostLike.where(:u_id => current_user.u_id, :p_id => @p.p_id).count()
+			@t_like = PostLike.where(:p_id => @p.p_id).count()
+			@t_comment = Post.where(:parent_id => @p.p_id).count()
+		%>
+
+		<% if @u_like == 0 %>
+			<button  id = "btn_like<%= @p.p_id %>" type="submit" class='btn btn-default' style="height:10%;padding:0.5% 2% 0% 2%;border:none;background:#f3f3f3" onclick="like_submit('<%= @p.p_id %>')" ><span  id='like<%= @p.p_id %>' class='glyphicon glyphicon-thumbs-up'>  (<%= @t_like %>)</span></button>
+		<% else %>
+			<button  id = "btn_like<%= @p.p_id %>" type="submit" class='btn btn-default' style="height:10%;padding:0.5% 2% 0% 2%;border:none;background:#f3f3f3"><span  id='like<%= @p.p_id %>' class='glyphicon glyphicon-thumbs-up' style="color:blue">  (<%= @t_like %>)</span></button>
+		<% end %>
+		<button class='btn btn-default comment-show' id='comment<%= @p.p_id %>' data-show=<%= @p.p_id %>  style="height:10%;padding:0.5% 2% 0% 2%;border:none;background:#f3f3f3;float:center;" type="" onclick="comment('<%= @p.p_id %>')" >Comment (<%= @t_comment %>)</button>
+ 		
  	</div>
  </div>
  <div>
@@ -36,9 +50,31 @@
  		<%= form_for(:comment, :url => {:controller => 'comments', :action => 'create'} , :html =>{:id =>'comment-post'},remote: true) do |f| %>
 			<%= f.text_field :content ,class:"comment-text",id:"comment-text"+@p.p_id ,placeholder:"Write Comment..." %>
 			<%= f.text_field :parent_id, value: @p.p_id, type: "hidden", readonly: "true" %>
-			<button type="submit" class="btn btn-default" style="display:none" ></button>
+			<button type="submit" class="btn btn-default" style="display:none"  ></button>
 		<% end %>
 	</div>
  	</div>
  </div>
+ <script>
+ function like_submit(post_id)
+ {
+ 	$("#like-post" +post_id).submit();
+ 	$("#like"+post_id).attr('style', "color:blue;");
+ 	var v = document.getElementById("like"+post_id).innerHTML;
+ 	v = v.split("(")[1];
+ 	v = v.split(")")[0];
+ 	v = (parseInt(v)+1).toString();
+ 	document.getElementById("like"+post_id).innerHTML = " ("+v+")";
+ 	$("#btn_like"+post_id).attr('onclick', "");	
+ }
+
+ function comment(post_id)
+ {
+ 	/*var v = document.getElementById("comment"+post_id).innerHTML;
+ 	v = v.split("(")[1];
+ 	v = v.split(")")[0];
+ 	v = (parseInt(v)+1).toString();
+ 	document.getElementById("comment"+post_id).innerHTML = "comment ("+v+")";*/
+ }
+ </script>
  <br>

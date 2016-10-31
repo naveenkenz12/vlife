@@ -36,6 +36,8 @@ class User < ActiveRecord::Base
 	has_many :sent_messages, :class_name => 'Message', dependent: :destroy, :foreign_key => "sender", :inverse_of => :sent_by
 	has_many :received_messages, :class_name => 'Message', dependent: :destroy, :foreign_key => "receiver", :inverse_of => :sent_to
 
+	has_many :like, :class_name => 'PostLike', dependent: :destroy, :foreign_key => "u_id", :inverse_of => :liked_by
+
 	# Returns the hash digest of the given string.
  	def User.digest(string)
 		#cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :BCrypt::Engine.cost

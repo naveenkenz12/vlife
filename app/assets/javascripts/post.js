@@ -112,8 +112,6 @@ $(document).on("ajax:success", ".button_to", function(event, data, status, xhr) 
 });
 
 
-
-
 });
 
 function _send_msg_(r_id) {

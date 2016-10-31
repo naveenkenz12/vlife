@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161031093613) do
+ActiveRecord::Schema.define(version: 20161031155706) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -77,6 +77,16 @@ ActiveRecord::Schema.define(version: 20161031093613) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string   "status"
+  end
+
+  create_table "post_likes", force: :cascade do |t|
+    t.string   "p_id",       null: false
+    t.string   "u_id",       null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["p_id", "u_id"], name: "index_post_likes_on_p_id_and_u_id", unique: true, using: :btree
+    t.index ["p_id"], name: "index_post_likes_on_p_id", using: :btree
+    t.index ["u_id"], name: "index_post_likes_on_u_id", using: :btree
   end
 
   create_table "posts", primary_key: "p_id", id: :string, force: :cascade do |t|
@@ -178,6 +188,8 @@ ActiveRecord::Schema.define(version: 20161031093613) do
   add_foreign_key "messages", "blobs", column: "med_id", primary_key: "med_id", name: "messages_med_id_fkey"
   add_foreign_key "messages", "users", column: "receiver", primary_key: "u_id", name: "messages_receiver_fkey"
   add_foreign_key "messages", "users", column: "sender", primary_key: "u_id", name: "messages_sender_fkey"
+  add_foreign_key "post_likes", "posts", column: "p_id", primary_key: "p_id", name: "post_likes_p_id_fkey"
+  add_foreign_key "post_likes", "users", column: "u_id", primary_key: "u_id", name: "post_likes_u_id_fkey"
   add_foreign_key "posts", "blobs", column: "media_id", primary_key: "med_id", name: "posts_media_id_fkey"
   add_foreign_key "posts", "posts", column: "parent_id", primary_key: "p_id", name: "posts_parent_id_fkey"
   add_foreign_key "posts", "users", column: "posted_by_id", primary_key: "u_id", name: "posts_posted_by_id_fkey"

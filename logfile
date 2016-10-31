@@ -66,3 +66,5 @@ LOG:  autovacuum launcher shutting down
 FATAL:  terminating connection due to administrator command
 LOG:  shutting down
 LOG:  database system is shut down
+FATAL:  lock file "postmaster.pid" already exists
+HINT:  Is another postmaster (PID 19992) running in data directory "/home/naveenkenz12/postgresql/dbis"?
