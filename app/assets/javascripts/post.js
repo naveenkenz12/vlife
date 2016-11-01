@@ -70,7 +70,7 @@ $(document).ready(function(){
           success: function( data ) {
             console.log(data)
           }
-        } ); }, 50000000); //every 50s
+        } ); }, 100000); //every 100s
 
     $("#dialog").dialog({
       autoOpen: false
@@ -89,7 +89,7 @@ $(document).ready(function(){
             console.log(data);
             window.alert(data['sender']+' : '+data['content']);
           }
-        } ); }, 1500000); //every 1.5s
+        } ); }, 2000); //every 1.5s
 
 });
 
