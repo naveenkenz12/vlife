@@ -15,6 +15,18 @@ class PostLikesController < ApplicationController
 		end
 	end
 
+	def delete
+		if PostLike.delete_all "(p_id = '"+params[:post_unlike][:p_id]+"' AND u_id= '"+current_user.u_id+"')"
+			flash[:success] = "UnLike"
+			msg = {:value => "ok"}
+			render :json => msg
+		else
+			flash[:info] = "Could Not UnLike"
+			msg = {:value => "err"}
+			render :json => msg
+		end
+	end
+
 	def post_params
 		params.require(:post_like).permit(:p_id)
 	end

@@ -89,7 +89,7 @@ $(document).ready(function(){
             console.log(data);
             window.alert(data['sender']+' : '+data['content']);
           }
-        } ); }, 2000); //every 1.5s
+        } ); }, 2000); //every 2s
 
 });
 

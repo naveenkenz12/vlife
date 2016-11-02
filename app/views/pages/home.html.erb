@@ -15,7 +15,7 @@
 		<div class="col-xs-7">
 					<!-- Current User Post --> 
 	    	
-			<% end %>
+			
 			
 	    	<div class="cuser-post-top">
 	    		<div class="cuser-post-top-left">
@@ -32,7 +32,7 @@
 							<%= image_tag("boy.jpg", class:'profile-image' , width:'80px', height:'80px') %>
 						<% else %>
 							<img src="<%= @dp.med_id.small %>" class="profile-image" />
-						<%end %>
+						<% end %>
 					</div>
 					<div class='col-xs-10'>	
 						<%= form_for @newPost , :html => {:class =>'cuser-post-form'} do |f| %>
@@ -46,7 +46,7 @@
 	  				<%= flash[:info] %>
 	  			</div>
 	  			<div class="cuser-post-top-right">
-	  			<button type="submit" class="btn btn-default">Post</button>
+	  				<button type="submit" class="btn btn-default">Post</button>
 	  			</div>
 	  			<% end %>
 	  		</div>
