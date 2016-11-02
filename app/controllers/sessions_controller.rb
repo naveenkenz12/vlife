@@ -7,7 +7,7 @@ class SessionsController < ApplicationController
 			remember user
 			redirect_to '/home'
 		else
-			flash.now[:danger] = 'Invalid UserID/Password'
+			flash[:danger] = 'Invalid UserID/Password'
 			redirect_to root_url
 		end	
 	end
