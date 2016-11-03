@@ -37,7 +37,10 @@ class MessagesController < ApplicationController
 		msg = Message.where(:receiver => current_user.u_id,:status => 'sent').last
 		if !msg.nil?
 			msg.update(:status => 'delievered')
-			js = {:content => msg.content, :media => msg.med_id, :sender => msg.sender }
+			js = {:status => "ok", :content => msg.content, :media => msg.med_id, :sender => msg.sender }
+			render :json => js
+		else
+			js = {:status => "err"}
 			render :json => js
 		end
 	end

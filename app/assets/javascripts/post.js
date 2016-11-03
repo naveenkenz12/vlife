@@ -87,7 +87,9 @@ $(document).ready(function(){
           data: {},
           success: function( data ) {
             console.log(data);
-            window.alert(data['sender']+' : '+data['content']);
+            if(data['status']=="ok"){
+              window.alert(data['sender']+' : '+data['content']);
+            }
           }
         } ); }, 2000); //every 2s
 

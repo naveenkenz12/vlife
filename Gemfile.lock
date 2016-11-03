@@ -62,6 +62,10 @@ GEM
     composite_primary_keys (9.0.4)
       activerecord (~> 5.0.0)
     concurrent-ruby (1.0.2)
+    countries (1.2.5)
+      currencies (~> 0.4.2)
+      i18n_data (~> 0.7.0)
+    currencies (0.4.2)
     debug_inspector (0.0.2)
     erubis (2.7.0)
     excon (0.54.0)
@@ -200,6 +204,7 @@ GEM
     globalid (0.3.7)
       activesupport (>= 4.1.0)
     i18n (0.7.0)
+    i18n_data (0.7.0)
     inflecto (0.0.2)
     ipaddress (0.8.3)
     jbuilder (2.6.0)
@@ -320,6 +325,7 @@ DEPENDENCIES
   carrierwave (~> 1.0.0.beta)
   coffee-rails (~> 4.2)
   composite_primary_keys
+  countries
   fog (~> 1.38.0)
   font-awesome-sass
   jbuilder (~> 2.5)

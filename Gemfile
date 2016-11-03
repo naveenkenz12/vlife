@@ -63,3 +63,5 @@ gem 'composite_primary_keys'
 gem 'fog', '~> 1.38.0'
 
 gem 'font-awesome-sass'
+
+gem 'countries'
