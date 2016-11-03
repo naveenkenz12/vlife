@@ -3,8 +3,11 @@ class PagesController < ApplicationController
 
   def home
   	if logged_in?
-      @userprofile = UserProfile.find(current_user.u_id)
-      @dp = Blob.find_by(med_id: @userprofile.profile_pic)
+      @userprofile = UserProfile.find_by(:u_id => current_user.u_id)
+      @dp = nil
+      if !@userprofile.blank?
+        @dp = Blob.find_by(med_id: @userprofile.profile_pic)
+      end
 
       @user = current_user
       @images = Blob.all

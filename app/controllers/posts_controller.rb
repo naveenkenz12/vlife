@@ -3,7 +3,7 @@ class PostsController < ApplicationController
 	def create
 		@newPost = current_user.own_posts.build(post_params)
 		@newPost.p_id = Post.count.to_s(36)
-
+		
 		
 		if @newPost.save
 			flash[:success] = "Posted Sucessfully"

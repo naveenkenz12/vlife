@@ -18,7 +18,7 @@ class FriendsController < ApplicationController
   	  	@location_fr = []
   	  	@dp_fr = []
   	  	for @u in @all_friends
-  	  		@prof.push(UserProfile.find(@u))
+  	  		@prof.push(UserProfile.find_by(:u_id => @u))
   	  	end
 
   	  	for @u in @prof

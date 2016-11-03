@@ -42,9 +42,12 @@ before_action :logged_in_user, only: [:create ,:edit, :update, :profile]
           @status = "afr"
         end
       end
-      @userprofile = UserProfile.find(@user.u_id)
+      @userprofile = UserProfile.find_by(:u_id => @user.u_id)
       #get the profile picture of user
-      @dp = Blob.find_by(med_id: @userprofile.profile_pic)
+      @dp = nil
+      if !@userprofile.blank?
+        @dp = Blob.find_by(med_id: @userprofile.profile_pic)
+      end
       @blob = Blob.new
   	end
   end
@@ -69,7 +72,9 @@ before_action :logged_in_user, only: [:create ,:edit, :update, :profile]
   		redirect_to '/error'
   	else
   		@profile = UserProfile.find_by(u_id: @user.u_id)	
-      @dp = Blob.find_by(med_id: @profile.profile_pic)
+      if !@profile.blank?
+        @dp = Blob.find_by(med_id: @profile.profile_pic)
+      end
   		if @profile.nil? and @user.u_id == current_user.u_id
   			@newProfile = current_user.build_profile
   		end
