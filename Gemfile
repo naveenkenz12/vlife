@@ -65,3 +65,7 @@ gem 'fog', '~> 1.38.0'
 gem 'font-awesome-sass'
 
 gem 'countries'
+
+gem 'bootstrap-datepicker-rails'
+
+gem 'language-select'

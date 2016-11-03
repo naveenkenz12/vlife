@@ -7,11 +7,9 @@
 	
 	</div>
 	<div class = "col-xs-7 form-box">
-	<h3>Please Create Your Profile</h3>
 	<div class="form-top">
 	  <div class='form-top-left'>
-	    <h2>Create Profile</h2>
-	    <small>Let Us know You Better</small>
+	    <h3>Help Us to Know You Better!</h3>
 	  </div>
 	  <div class="form-top-right">
 	    <div class='glyphicon glyphicon-pencil'></div>
@@ -20,21 +18,34 @@
 
 	<div class='form-bottom'>
 	  <%= form_for(@newProfile) do |f| %>
-	  <div class='form-inline'>
-	  <%= f.text_field :first_name ,class:"form-group form-control",placeholder:"First Name..." %>
-	  <%= f.text_field :last_name ,class:"form-group form-control",placeholder:"Last Name...", style:"float:right" %>
+	  <div class='form-inline form-group' style="margin-right: -15%">
+	  <%= f.text_field :first_name ,class:"form-group form-control required",placeholder:"First Name ..." %>
+	  <%= f.text_field :middle_name ,class:"form-group form-control",placeholder:"Middle Name ..." %>
+	  <%= f.text_field :last_name ,class:"form-group form-control",placeholder:"Last Name ...", style:"float:right" %>
 	  </div>
-	  <div class="form-group form-control profile-width">
-	  Birthday : <%= f.date_field :birthday ,style:"border-width:0px;border:none;" %>
+	  <div class="form-group profile-width">
+	  	  <div class="form-control">
+		  <i class="fa fa-birthday-cake"></i>
+		  <%= f.date_field :birthday, 'data-provide':'datepicker', style:"border-width:0px;border:none;margin-left:10%" ,'data-date-format':'yyyy-mm-dd'%>
+		  </div>
 	  </div>
-	  <div class='form-group form-control profile-width'>
-	  Gender: 
-	  <%= f.radio_button :gender, 'M', checked: true %>
-	  <%= label_tag :Male, 'Male' %>
-	  <%= f.radio_button :gender, 'Female' %>
-	  <%= label_tag :Female, 'F' %>
+	  <div class='form-group profile-width'>
+	  	<div class='form-control'>
+		  <%= f.radio_button :gender, 'M', checked: true %>
+		  <%= label_tag :Male, 'Male' %>
+	  	  <%= f.radio_button :gender, 'F' %>
+	  	  <%= label_tag :Female, 'Female' %>
+	  	  <%= f.radio_button :gender, 'O' %>
+	  	  <%= label_tag :Other, 'Other' %>
+	  	</div>
 	  </div>
-	  <%= f.text_field :rel_status ,class:"form-group form-control profile-width",placeholder:"Relationship Status..." %>
+	  <div class='form-group'>
+	  <label for="sel1">Relationship :</label>
+	  <%= f.select :rel_status, ['Single', 'Married', 'In a Relationship', 'Engaged', 'Divorced', 'Widowed','Seperated',"It's complicated"] ,class:"form-control profile-width",placeholder:"Relationship Status..." %>
+	  </div>
+	  <div class="form-group profile-width">
+			<%= f.text_field :language, class:"form-group form-control", placeholder:"Language Known" %>
+	  </div>
 
 	  <button type="submit" class="btn btn-default">Create</button>
 	  <% end %>
@@ -93,7 +104,7 @@
 		<div class="row">
 			<div class="edithover">
 			<p class="col-lg-6 edittitle">
-				<span class="editheading">Martial Status:</span>
+				<span class="editheading">Relationship Status:</span>
 				<%= @profile.rel_status %>
 			</p>
 			<a href="" class="col-lg-1 editpencil">

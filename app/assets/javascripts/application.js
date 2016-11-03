@@ -17,3 +17,4 @@
 //= require_tree .
 //= require jquery-ui
 //= require Jquery.Jcrop.js
+//= require bootstrap-datepicker

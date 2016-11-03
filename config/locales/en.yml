@@ -21,3 +21,6 @@
 
 en:
   hello: "Hello world"
+  birthday:
+    datepicker:
+      default: "mm-dd-yyyy"

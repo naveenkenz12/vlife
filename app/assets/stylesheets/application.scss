@@ -14,7 +14,9 @@
 
 /*
  *= require jquery-ui
+ *= require bootstrap-datepicker
  */
+
 
 @import "bootstrap-sprockets";
 @import "bootstrap";
@@ -26,6 +28,7 @@
 @import "font-awesome-sprockets";
 @import "font-awesome";
 
+ 
 
 body {
 	font-family:monospace;
