@@ -1,12 +1,12 @@
-<%= render '/layouts/profile_top' %>
-
 
 <% if @profile.nil? and @user.u_id == current_user.u_id %>
 	
+	<%= render '/layouts/profile_top_for_noprofile' %>
+
 	<div class = "col-xs-2 sign-right">
 	
 	</div>
-	<div class = "col-xs-7 form-box">
+	<div class = "col-xs-7 form-box" style="margin-bottom: 5%">
 	<div class="form-top">
 	  <div class='form-top-left'>
 	    <h3>Help Us to Know You Better!</h3>
@@ -46,14 +46,23 @@
 	  <div class="form-group profile-width">
 			<%= f.text_field :language, class:"form-group form-control", placeholder:"Language Known" %>
 	  </div>
+	  <div class="form-group profile-width">
+			<%= f.text_field :country, class:"form-group form-control", placeholder:"Country" %>
+	  </div>
+	  <div class="form-group profile-width">
+			<%= f.text_field :state, class:"form-group form-control", placeholder:"State" %>
+	  </div><div class="form-group profile-width">
+			<%= f.text_field :city, class:"form-group form-control", placeholder:"City" %>
+	  </div>
 
-	  <button type="submit" class="btn btn-default">Create</button>
+	  <button type="submit" class="btn btn-default">Create My Profile</button>
 	  <% end %>
 	  </ul>
 	</div>
 	</div>
 <% else %>
 	<!-- Show uSer details-->
+<%= render '/layouts/profile_top' %>
 
 <div class="row" style="margin-top: 20px;">
 	<div class="col-lg-8 col-lg-offset-1" style="text-align: left;">

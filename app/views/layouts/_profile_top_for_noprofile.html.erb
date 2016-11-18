@@ -1,0 +1,115 @@
+<%= render '/layouts/imageuploader' %>
+<div class='container'>
+	<div class ='col-xs-0'>
+	</div>
+	<div class = 'col-xs-9'>
+		<div class = 'profile-top'>
+			<div class ='dp_sec'>
+					<% if @dp.blank? %>
+						<%= image_tag("boy.jpg", class:'profile-image' , width:'160px', height:'160px', onclick:"dpupload()") %>
+					<% else %>
+						<img src="<%= @dp.med_id.medium %>" class="profile-image" onclick='dpupload()'/>
+					<%end %>
+					<% if current_user.u_id == @user.u_id %>
+						<%= form_for @blob, :html => {:multipart => true, :style => 'display:none'},:remote => 'true', :authenticity_token => true  do |f| %>
+						<%= f.text_field :x, type:"hidden" ,id:"x"%>
+	    				<%= f.text_field :y, type:"hidden" ,id: "y"%>
+	    				<%= f.text_field :w, type:"hidden" , id: "w"%>
+	    				<%= f.text_field :h, type:"hidden" ,id:"h"%>
+	    				<%= f.file_field :med_id , type:"file", id:"dp_file" ,onchange: "imfile(this)"%>
+	    				<%= f.text_field :content, type:"hidden" ,value:"profile_pic"%>
+	    				<%= f.submit :submit ,id:'dp_submit' %>
+						<% end %>
+						<p class='dp-upload'>Change Profile Picture</p>
+					<% end %>
+					
+
+			</div>
+			<div class= 'friend-button'>
+			<% if @status == "cnf" %>
+				<%= button_to "Friend, Click to Unfriend", {controller:"friends",action:"unfriend_f"}, remote:true, :method => :post, :class=>"btn btn-default", params:{ :req => {friend_id: @user.u_id }} ,:id => "f-button" %>
+			<% elsif @status == "frs" %>
+				<%= button_to "Freind Request Sent, Click to cancel", {controller:"friends",action:"cancel_f"}, remote:true, :method => :post, :class=>"btn btn-default", params:{ :req => {friend_id: @user.u_id }}, :id => "f-button" %>
+			<% elsif @status == "afr" %>
+				<%= button_to "Accept Friend Request", {controller:"friends",action:"accept_f"}, remote:true, :method => :post, :class=>"btn btn-default", params:{ :req => {friend_id: @user.u_id }}, :id => "f-button" %>
+				<!-- <button class ='btn btn-default' id='accept' data-id="<%= @user.u_id %>">Accept Request</button> -->
+			<% else %>
+			<%= button_to "Send Friend Request", {controller:"friends",action:"request_f"},:class=> "btn btn-default", remote:true,:method => :post, params:{ :req=> {friend_id: @user.u_id }} ,:id => "f-button"%>
+			<% end %>
+			</div>
+		</div>
+		<hr>
+		<div class ='profile-bottom'>
+			<div class='row vdivide'>
+				<%= link_to('Feed' , 'profile')%>
+				<%=  %>	
+				<%= link_to('About' ,'about')  %>
+				<%= link_to('Friends', 'friends') %>
+				<%= link_to('Photos', 'media') %>
+			</div>
+		</div>
+	</div>
+	<div class = 'col-xs-3'>
+	</div>
+</div>
+
+<script>
+function dpupload()
+{
+ window.alert("First Create Your Profile by filling below information.")
+}
+
+function imfile(input) {
+	console.log("submitted")
+    //input image
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {          
+            $('#image_file')
+                .attr('src', e.target.result)
+                .attr('style', 'max-width:800px;max-height:800px;');
+                
+        };
+        reader.readAsDataURL(input.files[0]);
+	}
+
+	
+	//show dialog
+	$("#im-dialog").dialog({
+      modal: true,
+      scrollable: true,
+      width: 'auto',
+      height: 'auto',
+      resizable: false,
+      position: { my: "left top", at: "left top", of:window,  collision: 'none'  },
+      buttons: {
+        Ok: function() {
+          $("#dp_submit").click();
+          $("#im-dialog").dialog("close");
+          api.destroy(); 
+
+        }
+      },
+      close: function() {
+      	 $("#im-dialog").dialog("close");
+      	 api.destroy();
+      }
+    });
+    
+	setTimeout("api = $.Jcrop('#image_file',{ aspectRatio: 1, onSelect: showCoords, onChange: showCoords     });",500);
+};
+
+function showCoords(c)
+{
+		$('#x').val(c.x);
+		$('#y').val(c.y);
+		$('#w').val(c.w);
+		$('#h').val(c.h);
+};
+
+//ajax success request of photo change
+$(document).on("ajax:success", ".dp_submit", function(event, data, status, xhr) {
+    alert(data);
+});
+</script>
