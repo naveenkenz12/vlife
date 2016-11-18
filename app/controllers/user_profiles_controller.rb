@@ -93,7 +93,8 @@ before_action :logged_in_user, only: [:create ,:edit, :update, :profile]
 
 
   def post_params
-    params.require(:user_profile).permit(:first_name, :last_name, :birthday, :gender,:rel_status)
+    params.require(:user_profile).permit(:first_name, :middle_name, :last_name, 
+      :birthday, :gender, :language, :rel_status, :country, :state, :city)
   end
 
   
