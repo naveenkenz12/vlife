@@ -1,5 +1,5 @@
 class UserProfilesController < ApplicationController
-before_action :logged_in_user, only: [:create ,:edit, :update, :profile]
+before_action :logged_in_user, only: [:create ,:edit, :update, :profile, :update_rel_status]
   
   def profile
 
@@ -63,6 +63,15 @@ before_action :logged_in_user, only: [:create ,:edit, :update, :profile]
           flash[:danger] = "Something Went Wrong"
         redirect_to '/error'
       end
+  end
+
+  def update_rel_status
+    if UserProfile.find_by(:u_id => current_user.u_id).update_all(:rel_status => params[:req][:rel_status])
+      msg = {:status => 'ok' }
+      render :json => msg
+    else
+      msg = {:status => 'err' }
+      render :json => msg
   end
 
   def about
