@@ -66,12 +66,13 @@ before_action :logged_in_user, only: [:create ,:edit, :update, :profile, :update
   end
 
   def update_rel_status
-    if UserProfile.find_by(:u_id => current_user.u_id).update_all(:rel_status => params[:req][:rel_status])
+    if UserProfile.find_by(:u_id => current_user.u_id).update(:rel_status => params[:new_rel][:rel_status])
       msg = {:status => 'ok' }
-      render :json => msg
+      redirect_to '/'+current_user.u_id+'/about'
     else
       msg = {:status => 'err' }
-      render :json => msg
+      redirect_to '/'+current_user.u_id+'/about'
+    end
   end
 
   def about
