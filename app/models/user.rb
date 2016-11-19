@@ -38,6 +38,8 @@ class User < ActiveRecord::Base
 
 	has_many :like, :class_name => 'PostLike', dependent: :destroy, :foreign_key => "u_id", :inverse_of => :liked_by
 
+	has_many :institute, :class_name => 'UserInstitution', dependent: :destroy, :foreign_key => "u_id", :inverse_of => 	:institute_of
+
 	# Returns the hash digest of the given string.
  	def User.digest(string)
 		#cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :BCrypt::Engine.cost

@@ -55,12 +55,35 @@ before_action :logged_in_user, only: [:create ,:edit, :update, :profile, :update
   def create
   	  if UserProfile.find_by(u_id: current_user.u_id).nil?
           @newProfile = current_user.build_profile(post_params)
+
+          c = params[:user_profile][:country].downcase.titleize
+          t = params[:user_profile][:city].downcase.titleize
+          s = params[:user_profile][:state]
+
+          if !s.blank?
+            s = s.downcase.titleize
+          end
+
+          @ol = Location.find_by(:country => c, :state => s, :city => t)
+          if @ol.nil?
+            @nl = Location.new
+            @nl.country = c
+            @nl.state = s
+            @nl.city = t
+            @nl.save
+          end
+
+          #titleize country state and city
+          @newProfile.country = c
+          @newProfile.state = s
+          @newProfile.city = t
+          
           if @newProfile.save
             flash[:notice] = "Profile Created Successfully"
             redirect_to '/'+current_user.u_id+'/about'
           end
       else
-          flash[:danger] = "Something Went Wrong"
+        flash[:danger] = "Something Went Wrong"
         redirect_to '/error'
       end
   end
@@ -71,6 +94,33 @@ before_action :logged_in_user, only: [:create ,:edit, :update, :profile, :update
       redirect_to '/'+current_user.u_id+'/about'
     else
       msg = {:status => 'err' }
+      redirect_to '/'+current_user.u_id+'/about'
+    end
+  end
+
+  def update_location
+    c = params[:new_loc][:country].downcase.titleize
+    t = params[:new_loc][:city].downcase.titleize
+    s = params[:new_loc][:state]
+
+    if !s.blank?
+      s = s.downcase.titleize
+    end
+
+    @ol = Location.find_by(:country => c, :state => s, :city => t)
+    if @ol.nil?
+      @nl = Location.new
+      @nl.country = c
+      @nl.state = s
+      @nl.city = t
+      @nl.save
+    end
+
+    if UserProfile.find_by(:u_id => current_user.u_id).update(:country => c, :state => s, :city => t)
+      msg = {:status => "ok"}
+      redirect_to '/'+current_user.u_id+'/about'
+    else
+      msg = {:status => "err"}
       redirect_to '/'+current_user.u_id+'/about'
     end
   end

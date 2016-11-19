@@ -6,6 +6,8 @@ Rails.application.routes.draw do
   
   get '/home' => 'pages#home'
 
+  post '/institutions/new_institute' => 'institutions#new_institute'
+
   get '/:id/profile' => 'user_profiles#profile'
   get '/:id/about' => 'user_profiles#about'
 

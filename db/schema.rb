@@ -66,7 +66,9 @@ ActiveRecord::Schema.define(version: 20161031155706) do
     t.string   "city",       null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["country", "city"], name: "index_locations_on_country_and_city", unique: true, using: :btree
+    t.index ["country", "city"], name: "index_locations_on_country_and_city", using: :btree
+    t.index ["country", "state", "city"], name: "index_locations_on_country_and_state_and_city", using: :btree
+    t.index ["country"], name: "index_locations_on_country", using: :btree
   end
 
   create_table "messages", primary_key: "msg_id", id: :string, force: :cascade do |t|
