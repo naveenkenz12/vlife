@@ -40,6 +40,8 @@ class User < ActiveRecord::Base
 
 	has_many :institute, :class_name => 'UserInstitution', dependent: :destroy, :foreign_key => "u_id", :inverse_of => 	:institute_of
 
+	has_many :group, :class_name => 'GroupUser', dependent: :destroy, :foreign_key => "u_id", :inverse_of => :group_of_user
+
 	# Returns the hash digest of the given string.
  	def User.digest(string)
 		#cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :BCrypt::Engine.cost

@@ -202,6 +202,7 @@
 	attributes:
 	a)	page_id varchar(10) not null
 	b)	u_id varchar(10) not null
+	c)	status varchar(10) not null  ---- newly added ----
 	primary key page_id, u_id
 	foreign key page_id referencing GROUP_PAGE
 	foreign key u_id referencing USER

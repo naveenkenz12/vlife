@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161031155706) do
+ActiveRecord::Schema.define(version: 20161119150934) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,6 +44,16 @@ ActiveRecord::Schema.define(version: 20161031155706) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end
+
+  create_table "group_users", force: :cascade do |t|
+    t.string   "page_id",                  null: false
+    t.string   "u_id",                     null: false
+    t.string   "status",     default: "P", null: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+  end
+
+  add_check "group_users", "((status)::text = ANY ((ARRAY['P'::character varying, 'J'::character varying, 'A'::character varying, 'I'::character varying])::text[]))", name: "status_check"
 
   create_table "institutions", primary_key: "ins_id", id: :string, force: :cascade do |t|
     t.string   "name",       null: false
@@ -185,6 +195,8 @@ ActiveRecord::Schema.define(version: 20161031155706) do
   add_foreign_key "friends", "users", column: "friend_id", primary_key: "u_id", name: "friends_friend_id_fkey"
   add_foreign_key "friends", "users", primary_key: "u_id", name: "friends_user_id_fkey"
   add_foreign_key "group_pages", "blobs", column: "page_pic", primary_key: "med_id", name: "group_pages_page_pic_fkey"
+  add_foreign_key "group_users", "group_pages", column: "page_id", primary_key: "page_id", name: "group_users_page_id_fkey"
+  add_foreign_key "group_users", "users", column: "u_id", primary_key: "u_id", name: "group_users_u_id_fkey"
   add_foreign_key "last_msg_to_users", "messages", column: "msg_id", primary_key: "msg_id", name: "last_msg_to_users_msg_id_fkey"
   add_foreign_key "last_msg_to_users", "users", column: "u_id", primary_key: "u_id", name: "last_msg_to_users_u_id_fkey"
   add_foreign_key "messages", "blobs", column: "med_id", primary_key: "med_id", name: "messages_med_id_fkey"
