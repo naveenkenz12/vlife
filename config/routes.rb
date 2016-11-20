@@ -17,6 +17,8 @@ Rails.application.routes.draw do
 
   get '/:id/media' => 'user_profiles#media'
 
+  get '/:id/groups' => 'group_pages#current_groups'
+
   get '/save/online/' => 'users#save_online'
   get '/new/message/' => 'messages#new_message'  
 
@@ -24,6 +26,8 @@ Rails.application.routes.draw do
   get '/new' => 'users#new'
 
   get '/error' => 'pages#error'
+
+  get '/group/' => 'group_pages#get_page'
 
 
   get '/signup' => 'users#new'

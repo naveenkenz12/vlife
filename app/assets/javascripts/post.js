@@ -63,6 +63,44 @@ $(document).ready(function(){
 
     } );
 
+
+
+//search groups
+$("#search_group").autocomplete({
+      source: function( request, response ) {
+        $.ajax( {
+          url: "/group_pages/search_group/",
+          data: $("#search-form_group").serialize(),
+          success: function( data ) {
+            //count number of elements
+            //window.alert(data[0][0]);
+            var final = [];
+            var i;
+            for(i=0;i <data.length;i++){
+              final.push(data[i]);
+              console.log(data[i][1]);
+            }
+            //response(final);
+
+            response($.map(final, function(v,i){
+            return {
+                        label: v[0],
+                        value: v[0],
+                        href:  v[1]
+                       };
+        }));
+
+          }
+        } );
+      },
+      minLength: 1,      
+      select: function( event, ui ) {
+        console.log(ui.item.href);
+        window.location = "/group/?page_id="+ui.item.href;
+      }
+
+    } );
+
     setInterval(function(){ 
       $.ajax( {
           url: "/save/online/",

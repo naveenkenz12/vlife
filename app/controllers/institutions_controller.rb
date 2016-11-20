@@ -43,8 +43,8 @@ class InstitutionsController < ApplicationController
 			end
 
 			#first create institution
-			cnt = Institution.count.to_s(36)
 			@ins = Institution.new
+			cnt = Institution.count.to_s(36)
 			@ins.ins_id = cnt
 			@ins.name = n
 			@ins.country = c
