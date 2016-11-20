@@ -1,6 +1,6 @@
 class GroupPagesController < ApplicationController
 
-	before_action :logged_in_user, only: [:get_page, :search_group, :current_groups, :create_new_group_page, :approve_member_to_group, :invite_member_to_group, :send_request_to_group]
+	before_action :logged_in_user, only: [:members, :members_requested, :members_invited, :get_page, :search_group, :current_groups, :create_new_group_page, :approve_member_to_group, :invite_member_to_group, :send_request_to_group]
 
 	def current_groups
 		@user = current_user
@@ -114,16 +114,30 @@ class GroupPagesController < ApplicationController
 
 	def get_page
 		@user = current_user
+
+		@newPost = current_user.own_posts.build
+
+		@posts = Post.where("posts.parent_id is NULL and posts.page_id = ?", params[:page_id])
+
 		@blob = Blob.new
 		@page = GroupPage.find_by(:page_id => params[:page_id])
 		if @page.nil?
 			redirect_to '/'+current_user.u_id+'/groups'
 		end
 		@dp = @page.page_pic
+		@userprofile = UserProfile.find_by(:u_id => current_user.u_id)
+		if @userprofile.nil?
+			redirect_to '/'
+		end
+		@cp = @userprofile.profile_pic
 
 		if !@dp.nil?
 			@dp = Blob.find_by(:med_id => @dp)
 		end
+
+		if !@cp.nil?
+			@cp = Blob.find_by(:med_id => @cp)
+		end 
 
 		ps = GroupUser.find_by(:page_id => params[:page_id], :u_id => current_user.u_id)
 		if ps.nil?
@@ -142,14 +156,17 @@ class GroupPagesController < ApplicationController
 		@ngp.page_id = cnt
 		@ngp.description = params[:new_grp][:description]
 		@ngp.name = params[:new_grp][:name]
-		@ngp.save
 
-		#make the creater admin of the group by default
-		@grpu = GroupUser.new
-		@grpu.page_id = cnt
-		@grpu.u_id = current_user.u_id
-		@grpu.status = "A"
-		@grpu.save
+		if @ngp.save
+			#make the creater admin of the group by default
+			@grpu = GroupUser.new
+			@grpu.page_id = cnt
+			@grpu.u_id = current_user.u_id
+			@grpu.status = "A"
+			if @grpu.save
+				redirect_to '/group/?page_id='+cnt
+			end
+		end
 	end
 
 	#can be approved join request by admin only
@@ -217,6 +234,60 @@ class GroupPagesController < ApplicationController
 			msg = {:button_value => "", :action_value => ""}
 			render :json => msg
 		end
+	end
+
+	def members
+		@user = current_user
+		@blob = Blob.new
+		@page_id = params[:page_id]
+		@page = GroupPage.find_by(:page_id => @page_id)
+		@newPost = current_user.own_posts.build
+
+		@q = params[:q]
+
+		ps = GroupUser.find_by(:page_id => params[:page_id], :u_id => current_user.u_id)
+		if ps.nil?
+			@status = "N"
+		else
+			@status = ps.status
+		end
+
+		#if the user is admin of this group
+		@admin = GroupUser.find_by(:page_id => params[:page_id], :u_id => current_user.u_id, :status => "A")
+
+		if @q=='m'
+			@all_members = (GroupUser.where(:page_id => @page_id, :status => "A")+GroupUser.where(:page_id => @page_id, :status => "J"))
+		elsif @q=='r'
+			@all_members = GroupUser.where(:page_id => @page_id, :status => "P")
+		elsif @q=='i'
+			@all_members = GroupUser.where(:page_id => @page_id, :status => "I")
+		else
+			redirect_to :back
+		end
+
+  	  	@count_members = @all_members.count()
+
+  	  	@all_members = @all_members.pluck(:u_id)
+  	  	@prof = []
+  	  	@name_fr = []
+  	  	@location_fr = []
+  	  	@dp_fr = []
+  	  	for @u in @all_members
+  	  		@prof.push(UserProfile.find_by(:u_id => @u))
+  	  	end
+
+  	  	for @u in @prof
+  	  		@dp_fr.push(Blob.find_by(med_id: @u.profile_pic))
+  	  	end
+
+  	  	@name_fr = @prof.pluck(:first_name, :middle_name, :last_name)
+  	  	@location_fr = @prof.pluck(:city, :state, :country)
+  	  	#insert dp also
+
+  	  	@all_members = @all_members.zip(@name_fr, @location_fr, @dp_fr)
+
+
+  	  	
 	end
 
 end

@@ -50,10 +50,10 @@
 		<hr>
 		<div class ='profile-bottom'>
 			<div class='row vdivide'>
-				<%= link_to('Photos', 'media/?page_id='+@page.page_id) %>
-				<%= link_to('Members', 'members/?page_id='+@page.page_id) %>
-				<%= link_to('Requests' , 'members_request/?page_id='+@page.page_id)%>
-				<%= link_to('Invited' , 'members_invited/?page_id='+@page.page_id)%>
+				<span><%= link_to('Photos', '/group/media/?page_id='+@page.page_id) %></span>
+				<span id="_fr"><%= link_to('Members', '/group/members/?page_id='+@page.page_id+'&q=m') %></span>
+				<span id="_fl"><%= link_to('Requests' , '/group/members/?page_id='+@page.page_id+'&q=r')%></span>
+				<span id="_rq"><%= link_to('Invited' , '/group/members/?page_id='+@page.page_id+'&q=i')%></span>
 
 			</div>
 		</div>

@@ -16,11 +16,11 @@
 		<nav class="navbar navbar-inverse">
   			<div class="container-fluid">
     			<ul class="nav navbar-nav">
-      				<li ><button id='_gr' class="btn btn-link" style="color:orange"><%= "My Groups("+@count_groups.to_s+")" %></button></li>
-      				<li class=""><button id='_gj' class="btn btn-link" ><%= "Joined Groups("+@count_joined.to_s+")" %></button></li>
-      				<li class=""><button id='_gs' class="btn btn-link"><%= "Request Sent("+@count_requested.to_s+")" %></button></li>
-      				<li class=""><button id='_gi' class="btn btn-link"><%= "Invitations("+@count_invited.to_s+")" %></button></li>
-      				<li class=""><a href="#" role="button" data-toggle="modal" data-target="#create_group" ><i class="glyphicon glyphicon-plus" style="margin-left:40%;"></i></a></li>
+      				<li style="margin-top:1.3%;"><button id='_gr' class="btn btn-link" style="color:orange"><%= "My Groups("+@count_groups.to_s+")" %></button></li>
+      				<li style="margin-top:1.3%;"class=""><button id='_gj' class="btn btn-link" ><%= "Joined Groups("+@count_joined.to_s+")" %></button></li>
+      				<li style="margin-top:1.3%;"class=""><button id='_gs' class="btn btn-link"><%= "Request Sent("+@count_requested.to_s+")" %></button></li>
+      				<li style="margin-top:1.3%;"class=""><button id='_gi' class="btn btn-link"><%= "Invitations("+@count_invited.to_s+")" %></button></li>
+      				<li class=""><a href="#" role="button" data-toggle="modal" data-target="#create_group" ><i title="create new group" class="glyphicon glyphicon-plus" style="margin-left:40%;"><font color="orange"></font></i></a></li>
 
       				
     			
@@ -37,7 +37,7 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header" align="center">
-				<%= image_tag("institution.png", class:'profile-image' , width:'160px', height:'160px', onclick:"") %>
+				<%= image_tag("newgrp.jpeg", class:'profile-image' , width:'160px', height:'160px', onclick:"") %>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
 				</button>
@@ -46,32 +46,18 @@
             <div id="div-forms">
             
                 <!-- Begin # Login Form -->
-                <%= form_for(:new_ins, :url => {:controller => 'institutions', :action => 'new_institute'}, :html => {:id => 'login-form'}) do |f| %>
+                <%= form_for(:new_grp, :url => {:controller => 'group_pages', :action => 'create_new_group_page'}, :html => {:id => 'login-form'}) do |f| %>
 	                <div class="modal-body">
 			    		<div id="div-login-msg">
                             <div id="icon-login-msg" class="glyphicon glyphicon-chevron-right"></div>
-                            <span id="text-login-msg">Add New Institution</span>
+                            <span id="text-login-msg">Create New Group</span>
                         </div>
                         
 			    		<div style="margin-top:1%;">
-  						<%= f.text_field :name, :class => "form-control", placeholder:"Name of Institute", required:"true" %>
+  						<%= f.text_field :name, :class => "form-control", placeholder:"Your Group Name", required:"true" %>
   						</div>
 			    		<div style="margin-top:1%;">
-  						<%= f.text_field :country, :class => "form-control", placeholder:"Country", required:"true" %>
-  						</div>
-			    		<div style="margin-top:1%;">
-  						<%= f.text_field :state, :class => "form-control", placeholder:"State" %>
-  						</div>
-			    		<div style="margin-top:1%;">
-  						<%= f.text_field :city, :class => "form-control", placeholder:"City", required:"true" %>
-  						</div>
-			    		<div style="margin-top:1%;order-width:0px;border:none;margin-left:10%;">
-			    		<label>From: </label>
-  						<%= f.date_field :start, 'data-provide':'datepicker','data-date-format':'yyyy-mm-dd'%>
-  						</div>
-			    		<div style="margin-top:1%;order-width:0px;border:none;margin-left:10%">
-			    		<label>Till: </label>
-  						<%= f.date_field :end, 'data-provide':'datepicker','data-date-format':'yyyy-mm-dd'%>
+  						<%= f.text_area :description, :class => "form-control", placeholder:"A small description", required:"true" %>
   						</div>
     		    	</div>
 			        <div class="modal-footer">
