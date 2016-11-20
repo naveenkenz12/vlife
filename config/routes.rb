@@ -35,6 +35,10 @@ Rails.application.routes.draw do
   post '/login' => 'sessions#create'
   delete '/logout' => 'sessions#destroy'
 
+
+  ##Slam Book
+  get '/slam/view' => 'slams#view'
+  
   resources :posts
   resources :user_profiles
   resources :blobs
