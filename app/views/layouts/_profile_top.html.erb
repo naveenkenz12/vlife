@@ -1,4 +1,41 @@
 <%= render '/layouts/imageuploader' %>
+<style>
+li a, .dropbtn {
+    display: inline-block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+
+li.dropdown {
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 200px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index:2;
+    font-size:12px;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+</style>
 <div class='container'>
 	<div class ='col-xs-0'>
 	</div>
@@ -27,25 +64,36 @@
 			</div>
 			<div class= 'friend-button'>
 			<% if @status == "cnf" %>
-				<%= button_to "Friend, Click to Unfriend", {controller:"friends",action:"unfriend_f"}, remote:true, :method => :post, :class=>"btn btn-default", params:{ :req => {friend_id: @user.u_id }} ,:id => "f-button" %>
+				<%= button_to "Friend, Click to Unfriend", {controller:"friends",action:"unfriend_f"}, remote:true, :method => :post, :form_class => "_friend_btn", :class=>"btn btn-default", params:{ :req => {friend_id: @user.u_id }} ,:id => "f-button" %>
 			<% elsif @status == "frs" %>
-				<%= button_to "Freind Request Sent, Click to cancel", {controller:"friends",action:"cancel_f"}, remote:true, :method => :post, :class=>"btn btn-default", params:{ :req => {friend_id: @user.u_id }}, :id => "f-button" %>
+				<%= button_to "Freind Request Sent, Click to cancel", {controller:"friends",action:"cancel_f"}, remote:true, :method => :post, :form_class => "_friend_btn",:class=>"btn btn-default", params:{ :req => {friend_id: @user.u_id }}, :id => "f-button" %>
 			<% elsif @status == "afr" %>
-				<%= button_to "Accept Friend Request", {controller:"friends",action:"accept_f"}, remote:true, :method => :post, :class=>"btn btn-default", params:{ :req => {friend_id: @user.u_id }}, :id => "f-button" %>
+				<%= button_to "Accept Friend Request", {controller:"friends",action:"accept_f"}, remote:true, :method => :post, :form_class => "_friend_btn", :class=>"btn btn-default", params:{ :req => {friend_id: @user.u_id }}, :id => "f-button" %>
 				<!-- <button class ='btn btn-default' id='accept' data-id="<%= @user.u_id %>">Accept Request</button> -->
 			<% else %>
-			<%= button_to "Send Friend Request", {controller:"friends",action:"request_f"},:class=> "btn btn-default", remote:true,:method => :post, params:{ :req=> {friend_id: @user.u_id }} ,:id => "f-button"%>
+			<%= button_to "Send Friend Request", {controller:"friends",action:"request_f"},:form_class => "_friend_btn", :class=> "btn btn-default", remote:true,:method => :post, params:{ :req=> {friend_id: @user.u_id }} ,:id => "f-button"%>
 			<% end %>
 			</div>
 		</div>
 		<hr>
 		<div class ='profile-bottom'>
 			<div class='row vdivide'>
-				<%= link_to('Feed' , 'profile')%>
+				
+				<%= link_to('Feed' , '/'+@user.u_id+'/profile')%>
 				<%=  %>	
-				<%= link_to('About' ,'about')  %>
-				<%= link_to('Friends', 'friends') %>
-				<%= link_to('Photos', 'media') %>
+				<%= link_to('About' ,'/'+@user.u_id+'/about')  %>
+				<%= link_to('Friends', '/'+@user.u_id+'friends') %>
+				<%= link_to('Photos', '/'+@user.u_id+'media') %>
+				<li class="dropdown">
+				    <a href="#" class="dropbtn">SlamBook</a>
+    					<div class="dropdown-content">
+      						<a href="/<%=@user.u_id%>/slams/ans_view">View My Response</a>
+      						<a href="/<%=@user.u_id%>/slams/view_ans">View <%= @user.u_id %>'s Response</a>
+      						
+    					</div>
+  					</li>
+
+
 			</div>
 		</div>
 	</div>

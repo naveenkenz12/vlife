@@ -8,6 +8,8 @@ Rails.application.routes.draw do
 
   post '/institutions/new_institute' => 'institutions#new_institute'
 
+
+
   get '/:id/profile' => 'user_profiles#profile'
   get '/:id/about' => 'user_profiles#about'
 
@@ -28,6 +30,8 @@ Rails.application.routes.draw do
   get '/error' => 'pages#error'
 
   get '/group/' => 'group_pages#get_page'
+  get '/group/members/' => 'group_pages#members'
+
 
 
   get '/signup' => 'users#new'
@@ -37,9 +41,10 @@ Rails.application.routes.draw do
 
 
   ##Slam Book
-  get '/:id/slam/view' => 'slams#view'
-
-
+  get '/:id/slams/view' => 'slams#view'
+  get '/:id/slams/view_ans' => 'slams#view_ans'
+  get '/:id/slams/ans_view' => 'slams#ans_view'
+  
   resources :posts
   resources :user_profiles
   resources :blobs

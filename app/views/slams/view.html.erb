@@ -1,1 +1,120 @@
-<%= ques %>
+<script>
+function enable(i){
+	console.log("click");
+	$("#a"+i).attr('disabled',false);
+    $("#b"+i).attr('disabled',false);
+    $("#e"+i).attr('disabled',true);
+   }
+</script>
+<div class="row">
+		<div class ="col-xs-2 home-right">
+			<ul class ='list-group'>
+				<div class='media'>
+				<li class ="list-group-item"><%= current_user.u_id %> </li>
+				<li class ="list-group-item"><%= link_to("Edit Profile", "/"+@user.u_id+"/about" ) %></li>
+				</div>
+				<hr>
+				<li class ="list-group-item"><%= link_to("Feed", '/home') %></li>
+				<li class ="list-group-item"><%= link_to("Events", '/about') %></li>
+				<li class ="list-group-item"><%= link_to("Groups", "/"+@user.u_id+'/groups') %></li>
+				<li class ="list-group-item"><%= link_to("Friends", "/"+@user.u_id+'/friends') %></li>
+			</ul>
+		</div>
+		<div class="col-xs-7">
+					<!-- Current User Post --> 
+	    	
+			
+			
+	    	<div class="cuser-post-top">
+	    		<div class="cuser-post-top-left">
+	    			
+	    		</div>
+	    		<div class="cuser-post-top-right">
+	    		</div>
+	    	</div>
+	    	<hr>
+	    	<div class="cuser-post-middle">
+	    		<div class='media'>
+	    			<div class='col-xs-2'>
+						<% if @dp.blank? %>
+							<%= image_tag("boy.jpg", class:'profile-image' , width:'80px', height:'80px') %>
+						<% else %>
+							<img src="<%= @dp.med_id.small %>" class="profile-image" />
+						<% end %>
+					</div>
+					<div class='col-lg'>	
+						<a href="/<%=@f_id%>/profile"><h3><%= @name.first_name%> <%=@name.last_name%></h3></a> 
+				    </div>
+	    		</div>
+	  		</div>
+	  		<hr>
+	  		<div class="cuser-post-top">
+	  			<div class="cuser-post-top-left">
+	  				<%= flash[:info] %>
+	  			</div>
+	  			<div class="cuser-post-top-right">
+	  				
+	  			</div>
+	  		</div>
+	  		<hr>
+			 <!-- All other Users Post -->
+			 <% i=0 %>
+			 <% for @q in @ques %>
+			 	<% @tr=0 %>
+			 	<% if !@answer.nil? %>
+			 	<% for @an in @answer %>
+			 		<% if @q.q_id==@an.q_id %>
+			 			<% @tr=1 %>
+			 			<% @val=@an.answer %>
+			 		<% end %>
+			 	<% end %>
+			 	<% end %>
+			 	<% i=i+1 %>
+				<%= form_for(:new_slam, :url => {:controller => 'slams', :action => 'slam_create'},remote:true, :html => {:id => 'slam_form'}) do |f| %>
+	         
+				<div style="margin-top:1%;">
+  					
+  					<%=i%>. <%= @q.question_description %>
+					<br>
+					<br>
+					<% @ans = @q.q_id %>
+					<% if @tr==0 %>
+					<%= f.text_area :a, :class => "form-control input-lg", placeholder:"", required:"true" ,id:"a"+@q.q_id%>
+					<% else %>
+					<%= f.text_area :a, :class => "form-control input-lg", placeholder:"", disabled:"True",required:"true" ,id:"a"+@q.q_id ,value: @val%>
+					<% end %>
+
+  					<%= f.text_field :fr_id, value: @f_id, type: "hidden", readonly: "true" %>
+  					<%= f.text_field :q_id, value: @q.q_id, type: "hidden", readonly: "true" %>
+  				 
+  				 <div class="cuser-post-top-right">
+  				 	<% @b1_id="b"+@q.q_id %>
+  				 	<% @b2_id="e"+@q.q_id %>
+  				 	<% if @tr==0 %> 
+  				 		<input type="button" class="btn btn-default" disabled='True' id="<%= @b2_id %>" value="Edit"/ onclick="enable(<%= @q.q_id %>)">
+	  					<button type="submit" class="btn btn-default" id="<%= @b1_id %>">OK</button>
+	  		  		
+	  		  		<% else %>
+
+	  		  			<input type="button" class="btn btn-default" id="<%= @b2_id %>" value="Edit"/ onclick="enable(<%= @q.q_id %>)">
+	  					<button type="submit" class="btn btn-default" disabled="True" id="<%= @b1_id %>">OK</button>
+	  		  		
+	  		  		<% end %>
+
+	  		  		</div>
+				</div>
+			 	<% end %>
+  				
+  				<br>
+				<br><br>   
+			<% end %>
+
+		</div>
+		<div class="col-xs-3">
+		<div class="panel panel-default">
+			  	<div class="panel-body">
+			    	Panel content
+			  	</div>
+			</div>
+		</div>
+</div>

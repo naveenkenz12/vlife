@@ -1,0 +1,89 @@
+<div class="row">
+		<div class ="col-xs-2 home-right">
+			<ul class ='list-group'>
+				<div class='media'>
+				<li class ="list-group-item"><%= current_user.u_id %> </li>
+				<li class ="list-group-item"><%= link_to("Edit Profile", "/"+@user.u_id+"/about" ) %></li>
+				</div>
+				<hr>
+				<li class ="list-group-item"><%= link_to("Feed", '/home') %></li>
+				<li class ="list-group-item"><%= link_to("Events", '/about') %></li>
+				<li class ="list-group-item"><%= link_to("Groups", "/"+@user.u_id+'/groups') %></li>
+				<li class ="list-group-item"><%= link_to("Friends", "/"+@user.u_id+'/friends') %></li>
+			</ul>
+		</div>
+		<div class="col-xs-7">
+					<!-- Current User Post --> 
+	    	
+			
+			
+	    	<div class="cuser-post-top">
+	    		<div class="cuser-post-top-left">
+	    			
+	    		</div>
+	    		<div class="cuser-post-top-right">
+	    		</div>
+	    	</div>
+	    	<hr>
+	    	<div class="cuser-post-middle">
+	    		<div class='media'>
+	    			<div class='col-xs-2'>
+						<% if @dp.blank? %>
+							<%= image_tag("boy.jpg", class:'profile-image' , width:'80px', height:'80px') %>
+						<% else %>
+							<img src="<%= @dp.med_id.small %>" class="profile-image" />
+						<% end %>
+					</div>
+					<div class='col-lg'>	
+						<a href="/<%=@f2_id%>/profile"><h3><%= @name.first_name%> <%=@name.last_name%></h3> </a>
+				    </div>
+	    		</div>
+	  		</div>
+	  		<hr>
+	  		<div class="cuser-post-top">
+	  			<div class="cuser-post-top-left">
+	  				<%= flash[:info] %>
+	  			</div>
+	  			<div class="cuser-post-top-right">
+	  				
+	  			</div>
+	  		</div>
+	  		<hr>
+	  		<% if @check==0 %>
+	  			<br>
+	  			You have not filled <%= @name.first_name %>'s slam book yet
+	  			&nbsp&nbsp&nbsp&nbsp
+	  			<a href="/<%=@f2_id%>/slams/view">Fill Now</a>
+
+			 <!-- All other Users Post -->
+			 <% else %>
+			<% i=0 %>
+			 <% for @q in @answer %>
+			 	<% i=i+1 %>
+			 	<% if i%2==0%>
+				<div style="margin-top:3%;padding-top:1%;padding-bottom:1%;background-color:#F3F3F3">
+  				<% else %>	
+  				<div style="margin-top:3%;padding-top:1%;padding-bottom:1%;background-color:#D3D3D3">
+  				<% end %>
+  					<b><h6><%=i%>. <%= @q.question_description %></h6></b>
+					<%= @q.answer %>
+  				
+  				</div>
+  				  
+			<% end %>
+			 	
+			 	<div class="cuser-post-top-right">
+  				 	<a href="/<%=@f2_id%>/slams/view"><input type="button" class="btn btn-default" value="Edit Responses"/ onclick="enable(<%= @q.q_id %>)"></a>
+	  				
+	  		  	</div>
+			 	
+			 <%end %>
+		</div>
+		<div class="col-xs-3">
+		<div class="panel panel-default">
+			  	<div class="panel-body">
+			    	Panel content
+			  	</div>
+			</div>
+		</div>
+</div>
