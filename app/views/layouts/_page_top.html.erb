@@ -1,0 +1,129 @@
+<%= render '/layouts/imageuploader' %>
+<div class='container'>
+	<div class ='col-xs-0'>
+	</div>
+	<div class = 'col-xs-9'>
+		<div class = 'group-top'>
+			<div class ='dp_sec' style="margin-left:0%;margin-right:0%;margin-top:-4.5%;margin-right:0%">
+					<% if @dp.blank? %>
+						<%= image_tag("group.jpeg", class:'profile-image' , width:'825px', height:'350px', onclick:"dpupload()") %>
+					<% else %>
+						<img src="<%= @dp.med_id.group %>" class="profile-image" onclick='dpupload()'/>
+					<%end %>
+					<% if current_user.u_id == @user.u_id %>
+						<%= form_for @blob, :html => {:multipart => true, :style => 'display:none'},:remote => 'true', :authenticity_token => true  do |f| %>
+						<%= f.text_field :x, type:"hidden" ,id:"x"%>
+	    				<%= f.text_field :y, type:"hidden" ,id: "y"%>
+	    				<%= f.text_field :w, type:"hidden" , id: "w"%>
+	    				<%= f.text_field :h, type:"hidden" ,id:"h"%>
+	    				<%= f.file_field :med_id , type:"file", id:"dp_file" ,onchange: "imfile(this)"%>
+	    				<%= f.text_field :content, type:"hidden" ,value:"page_pic"%>
+	    				<%= f.text_field :page_id, type:"hidden" ,value:@page.page_id%>
+	    				<%= f.submit :submit ,id:'dp_submit' %>
+						<% end %>
+						<p class='dp-upload'>Change Group Picture</p>
+					<% end %>
+					
+
+			</div>
+			<div class= 'page_name'>
+			<h2 style=" -webkit-text-stroke: 1px black;"><font color="white"><%= @page.name %></font></h2>
+			</div>
+			<div class= 'page-button'>
+			<% if @status == "N" %>
+				<%= button_to "Join", {controller:"group_pages",action:"send_request_to_group"}, remote:true, :method => :post, :form_class => "_page_btn", :class=>"btn btn-default", params:{ :req => {page_id: @page.page_id }} ,:id => "p-button" %>
+			<% elsif @status == "P" %>
+				<%= button_to "Waiting", {controller:"group_pages",action:"cancel_request_to_group"}, remote:true, :method => :post, :form_class => "_page_btn", :class=>"btn btn-default", params:{ :req => {page_id: @page.page_id }}, :id => "p-button" %>
+			<% elsif @status == "I" %>
+				<%= button_to "Accept Invitation to Join", {controller:"group_pages",action:"accept_invite_to_group"}, remote:true, :method => :post, :form_class => "_page_btn", :class=>"btn btn-default", params:{ :req => {page_id: @page.page_id }}, :id => "p-button" %>
+			<% elsif @status == "A" %>
+				<%= button_to "Joined as Admin", {controller:"group_pages",action:""}, remote:true, :method => :post, :form_class => "_page_btn", :class=>"btn btn-default", params:{ :req => {page_id: @page.page_id }}, :id => "p-button" %>
+			<% elsif @status == "J" %>
+				<%= button_to "Joined, Click to Unjoin", {controller:"group_pages",action:"delete_user_from_group"}, remote:true, :method => :post, :form_class => "_page_btn", :class=>"btn btn-default", params:{ :req => {page_id: @page.page_id }}, :id => "p-button" %>
+				<!-- <button class ='btn btn-default' id='accept' data-id="<%= @user.u_id %>">Accept Request</button> -->
+			<% else %>
+				<%= button_to "Join", {controller:"group_pages",action:"send_request_to_group"}, remote:true, :method => :post, :form_class => "_page_btn", :class=>"btn btn-default", params:{ :req => {page_id: @page.page_id }} ,:id => "p-button" %>
+			<% end %>
+			</div>
+		</div>
+		<br>
+		<hr>
+		<div class ='profile-bottom'>
+			<div class='row vdivide'>
+				<%= link_to('Photos', 'media/?page_id='+@page.page_id) %>
+				<%= link_to('Members', 'members/?page_id='+@page.page_id) %>
+				<%= link_to('Requests' , 'members_request/?page_id='+@page.page_id)%>
+				<%= link_to('Invited' , 'members_invited/?page_id='+@page.page_id)%>
+
+			</div>
+		</div>
+	</div>
+	<div class = 'col-xs-3'>
+	</div>
+</div>
+
+<script>
+function dpupload()
+{
+ $("#dp_file").val("");
+ $('#image_file').attr('src',"");
+ $("#dp_file").click();
+ console.log("DP UPLOAD");
+ document.getElementById("dp_file").disabled = false;
+
+}
+
+function imfile(input) {
+	console.log("submitted")
+    //input image
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {          
+            $('#image_file')
+                .attr('src', e.target.result)
+                .attr('style', 'max-width:800px;max-height:800px;');
+                
+        };
+        reader.readAsDataURL(input.files[0]);
+	}
+
+	
+	//show dialog
+	$("#im-dialog").dialog({
+      modal: true,
+      scrollable: true,
+      width: 'auto',
+      height: 'auto',
+      resizable: false,
+      position: { my: "left top", at: "left top", of:window,  collision: 'none'  },
+      buttons: {
+        Ok: function() {
+          $("#dp_submit").click();
+          $("#im-dialog").dialog("close");
+          api.destroy(); 
+
+        }
+      },
+      close: function() {
+      	 $("#im-dialog").dialog("close");
+      	 api.destroy();
+      }
+    });
+    
+	setTimeout("api = $.Jcrop('#image_file',{ aspectRatio: 2.36, onSelect: showCoords, onChange: showCoords     });",500);
+};
+
+function showCoords(c)
+{
+		$('#x').val(c.x);
+		$('#y').val(c.y);
+		$('#w').val(c.w);
+		$('#h').val(c.h);
+};
+
+//ajax success request of photo change
+$(document).on("ajax:success", ".dp_submit", function(event, data, status, xhr) {
+    alert(data);
+});
+</script>

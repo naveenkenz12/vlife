@@ -51,7 +51,21 @@ class BlobsController < ApplicationController
           end
         end
       end
+    elsif @blob.content=="page_pic"
+      @grp = GroupPage.find_by(:page_id => params[:blob][:page_id])
+      @gru = GroupUser.find_by(:page_id => params[:blob][:page_id], :u_id => current_user.u_id)
 
+      if !@gru.blank?
+        Blob.transaction do
+          if @blob.save
+            # update profile_pic column in user_profiles
+            @grp.update(page_pic: @blob.med_id.filename)
+            error=false
+            
+            render :json => @blob.as_json
+          end
+        end
+      end
     elsif @blob.content=="post_pic"
       #if post
     elsif @blob.content =="album_pic"

@@ -136,14 +136,14 @@ $("#search_group").autocomplete({
 
 //msg = {:sadas => "asdas", :Asda => "asdas" }
 //render :json => msg
-$(document).on("ajax:success", ".button_to", function(event, data, status, xhr) {
+$(document).on("ajax:success", "._friend_btn", function(event, data, status, xhr) {
     
-    alert("sent");
+    //alert("sent");
 
     if(data.buttonvalue != "" && data.action_value !="")
     {
       $("#f-button").val(data.button_value);
-      $(".button_to").attr("action" , "/friends/"+data.action_value+"/"); 
+      $("._friend_btn").attr("action" , "/friends/"+data.action_value+"/"); 
     }
     else{
       alert("Error!!!!");
@@ -151,6 +151,21 @@ $(document).on("ajax:success", ".button_to", function(event, data, status, xhr) 
 
 });
 
+
+$(document).on("ajax:success", "._page_btn", function(event, data, status, xhr) {
+    
+    //alert("sent");
+
+    if(data.buttonvalue != "" && data.action_value !="")
+    {
+      $("#p-button").val(data.button_value);
+      $("._page_btn").attr("action" , "/group_pages/"+data.action_value+"/"); 
+    }
+    else{
+      alert("Error!!!!");
+    }
+
+});
 
 });
 

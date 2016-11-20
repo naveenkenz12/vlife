@@ -208,7 +208,7 @@
 							<%= link_to(@userloc, "google-map") %>
 							</h6>
 							<div class= 'friend-button' style="margin-bottom:8%; margin-right:22%;">
-								<%= button_to "Accept", {controller:"friends",action:"accept_f"}, remote:true, :method => :post, :class=>"btn btn-default", params:{ :req => {friend_id: @p[0] }}, :id => "f-button" %>
+								<%= button_to "Accept", {controller:"friends",action:"accept_f"}, remote:true, :method => :post, :class_name => "_friend_btn", :class=>"btn btn-default", params:{ :req => {friend_id: @p[0] }}, :id => "f-button" %>
 							</div>
 				    	</div>
 	    			</div>

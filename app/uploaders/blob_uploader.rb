@@ -52,6 +52,13 @@ class BlobUploader < CarrierWave::Uploader::Base
     process resize_to_limit: [40, 40]
   end
 
+  version :group , from_version: :large do
+    process resize_to_fit: [825, 350]
+  end
+
+  version :sgroup , from_version: :large do
+    process resize_to_fit: [140, 60]
+  end
 
   def crop
     manipulate! do |img|
