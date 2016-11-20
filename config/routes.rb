@@ -37,8 +37,9 @@ Rails.application.routes.draw do
 
 
   ##Slam Book
-  get '/slam/view' => 'slams#view'
-  
+  get '/:id/slam/view' => 'slams#view'
+
+
   resources :posts
   resources :user_profiles
   resources :blobs

@@ -44,9 +44,36 @@ class UsersController < ApplicationController
     dt = Time.now.strftime("%Y-%m-%d %H:%M:%S")
     User.find(current_user.u_id).update(:last_online => dt)
 
-    friends_online = User.find_by_sql("select u_id, last_online from users where ('" + current_user.u_id + "', users.u_id) in (select user_id, friend_id from friends where status = 'accepted') or (users.u_id, '" + current_user.u_id + "') in (select user_id, friend_id from friends where status = 'accepted')")
+    @user = current_user
+        
+    #no sql injection possible here as no term is taken as input from user
+    @total_friends = Friend.find_by_sql("select user_id as frn from friends where friend_id = '" + current_user.u_id +
+   "' and status = 'accepted' union select friend_id as frn from friends where user_id = '"+ current_user.u_id + "' and "+
+   " status = 'accepted' ")
 
-    msg = {:status => "ok", :value => friends_online}
+    @total_friends = @total_friends.pluck(:frn)
+    @all_friends = []
+    for @u in @total_friends
+      @ur = User.select(:u_id).find_by("u_id = '"+@u +"' and last_online > now() - interval '2 min' ")
+      if !@ur.blank?
+        @all_friends.push(@ur)
+      end
+    end
+    @prof = []
+    @name_fr = []
+    @dp_fr = []
+    for @u in @all_friends
+      @prof.push(UserProfile.select(:first_name, :middle_name,:last_name,:profile_pic).find_by(:u_id => @u))
+    end
+
+    for @u in @prof
+      @dp_fr.push(Blob.select(:med_id).find_by(med_id: @u.profile_pic))
+    end
+
+    @name_fr = @prof.pluck(:first_name, :middle_name, :last_name)
+    #insert dp also
+    @all_friends = @all_friends.zip(@name_fr, @dp_fr)
+    msg = {:status => "ok", :value => @all_friends}
     render :json => msg
   end
 

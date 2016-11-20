@@ -100,15 +100,57 @@ $("#search_group").autocomplete({
       }
 
     } );
+  
+    //chatbox appear
+    $(document).on('click', '#chatb', function(){
+
+        
+        var userid = $(this).data("id");
+        var name= $(this).data("name");
+        var picurl = $(this).data("pic");
+        //change head
+        $("#chat-title").html(name);
+        $.ajax( {
+          url: "/"+userid+"/messages/",
+          method: 'GET',
+          success: function( data ) {
+
+              //fill data
+              $('#chat-content').empty();
+              for( var i = data.length-1;i>=0;i--){
+                if(data[i][2]==userid){
+                  $('#chat-content').append('<div class="row msg_container base_receive"><div class="col-md-2 col-xs-2 avatar"><img src='+picurl+' img-responsive "></div><div class="col-xs-10 col-md-10"><div class="messages msg_receive"><p>'+data[i][0]+'</p><time datetime="">'+data[i][2]+'</time></div></div></div>');     
+                }
+                else{
+                  $('#chat-content').append('<div class="row msg_container base_sent"><div class="col-md-10 col-xs-10"><div class="messages msg_sent"><p>'+data[i][0]+'</p><time datetime="2009-11-13T20:00">'+data[i][2]+'</time></div></div><div class="col-md-2 col-xs-2 avatar"><img src="'+data[i][4]+'" class=" img-responsive "></div></div>');
+                }
+              }
+              //Set recievers id
+              $('#receiver_id').val(userid);
+              $('.chatbox').show();
+          }
+        });  
+        
+    });
+
+    $(document).on('click', '#chatclose', function(){
+      $('.chatbox').hide();
+      $('#chat-content').empty();
+    });
 
     setInterval(function(){ 
       $.ajax( {
           url: "/save/online/",
           data: {},
           success: function( data ) {
-            console.log(data)
+            //poopulate chat list
+            data = data.value
+            $('#chat-list').html("");
+            for (var i= data.length-1 ; i>=0;i--){
+            $('#chat-list').append('<div class="media" data-id="'+data[i][0].u_id+'" data-name="'+data[i][1][0]+' '+data[i][1][2]+'" data-pic = "'+data[i][2].med_id.xsmall.url+'" id="chatb"><div class="media-left media-middle"><img class="media-object" id = "chat_pic" src='+data[i][2].med_id.xsmall.url+' alt="Profile Picture"></div><div class="media-body"><h5 class="media-heading">'+data[i][1][0]+' '+data[i][1][2]+'</h5></div></div>');}
           }
-        } ); }, 100000); //every 100s
+        
+        } ); }, 10000); //every 100s
 
     $("#dialog").dialog({
       autoOpen: false
@@ -126,37 +168,56 @@ $("#search_group").autocomplete({
           success: function( data ) {
             console.log(data);
             if(data['status']=="ok"){
-              window.alert(data['sender']+' : '+data['content']);
+              //if message received
+              var chatboxu = $('#receiver_id').val();
+              if(data['sender'] == chatboxu )
+              { 
+                $('#chat-content').append('<div class="row msg_container base_receive"><div class="col-md-2 col-xs-2 avatar"><img src="" img-responsive "></div><div class="col-xs-10 col-md-10"><div class="messages msg_receive"><p>'+data['content']+'</p><time datetime="">'+data['sender']+'</time></div></div></div>');     
+              }
+              else{
+
+              }
             }
           }
-        } ); }, 2000000); //every 2s
+        } ); }, 2000); //every 100s
+
+
 
 });
 
 
 //msg = {:sadas => "asdas", :Asda => "asdas" }
 //render :json => msg
-$(document).on("ajax:success", ".button_to", function(event, data, status, xhr) {
-    
-    alert("sent");
+  $(document).on("ajax:success", ".button_to", function(event, data, status, xhr) {
+      
+      alert("sent");
 
-    if(data.buttonvalue != "" && data.action_value !="")
-    {
-      $("#f-button").val(data.button_value);
-      $(".button_to").attr("action" , "/friends/"+data.action_value+"/"); 
-    }
-    else{
-      alert("Error!!!!");
-    }
+      if(data.buttonvalue != "" && data.action_value !="")
+      {
+        $("#f-button").val(data.button_value);
+        $(".button_to").attr("action" , "/friends/"+data.action_value+"/"); 
+      }
+      else{
+        alert("Error!!!!");
+      }
 
-});
+  });
+
+  $(document).on("ajax:success", "#msg_form", function(event, data, status, xhr) {
+      
+      alert("sent");
+      $('#chat-content').append('<div class="row msg_container base_sent"><div class="col-md-10 col-xs-10"><div class="messages msg_sent"><p>'+data.data+'</p><time datetime="2009-11-13T20:00">'+data.sender+'</time></div></div><div class="col-md-2 col-xs-2 avatar"><img src="'+"asdff"+'" class=" img-responsive "></div></div>');
+      $('#btn-input').val("");
+
+  });
 
 
 });
 
 function _send_msg_(r_id) {
     $("#dialog").dialog("open");
-    $("#msg_content").val("");
+    $('#btn-input').val("");
+    
     $("#receiver_id").val(r_id);
   }
 

@@ -5,11 +5,11 @@ class MessagesController < ApplicationController
 		#@user = user id of current request
 		@user = current_user.u_id
 		#@friend = id of friend in between message is to be sent
-		@friend = params[:friend]
-
+		@friend = params[:id]
 		#top 10 messages order by desc time
 		@message_between = (Message.where(:sender => @user, :receiver => @friend).or(
 							Message.where(:sender => @friend, :receiver => @user))).limit(10)
+
 
 		#sorted in desc by time
 		#should be done opp while showing
@@ -24,7 +24,7 @@ class MessagesController < ApplicationController
 		@newMessage.status = "sent"
 		if @newMessage.save
 			flash[:notice] = "Message Sent"
-			msg = {:value => "ok"}
+			msg = {:value => "ok",:data => params[:message][:content], :sender => current_user.u_id}
 			render :json => msg
 		else
 			flash[:notice] = "Error!, try again"

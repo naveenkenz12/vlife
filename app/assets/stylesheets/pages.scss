@@ -211,3 +211,31 @@ hr {
    right:1%;
 
 }
+
+#chatb:hover {
+	cursor: pointer;
+}
+
+
+#chat-list{
+	overflow-y: scroll;
+	background: #f0f0f0;
+}
+
+.chat-side {
+	float:right;
+	z-index:1;
+	width: 260px; 
+	min-height:100%;
+	margin-top:-2%;
+	position:fixed;
+	left: 80%;
+	background:#f3f3f3;
+}
+
+.chat-head{
+  background: #f3f3f3;
+  text-align: center;
+}
+
+
