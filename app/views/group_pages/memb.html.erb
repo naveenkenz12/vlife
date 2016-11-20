@@ -88,12 +88,10 @@
 								IIT Bombay
 
 								<div style="margin-top:13%">
-									<% if @admin == 'm' %>
-										<%= button_to "Remove", {controller:"group_pages",action:"remove_member_from_group"}, remote:true, :method => :post, :form_class => "_page_btn2", :class=>"btn btn-default", params:{ :req => {page_id: @page.page_id, u_id: @p[0] }}, :id => "p-button2" %>
+									<% if !@admin.nil? %>
+										<%= button_to "Invite", {controller:"group_pages",action:"invite_member_to_group"}, remote:true, :method => :post, :form_class => "_page_btn2", :class=>"btn btn-default", params:{ :req => {page_id: @page.page_id, u_id: @p[0] }}, :id => "p-button2" %>
 										<% end %>
-									<% if @admin == 'r' %><%= button_to "Approve", {controller:"group_pages",action:"approve_member_to_group"}, remote:true, :method => :post, :form_class => "_page_btn2", :class=>"btn btn-default", params:{ :req => {page_id: @page.page_id, u_id: @p[0] }}, :id => "p-button2" %>
-										<% end %>
-									<% if @admin == 'i' %><% end %>
+									<% end %>
 								</div>
 								
 							</div>
@@ -107,7 +105,6 @@
 	    			</div>
 	  			</div>
 	  			<hr>
-			<% end %>
 		</div>
 
 		</div>
