@@ -263,3 +263,18 @@ body .ui-autocomplete {
   z-index:200;
   top:100px;
 }
+
+.notification {
+	position:fixed;
+	left:65%;
+	top:50px;	
+	z-index:10000;
+	max-width:350px;
+	min-width:350px;
+}
+
+.list-group {
+	overflow-y: scroll;
+	max-height:300px;
+	
+}

@@ -19,7 +19,6 @@ class CreateUserProfiles < ActiveRecord::Migration[5.0]
       t.timestamps
     end
     execute %Q{ ALTER TABLE "user_profiles" ADD PRIMARY KEY("u_id");}
-    execute %Q{ ALTER TABLE "user_profiles" ADD FOREIGN KEY("country", "city") REFERENCES "locations"("country","city");}
     execute %Q{ ALTER TABLE "user_profiles" ADD FOREIGN KEY("u_id") REFERENCES "users"("u_id");}
   end
 end

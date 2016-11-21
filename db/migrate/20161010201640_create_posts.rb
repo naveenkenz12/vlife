@@ -15,7 +15,6 @@ class CreatePosts < ActiveRecord::Migration[5.0]
       t.timestamps
     end
     execute %Q{ ALTER TABLE "posts" ADD PRIMARY KEY("p_id"); }
-    execute %Q{ ALTER TABLE "posts" ADD FOREIGN KEY("country", "city") REFERENCES "locations"("country", "city"); }
     execute %Q{ ALTER TABLE "posts" ADD FOREIGN KEY("posted_by_id") REFERENCES "users"("u_id"); }
     execute %Q{ ALTER TABLE "posts" ADD FOREIGN KEY("posted_to_id") REFERENCES "users"("u_id"); }
     execute %Q{ ALTER TABLE "posts" ADD FOREIGN KEY("media_id") REFERENCES "blobs"("med_id"); }
