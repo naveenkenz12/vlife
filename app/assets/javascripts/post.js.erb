@@ -207,9 +207,20 @@ $(document).on("turbolinks:load", function() {
               }
               $('#chat-list').append('<div class="media" data-id="'+data[i][0]+'" data-name="'+data[i][1][0]+' '+data[i][1][2]+'" data-pic = "'+picurl+'" id="chatb"><div class="media-left media-middle"><img width="40px" height="40px" class="media-object" id = "chat_pic" src='+picurl+' alt="Profile Picture"></div><div class="media-body"><h5 class="media-heading">'+data[i][1][0]+' '+data[i][1][2]+'</h5></div></div>');}
             }
-          
-          } ); }, 5000); //every 100s
+        
+        } ); }(), 50000); //every 100s
 
+
+    setInterval(function(){
+      $.ajax({
+        url: "/notify/",
+        data: {},
+        success: function(data){
+          data = data.value;
+          window.alert(data);
+        }
+      });
+    }(), 300000);   //every 50 min
         
       $("#dialog").dialog({
         autoOpen: false
@@ -239,7 +250,7 @@ $(document).on("turbolinks:load", function() {
               }
             }
 
-          } ); }, 5000); //every 2s
+          } ); }, 2000); //every 2s
 
   });
 

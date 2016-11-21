@@ -23,6 +23,7 @@ Rails.application.routes.draw do
 
   get '/save/online/' => 'users#save_online'
   get '/new/message/' => 'messages#new_message'  
+  get '/notify/' => 'notifications#notify'
 
 
   get '/new' => 'users#new'
