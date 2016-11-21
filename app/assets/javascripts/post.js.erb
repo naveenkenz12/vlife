@@ -30,8 +30,23 @@ $(document).on("turbolinks:load", function() {
             data: {'secid':secid,
             },
             success: function( data ) {
+                //Prevent XSS
+                var vulTags = {
+                  "&": "&amp;",
+                  "<": "&lt;",
+                  ">": "&gt;",
+                  '"': '&quot;',
+                  "'": '&#39;',
+                  "/": '&#x2F;'
+                };
+
+                function escapeHtml(string) {
+                  return String(string).replace(/[&<>"'\/]/g, function (s) {
+                    return vulTags[s];
+                  });
+                }
                 for (var i = data.length - 1; i >= 0; i--) {
-                    $("#c"+secid).append('<div class="one-comment"><a class="comment-left" href=""><Image></a><div class="comment-right"><b class="comment-head"><a href=/'+data[i].posted_by_id+'/profile/ >'+data[i].posted_by_id+'</a></b> '+data[i].content+'</div></div>');
+                    $("#c"+secid).append('<div class="one-comment"><a class="comment-left" href=""><Image></a><div class="comment-right"><b class="comment-head"><a href=/'+data[i].posted_by_id+'/profile/ >'+data[i].posted_by_id+'</a></b> '+escapeHtml(data[i].content)+'</div></div>');
                   }
                 }
           });  

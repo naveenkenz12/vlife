@@ -86,7 +86,7 @@
 			<div class="col-lg-1"></div>
 			<p class="col-lg-4 editinfo">
 				<i class="fa fa-birthday-cake"></i>
-				<%= @profile.birthday %>
+				<%=h @profile.birthday %>
 			</p>
 		</div>
 		<hr class="col-lg-7 editline">
@@ -95,7 +95,7 @@
 			<div class="edithover">
 			<p class="col-lg-6 edittitle">
 				<span class="editheading">Language:</span>
-				<%= @profile.language %>
+				<%=h @profile.language %>
 			</p>
 			<a href="" class="col-lg-1 editpencil">
 				<!-- <i class="fa fa-pencil">Edit</i> -->
@@ -105,7 +105,7 @@
 			<p class="col-lg-4 editinfo">
 				<i class="fa fa-address-book"></i>
 				<% @us = User.find(current_user.u_id) %>
-				<%= @us.email %>
+				<%=h @us.email %>
 			</p>
 		</div>
 		<hr class="col-lg-7 editline">
@@ -114,7 +114,7 @@
 			<div class="edithover">
 			<p class="col-lg-6 edittitle">
 				<span class="editheading">Relationship Status:</span>
-				<%= @profile.rel_status %>
+				<%=h @profile.rel_status %>
 			</p>
 			<a href="#" role="button" data-toggle="modal" data-target="#login-modal" class="col-lg-1">
 				<i class="fa fa-pencil" style="margin-left:75%;"></i>
@@ -123,7 +123,7 @@
 			<div class="col-lg-1"></div>
 			<p class="col-lg-4 editinfo">
 				<i class="fa fa-lg fa-mobile-phone"></i>
-				<%= @us.phone_no %>
+				<%=h @us.phone_no %>
 			</p>
 		</div>
 		<hr class="col-lg-7 editline">
@@ -132,9 +132,9 @@
 			<div class="edithover">
 			<p class="col-lg-6 edittitle">
 				<span class="editheading">Location:</span>
-				<% if !@profile.city.nil? %><a href=""><%= @profile.city %></a><% end %>
-				<% if !@profile.state.nil? %><a href=""><%= @profile.state %></a><% end %>
-				<% if !@profile.country.nil? %><a href=""><%= @profile.country %></a><% end %>
+				<% if !@profile.city.nil? %><a href=""><%=h @profile.city %></a><% end %>
+				<% if !@profile.state.nil? %><a href=""><%=h @profile.state %></a><% end %>
+				<% if !@profile.country.nil? %><a href=""><%=h @profile.country %></a><% end %>
 
 			</p>
 			<a href="#" role="button" data-toggle="modal" data-target="#modify_location" class="col-lg-1">

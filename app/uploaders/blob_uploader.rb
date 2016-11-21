@@ -9,7 +9,7 @@ class BlobUploader < CarrierWave::Uploader::Base
   def initialize(mount,mounter)
     super
     time = Time.new
-    @name=Digest::SHA256.hexdigest(time.year.to_s+time.month.to_s+(time.hour*3600+time.min*60+time.sec).to_s)
+    @name=Digest::SHA256.hexdigest(time.year.to_s+time.month.to_s+(time.hour*3600+time.min*60+time.sec).to_s+"zcbhsuhdf")
   end
 
  
