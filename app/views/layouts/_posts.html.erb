@@ -25,7 +25,7 @@
  	</div>
  	<div class="user-post-middle">
  		<%= @p.content %>
- 		<% if !@p.state.blank? %>
+ 		<% if !@p.media_id.blank? %>
  		<img src = "<%= @p.state %>" />
  		<%end%>
  	</div>
@@ -62,6 +62,7 @@
  		<%= form_for(:comment, :url => {:controller => 'comments', :action => 'create'} , :html =>{:id =>'comment-post'},remote: true) do |f| %>
 			<%= f.text_field :content ,class:"comment-text",id:"comment-text"+@p.p_id ,placeholder:"Write Comment..." %>
 			<%= f.text_field :parent_id, value: @p.p_id, type: "hidden", readonly: "true" %>
+			<% if !@page.nil? %><%= f.text_field :page_id, value: @page.page_id, type: "hidden", readonly: "true" %><% end %>
 			<button type="submit" class="btn btn-default" style="display:none"  ></button>
 		<% end %>
 	</div>

@@ -214,14 +214,16 @@
 	c)	eve_id varchar(10)
 	d)	p_id varchar(10)
 	primary key not_id
-	foreign key eve_id referencing EVENT
+	---------foreign key eve_id referencing EVENT:   add when event-------------
 	foreign key p_id referencing POST
 	check (eve_id is not null xor p_id is not null)
+	////////DONE
 
 17.	table NOTIFY_TO
 	attributes:
 	a)	not_id varchar(12) not null
-	b)	u_id varchar(10) not null
+	b)	from_id varchar(10) not null
+	c) 	to_id varchar not null
 	primary key not_id, u_id
 	foreign key not_id referencing NOTIFICATION
 	foreign key u_id referencing USER

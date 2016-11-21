@@ -181,6 +181,29 @@ class GroupPagesController < ApplicationController
 			@gru = GroupUser.find_by(:u_id => params[:req][:u_id], :page_id => params[:req][:page_id], :status => "P")
 		end
 		if @gru.update(:status => "J")
+			###notification
+			@ont = Notification.find_by(:page_id => params[:req][:page_id], :content => "added you to group")
+			if @ont.nil?
+				@not = Notification.new
+				cnt = Notification.count.to_s(36)
+				@not.not_id = cnt
+			else
+				cnt = @ont.not_id
+			end
+			if @ont.nil?
+				@not.page_id = params[:req][:page_id]
+				@not.content = "added you to group"
+				@not.save
+			end
+			@notify = NotifyTo.new
+			@notify.not_id = cnt
+			@notify.from_id = current_user.u_id
+			#to id is the owner of post
+			
+			@notify.to_id = params[:req][:u_id]
+			@notify.status = "N"		#not sent
+			@notify.save
+			###notification
 			msg = {:button_value => "Added, Click to Remove", :action_value => "remove_member_from_group"}
 			render :json => msg
 		else
@@ -198,6 +221,29 @@ class GroupPagesController < ApplicationController
 			@grpu.page_id = params[:req][:page_id]
 			@grpu.status = "I"
 			if @grpu.save
+				###notification
+				@ont = Notification.find_by(:page_id => params[:req][:page_id], :content => "invited you to group")
+				if @ont.nil?
+					@not = Notification.new
+					cnt = Notification.count.to_s(36)
+					@not.not_id = cnt
+				else
+					cnt = @ont.not_id
+				end
+				if @ont.nil?
+					@not.page_id = params[:req][:page_id]
+					@not.content = "invited you to group"
+					@not.save
+				end
+				@notify = NotifyTo.new
+				@notify.not_id = cnt
+				@notify.from_id = current_user.u_id
+				#to id is the owner of post
+				
+				@notify.to_id = params[:req][:u_id]
+				@notify.status = "N"		#not sent
+				@notify.save
+				###notification
 				msg = {:button_value => "Invited", :action_value => "invited"}
 				render :json => msg
 			else
@@ -212,6 +258,29 @@ class GroupPagesController < ApplicationController
 		if !@ogr.nil?
 			@gru = GroupUser.find_by(:u_id => params[:req][:u_id], :page_id => params[:req][:page_id])
 			if @gru.delete
+				###notification
+				@ont = Notification.find_by(:page_id => params[:req][:page_id], :content => "removed you from group")
+				if @ont.nil?
+					@not = Notification.new
+					cnt = Notification.count.to_s(36)
+					@not.not_id = cnt
+				else
+					cnt = @ont.not_id
+				end
+				if @ont.nil?
+					@not.page_id = params[:req][:page_id]
+					@not.content = "removed you from group"
+					@not.save
+				end
+				@notify = NotifyTo.new
+				@notify.not_id = cnt
+				@notify.from_id = current_user.u_id
+				#to id is the owner of post
+				
+				@notify.to_id = params[:req][:u_id]
+				@notify.status = "N"		#not sent
+				@notify.save
+				###notification
 				msg = {:button_value => "Invite", :action_value => "invite_member_to_group"}
 				render :json => msg
 			else
@@ -229,6 +298,7 @@ class GroupPagesController < ApplicationController
 		@grpu.status = "P"
 			
 		if @grpu.save
+			
 			msg = {:button_value => "Waiting", :action_value => "cancel_request_to_group"}
 			render :json => msg
 		else

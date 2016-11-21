@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161120202641) do
+ActiveRecord::Schema.define(version: 20161121105030) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -90,6 +90,27 @@ ActiveRecord::Schema.define(version: 20161120202641) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string   "status"
+  end
+
+  create_table "notifications", primary_key: "not_id", id: :string, force: :cascade do |t|
+    t.string   "content",    null: false
+    t.string   "eve_id"
+    t.string   "p_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string   "page_id"
+    t.string   "slam_id"
+  end
+
+  create_table "notify_tos", force: :cascade do |t|
+    t.string   "not_id",     null: false
+    t.string   "from_id",    null: false
+    t.string   "to_id",      null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string   "status",     null: false
+    t.index ["not_id", "from_id", "to_id"], name: "index_notify_tos_on_not_id_and_from_id_and_to_id", using: :btree
+    t.index ["to_id"], name: "index_notify_tos_on_to_id", using: :btree
   end
 
   create_table "post_likes", force: :cascade do |t|
@@ -203,6 +224,12 @@ ActiveRecord::Schema.define(version: 20161120202641) do
   add_foreign_key "messages", "blobs", column: "med_id", primary_key: "med_id", name: "messages_med_id_fkey"
   add_foreign_key "messages", "users", column: "receiver", primary_key: "u_id", name: "messages_receiver_fkey"
   add_foreign_key "messages", "users", column: "sender", primary_key: "u_id", name: "messages_sender_fkey"
+  add_foreign_key "notifications", "group_pages", column: "page_id", primary_key: "page_id", name: "notifications_page_id_fkey"
+  add_foreign_key "notifications", "posts", column: "p_id", primary_key: "p_id", name: "notifications_p_id_fkey"
+  add_foreign_key "notifications", "slams", primary_key: "slam_id", name: "notifications_slam_id_fkey"
+  add_foreign_key "notify_tos", "notifications", column: "not_id", primary_key: "not_id", name: "notify_tos_not_id_fkey"
+  add_foreign_key "notify_tos", "users", column: "from_id", primary_key: "u_id", name: "notify_tos_from_id_fkey"
+  add_foreign_key "notify_tos", "users", column: "to_id", primary_key: "u_id", name: "notify_tos_to_id_fkey"
   add_foreign_key "post_likes", "posts", column: "p_id", primary_key: "p_id", name: "post_likes_p_id_fkey"
   add_foreign_key "post_likes", "users", column: "u_id", primary_key: "u_id", name: "post_likes_u_id_fkey"
   add_foreign_key "posts", "blobs", column: "media_id", primary_key: "med_id", name: "posts_media_id_fkey"
