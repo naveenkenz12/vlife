@@ -205,7 +205,7 @@ $("#search_group").autocomplete({
             }
           }
 
-        } ); }, 2000); //every 2s
+        } ); }, 5000); //every 2s
 
 });
 
@@ -257,6 +257,8 @@ $(document).on("ajax:success", "._page_btn", function(event, data, status, xhr) 
     else{
       alert("Error!!!!");
     }
+
+  });
 
   $(document).on("ajax:success", "#msg_form", function(event, data, status, xhr) {
       
