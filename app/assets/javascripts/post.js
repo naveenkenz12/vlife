@@ -152,8 +152,24 @@ $(document).on("ajax:success", ".button_to", function(event, data, status, xhr) 
 });
 
 
+$(document).on("ajax:success", "#slam_form", function(event, data, status, xhr) {
+  
+
+ if( data.hasOwnProperty('error')){
+    alert(data.error);
+
+  }
+  else {
+    $("#a"+data.qdone_id).attr('disabled',true);
+    $("#b"+data.qdone_id).attr('disabled',true);
+    $("#e"+data.qdone_id).attr('disabled',false);
+    
+    console.log("#a"+data.qdone_id);
+  }
+
 });
 
+});
 function _send_msg_(r_id) {
     $("#dialog").dialog("open");
     $("#msg_content").val("");
@@ -166,3 +182,5 @@ function _send_post_(r_id){
     $("#post_content").val("");
     $("#posted_to_id").val(r_id);
 }
+
+
