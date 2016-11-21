@@ -72,6 +72,8 @@ GEM
     erubis (2.7.0)
     excon (0.54.0)
     execjs (2.7.0)
+    factory_girl (4.7.0)
+      activesupport (>= 3.0.0)
     faker (1.6.6)
       i18n (~> 0.5)
     ffi (1.9.14)
@@ -333,6 +335,7 @@ DEPENDENCIES
   coffee-rails (~> 4.2)
   composite_primary_keys
   countries
+  factory_girl
   faker
   fog (~> 1.38.0)
   font-awesome-sass
