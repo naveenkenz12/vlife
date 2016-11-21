@@ -246,9 +246,7 @@ $(document).on("turbolinks:load", function() {
         }
       });
     }(), 300000);   //every 5 min
-        
-      
-
+              
       $("#dialog").dialog({
         autoOpen: false
       });
@@ -277,7 +275,7 @@ $(document).on("turbolinks:load", function() {
               }
             }
 
-          } ); }, 2000); //every 2s
+          } ); }, 100000); //every 2s
 
   });
 
@@ -299,7 +297,6 @@ $(document).on("turbolinks:load", function() {
       }
 
   });
-
 
   $(document).on("ajax:success", "#slam_form", function(event, data, status, xhr) {
     

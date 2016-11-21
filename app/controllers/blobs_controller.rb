@@ -52,7 +52,8 @@ class BlobsController < ApplicationController
             @post_entry.posted_by_id = current_user.u_id
             @post_entry.media_id = @blob.med_id.filename
             @post_entry.save
-            render :json => @blob.as_json
+            ##render :json => @blob.as_json
+            redirect_to :back
           end
         end
       end
@@ -67,7 +68,7 @@ class BlobsController < ApplicationController
             @grp.update(page_pic: @blob.med_id.filename)
             error=false
             
-            render :json => @blob.as_json
+            redirect_to :back
           end
         end
       end
