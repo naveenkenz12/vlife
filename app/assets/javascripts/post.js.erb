@@ -184,7 +184,7 @@ $("#search_group").autocomplete({
             $('#chat-list').append('<div class="media" data-id="'+data[i][0].u_id+'" data-name="'+data[i][1][0]+' '+data[i][1][2]+'" data-pic = "'+picurl+'" id="chatb"><div class="media-left media-middle"><img class="media-object" id = "chat_pic" src='+picurl+' alt="Profile Picture"></div><div class="media-body"><h5 class="media-heading">'+data[i][1][0]+' '+data[i][1][2]+'</h5></div></div>');}
           }
         
-        } ); }, 5000); //every 100s
+        } ); }, 50000000); //every 100s
 
     $("#dialog").dialog({
       autoOpen: false
@@ -214,7 +214,7 @@ $("#search_group").autocomplete({
             }
           }
 
-        } ); }, 10000); //every 2s
+        } ); }, 10000000); //every 2s
 
 });
 

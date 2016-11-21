@@ -86,6 +86,7 @@ class FriendsController < ApplicationController
 		@newFriend = current_user.frq_sent.build(friend_params)
 		@newFriend.status = 'waiting'
 		if @newFriend.save
+			
 			flash[:notice] = "Friend Request Sent"
 			msg = {:button_value => "Friend Request Sent, Click to cancel", :action_value => "cancel_f"}
 			render :json => msg
