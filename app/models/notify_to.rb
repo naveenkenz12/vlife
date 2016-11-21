@@ -1,0 +1,2 @@
+class NotifyTo < ApplicationRecord
+end

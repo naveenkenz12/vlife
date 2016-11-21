@@ -50,6 +50,7 @@ class SlamsController < ApplicationController
 		@f_id = params[:new_slam][:fr_id]
 		puts params[:new_slam][:fr_id]
 		@slam = Slam.find_by(:filled_by => @user.u_id ,:filled_for => @f_id)
+
 		if !@slam.nil?
 			@entry=SlamQuest.find_by(:slam_id => @slam.slam_id,:q_id => params[:new_slam][:q_id])
 			if @entry.nil?
@@ -83,6 +84,23 @@ class SlamsController < ApplicationController
 			@new_entry1.filled_by = current_user.u_id
 			@new_entry1.filled_for = @f_id
 			if @new_entry1.save
+				###create notifications
+				@not = Notification.new
+				cnt = Notification.count.to_s(36)
+				@not.not_id = cnt
+				@not.slam_id = @count
+				@not.content = "filled your slam"
+				
+				if @not.save	#if successfully saved, create notify to
+					@notify = NotifyTo.new
+					@notify.not_id = cnt
+					@notify.from_id = @user.u_id
+					@notify.to_id = @f_id
+					@notify.status = "N"		#not sent
+					@notify.save
+				end
+				###created notification
+
 				@new_entry=SlamQuest.new
 				@new_entry.slam_id = @count
 				@new_entry.q_id = params[:new_slam][:q_id]

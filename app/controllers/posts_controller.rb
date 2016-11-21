@@ -4,6 +4,7 @@ class PostsController < ApplicationController
 		@newPost = current_user.own_posts.build(post_params)
 		@newPost.p_id = Post.count.to_s(36)
 		
+		###notification for post / comment based on parent_id
 		
 		if @newPost.save
 			flash[:success] = "Posted Sucessfully"
