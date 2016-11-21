@@ -51,7 +51,6 @@ class BlobsController < ApplicationController
             @post_entry.content = @content
             @post_entry.posted_by_id = current_user.u_id
             @post_entry.media_id = @blob.med_id.filename
-            @post_entry.state = @blob.med_id.large
             @post_entry.save
             render :json => @blob.as_json
           end

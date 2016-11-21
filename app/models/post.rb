@@ -1,4 +1,6 @@
 class Post < ApplicationRecord
+    attr_accessor :x, :y,:w, :h, :med_id
+
 	belongs_to :posted_by, :class_name => "User", :inverse_of => :own_posts
 
 	has_many :like, :class_name => 'PostLike', :foreign_key => 'p_id', dependent: :destroy,  :inverse_of => :liked_post
