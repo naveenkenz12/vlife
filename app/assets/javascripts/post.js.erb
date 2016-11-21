@@ -172,10 +172,19 @@ $("#search_group").autocomplete({
             data = data.value
             $('#chat-list').html("");
             for (var i= data.length-1 ; i>=0;i--){
-            $('#chat-list').append('<div class="media" data-id="'+data[i][0].u_id+'" data-name="'+data[i][1][0]+' '+data[i][1][2]+'" data-pic = "'+data[i][2].med_id.xsmall.url+'" id="chatb"><div class="media-left media-middle"><img class="media-object" id = "chat_pic" src='+data[i][2].med_id.xsmall.url+' alt="Profile Picture"></div><div class="media-body"><h5 class="media-heading">'+data[i][1][0]+' '+data[i][1][2]+'</h5></div></div>');}
+            var picurl = data[i][2];
+            if(picurl==null)
+            {
+              picurl='<%= asset_path "boy.jpg" %>';
+            }
+            else
+            {
+              picurl = picurl.med_id.xsmall.url;
+            }
+            $('#chat-list').append('<div class="media" data-id="'+data[i][0].u_id+'" data-name="'+data[i][1][0]+' '+data[i][1][2]+'" data-pic = "'+picurl+'" id="chatb"><div class="media-left media-middle"><img class="media-object" id = "chat_pic" src='+picurl+' alt="Profile Picture"></div><div class="media-body"><h5 class="media-heading">'+data[i][1][0]+' '+data[i][1][2]+'</h5></div></div>');}
           }
         
-        } ); }, 10000); //every 100s
+        } ); }, 5000); //every 100s
 
     $("#dialog").dialog({
       autoOpen: false
@@ -205,7 +214,7 @@ $("#search_group").autocomplete({
             }
           }
 
-        } ); }, 2000); //every 2s
+        } ); }, 10000); //every 2s
 
 });
 
