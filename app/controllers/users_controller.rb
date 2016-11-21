@@ -52,13 +52,18 @@ class UsersController < ApplicationController
    " status = 'accepted' ")
 
     @total_friends = @total_friends.pluck(:frn)
+
     @all_friends = []
     for @u in @total_friends
-      @ur = User.select(:u_id).find_by("u_id = '"+@u +"' and last_online > now() - interval '2 min' ")
-      if !@ur.blank?
-        @all_friends.push(@ur)
+      @ur = User.find(@u)
+      x = @ur.last_online
+      if !x.blank?
+        if Time.now()+330*60-x <= 120  #adjusting timezone 
+          @all_friends.push(@ur.u_id)
+        end
       end
     end
+    puts @all_friends
     @prof = []
     @name_fr = []
     @dp_fr = []

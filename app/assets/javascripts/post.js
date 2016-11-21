@@ -257,6 +257,7 @@ $(document).on("ajax:success", "._page_btn", function(event, data, status, xhr) 
     else{
       alert("Error!!!!");
     }
+  });
 
   $(document).on("ajax:success", "#msg_form", function(event, data, status, xhr) {
       
