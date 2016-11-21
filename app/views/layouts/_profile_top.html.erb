@@ -62,6 +62,7 @@ li.dropdown {
 					
 
 			</div>
+			<% if current_user.u_id!=@user.u_id %>
 			<div class= 'friend-button'>
 			<% if @status == "cnf" %>
 				<%= button_to "Friend, Click to Unfriend", {controller:"friends",action:"unfriend_f"}, remote:true, :method => :post, :form_class => "_friend_btn", :class=>"btn btn-default", params:{ :req => {friend_id: @user.u_id }} ,:id => "f-button" %>
@@ -74,6 +75,7 @@ li.dropdown {
 			<%= button_to "Send Friend Request", {controller:"friends",action:"request_f"},:form_class => "_friend_btn", :class=> "btn btn-default", remote:true,:method => :post, params:{ :req=> {friend_id: @user.u_id }} ,:id => "f-button"%>
 			<% end %>
 			</div>
+			<% end %>
 		</div>
 		<hr>
 		<div class ='profile-bottom'>
@@ -82,8 +84,9 @@ li.dropdown {
 				<%= link_to('Feed' , '/'+@user.u_id+'/profile')%>
 				<%=  %>	
 				<%= link_to('About' ,'/'+@user.u_id+'/about')  %>
-				<%= link_to('Friends', '/'+@user.u_id+'friends') %>
-				<%= link_to('Photos', '/'+@user.u_id+'media') %>
+				<%= link_to('Friends', '/'+@user.u_id+'/friends') %>
+				<%= link_to('Photos', '/'+@user.u_id+'/media') %>
+				<% if current_user.u_id!=@user.u_id %>
 				<li class="dropdown">
 				    <a href="#" class="dropbtn">SlamBook</a>
     					<div class="dropdown-content">
@@ -92,7 +95,7 @@ li.dropdown {
       						
     					</div>
   					</li>
-
+  				<% end %>
 
 			</div>
 		</div>

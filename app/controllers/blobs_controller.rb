@@ -43,10 +43,16 @@ class BlobsController < ApplicationController
       if !@userprofile.blank?
         Blob.transaction do
           if @blob.save
-            # update profile_pic column in user_profiles
             @userprofile.update(profile_pic: @blob.med_id.filename)
             error=false
-            
+            @post_entry=Post.new
+            @post_entry.p_id = Post.count.to_s(36)
+            @content = "Changed profile picture"
+            @post_entry.content = @content
+            @post_entry.posted_by_id = current_user.u_id
+            @post_entry.media_id = @blob.med_id.filename
+            @post_entry.state = @blob.med_id.large
+            @post_entry.save
             render :json => @blob.as_json
           end
         end

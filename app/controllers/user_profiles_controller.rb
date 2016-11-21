@@ -8,7 +8,7 @@ before_action :logged_in_user, only: [:create ,:edit, :update, :profile, :update
   		redirect_to '/error'
   	else
   		@newPost = current_user.own_posts.build
-  		@posts = Post.where(posted_to_id: @user.u_id)
+  		@posts = Post.where("posts.parent_id is NULL and (posts.posted_to_id = ? or posts.posted_by_id = ?)", @user.u_id ,@user.u_id)
       #a = current user
       #b = user whose profile 
       #already friend 
