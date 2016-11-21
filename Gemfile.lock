@@ -72,6 +72,8 @@ GEM
     erubis (2.7.0)
     excon (0.54.0)
     execjs (2.7.0)
+    faker (1.6.6)
+      i18n (~> 0.5)
     ffi (1.9.14)
     fission (0.5.0)
       CFPropertyList (~> 2.2)
@@ -239,6 +241,7 @@ GEM
     nokogiri (1.6.8.1)
       mini_portile2 (~> 2.1.0)
     pg (0.19.0)
+    populator (1.0.0)
     postgresql-check (0.1.2)
       activerecord (>= 3.2.0)
     puma (3.6.0)
@@ -330,6 +333,7 @@ DEPENDENCIES
   coffee-rails (~> 4.2)
   composite_primary_keys
   countries
+  faker
   fog (~> 1.38.0)
   font-awesome-sass
   jbuilder (~> 2.5)
@@ -339,6 +343,7 @@ DEPENDENCIES
   listen (~> 3.0.5)
   mini_magick
   pg (~> 0.18)
+  populator
   postgresql-check
   puma (~> 3.0)
   rails (~> 5.0.0, >= 5.0.0.1)
