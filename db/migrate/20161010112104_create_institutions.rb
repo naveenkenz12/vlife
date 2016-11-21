@@ -9,6 +9,5 @@ class CreateInstitutions < ActiveRecord::Migration[5.0]
       t.timestamps
     end
     execute %Q{ ALTER TABLE "institutions" ADD PRIMARY KEY("ins_id");}
-    execute %Q{ ALTER TABLE "institutions" ADD FOREIGN KEY("country", "city") REFERENCES "locations"("country","city");}
   end
 end

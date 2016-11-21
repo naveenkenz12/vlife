@@ -4,7 +4,7 @@ $(document).on("turbolinks:load", function() {
     
 
    if( data.hasOwnProperty('status') || status != "success"){
-      alert(status);
+      console.log(status);
 
     }
     else {
@@ -122,7 +122,7 @@ $(document).on("turbolinks:load", function() {
             data: $("#search-form_group").serialize(),
             success: function( data ) {
               //count number of elements
-              //window.alert(data[0][0]);
+              //window.console.log(data[0][0]);
               var final = [];
               var i;
               for(i=0;i <data.length;i++){
@@ -168,10 +168,10 @@ $(document).on("turbolinks:load", function() {
                 $('#chat-content').empty();
                 for( var i = data.length-1;i>=0;i--){
                   if(data[i][2]==userid){
-                    $('#chat-content').append('<div class="row msg_container base_receive"><div class="col-md-2 col-xs-2 avatar"><img src='+picurl+' img-responsive "></div><div class="col-xs-10 col-md-10"><div class="messages msg_receive"><p>'+data[i][0]+'</p><time datetime="">'+data[i][2]+'</time></div></div></div>');     
+                    $('#chat-content').append('<div class="row msg_container base_receive"><div class="col-xs-10 col-md-10"><div class="messages msg_receive"><p>'+data[i][0]+'</p><time datetime="">'+data[i][2]+'</time></div></div></div>');     
                   }
                   else{
-                    $('#chat-content').append('<div class="row msg_container base_sent"><div class="col-md-10 col-xs-10"><div class="messages msg_sent"><p>'+data[i][0]+'</p><time datetime="2009-11-13T20:00">'+data[i][2]+'</time></div></div><div class="col-md-2 col-xs-2 avatar"><img src="'+data[i][4]+'" class=" img-responsive "></div></div>');
+                    $('#chat-content').append('<div class="row msg_container base_sent"><div class="col-md-10 col-xs-10"><div class="messages msg_sent"><p>'+data[i][0]+'</p><time datetime="2009-11-13T20:00">'+data[i][2]+'</time></div></div></div>');
                   }
                 }
                 //Set recievers id
@@ -217,11 +217,36 @@ $(document).on("turbolinks:load", function() {
         data: {},
         success: function(data){
           data = data.value;
-          window.alert(data);
+          console.log(data);
+          var final = [];
+          var i;
+          var url="";
+          for(var i = 0;i<data.length;i++)
+          {
+            console.log(data[i][0].p_id);
+            if (data[i][0].page_id!=null)
+            { 
+              url = "/group/?page_id="+data[i][0].page_id;
+            }
+            else
+            {
+              url= "";
+            }
+            if(i%2==0)
+              $('#list-notif').prepend('<a href="'+url+'" class="list-group-item list-group-item-action"  style="background:#f3f3f3;"><h5 class="list-group-item-heading">'+data[i][1][1]+'</h5><p class="list-group-item-text">'+data[i][0].content+'</p></a>');
+            else
+              $('#list-notif').prepend('<a href="'+url+'" class="list-group-item list-group-item-action"  style="background:#ffffff;"><h5 class="list-group-item-heading">'+data[i][1][1]+'</h5><p class="list-group-item-text">'+data[i][0].content+'</p></a>');
+
+          }
+
+          if ($('#list-notif').children().length==0){
+            $('#list-notif').prepend('<a href="'+url+'" class="list-group-item list-group-item-action" ><h5 class="list-group-item-heading">Hurrah!</h5><p class="list-group-item-text">No New Notifications</p></a>');
+          }
+          
         }
       });
-    }(), 30000);   //every 50 min
-        
+    }(), 300000);   //every 5 min
+              
       $("#dialog").dialog({
         autoOpen: false
       });
@@ -242,10 +267,10 @@ $(document).on("turbolinks:load", function() {
                 var chatboxu = $('#receiver_id').val();
                 if(data['sender'] == chatboxu )
                 { 
-                  $('#chat-content').append('<div class="row msg_container base_receive"><div class="col-md-2 col-xs-2 avatar"><img src="" img-responsive "></div><div class="col-xs-10 col-md-10"><div class="messages msg_receive"><p>'+data['content']+'</p><time datetime="">'+data['sender']+'</time></div></div></div>');     
+                  $('#chat-content').append('<div class="row msg_container base_receive"><div class="col-xs-10 col-md-10"><div class="messages msg_receive"><p>'+data['content']+'</p><time datetime="">'+data['sender']+'</time></div></div></div>');     
                 }
                 else{
-
+                  console.log("error");
                 }
               }
             }
@@ -260,7 +285,7 @@ $(document).on("turbolinks:load", function() {
 
   $(document).on("ajax:success", "._friend_btn", function(event, data, status, xhr) {
       
-      //alert("sent");
+      //console.log("sent");
 
       if(data.buttonvalue != "" && data.action_value !="")
       {
@@ -268,7 +293,7 @@ $(document).on("turbolinks:load", function() {
         $("._friend_btn").attr("action" , "/friends/"+data.action_value+"/"); 
       }
       else{
-        alert("Error!!!!");
+        console.log("Error!!!!");
       }
 
   });
@@ -286,7 +311,7 @@ $(document).on("turbolinks:load", function() {
     
 
    if( data.hasOwnProperty('error')){
-      alert(data.error);
+      console.log(data.error);
 
     }
     else {
@@ -300,7 +325,7 @@ $(document).on("turbolinks:load", function() {
 
   $(document).on("ajax:success", "._page_btn", function(event, data, status, xhr) {
       
-      //alert("sent");
+      //console.log("sent");
 
       if(data.buttonvalue != "" && data.action_value !="")
       {
@@ -308,15 +333,15 @@ $(document).on("turbolinks:load", function() {
         $("._page_btn").attr("action" , "/group_pages/"+data.action_value+"/"); 
       }
       else{
-        alert("Error!!!!");
+        console.log("Error!!!!");
       }
     });
 
 
     $(document).on("ajax:success", "#msg_form", function(event, data, status, xhr) {
         
-        alert("sent");
-        $('#chat-content').append('<div class="row msg_container base_sent"><div class="col-md-10 col-xs-10"><div class="messages msg_sent"><p>'+data.data+'</p><time datetime="2009-11-13T20:00">'+data.sender+'</time></div></div><div class="col-md-2 col-xs-2 avatar"><img src="'+"asdff"+'" class=" img-responsive "></div></div>');
+        console.log("sent");
+        $('#chat-content').append('<div class="row msg_container base_sent"><div class="col-md-10 col-xs-10"><div class="messages msg_sent"><p>'+data.data+'</p><time datetime="2009-11-13T20:00">'+data.sender+'</time></div></div></div>');
         $('#btn-input').val("");
 
     });
@@ -324,7 +349,7 @@ $(document).on("turbolinks:load", function() {
 
     $(document).on("ajax:success", "._page_btn2", function(event, data, status, xhr) {
         
-        //alert("sent");
+        //console.log("sent");
 
         if(data.buttonvalue != "" && data.action_value !="")
         {
@@ -332,7 +357,7 @@ $(document).on("turbolinks:load", function() {
           $("._page_btn2").attr("action" , "/group_pages/"+data.action_value+"/"); 
         }
         else{
-          alert("Error!!!!");
+          console.log("Error!!!!");
         }
 
     });
