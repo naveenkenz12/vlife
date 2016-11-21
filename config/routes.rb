@@ -46,6 +46,9 @@ Rails.application.routes.draw do
   get '/:id/slams/view_ans' => 'slams#view_ans'
   get '/:id/slams/ans_view' => 'slams#ans_view'
   
+  ##BLOB
+  post '/blobs' => 'blobs#create'
+
   resources :posts
   resources :user_profiles
   resources :blobs

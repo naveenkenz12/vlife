@@ -220,7 +220,7 @@ $(document).on("turbolinks:load", function() {
           window.alert(data);
         }
       });
-    }(), 300000);   //every 50 min
+    }(), 30000);   //every 50 min
         
       $("#dialog").dialog({
         autoOpen: false
@@ -250,7 +250,7 @@ $(document).on("turbolinks:load", function() {
               }
             }
 
-          } ); }, 2000); //every 2s
+          } ); }, 100000); //every 2s
 
   });
 
@@ -270,6 +270,14 @@ $(document).on("turbolinks:load", function() {
       else{
         alert("Error!!!!");
       }
+
+  });
+  //Dp - success
+  $(document).on("ajax:success", ".new_blob", function(event, data, status, xhr) {
+      
+      //alert("sent");
+      alert(JSON.stringify(data));
+      $('.profile-image').attr('src', data.med_id.small);
 
   });
 

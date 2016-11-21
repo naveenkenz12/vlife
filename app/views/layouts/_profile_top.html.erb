@@ -48,7 +48,7 @@ li.dropdown {
 						<img src="<%= @dp.med_id.medium %>" class="profile-image" onclick='dpupload()'/>
 					<%end %>
 					<% if current_user.u_id == @user.u_id %>
-						<%= form_for @blob, :html => {:multipart => true, :style => 'display:none'},:remote => 'true', :authenticity_token => true  do |f| %>
+						<%= form_for @blob, :html => {:multipart => true, :style => 'display:none'},remote: true, :authenticity_token => true  do |f| %>
 						<%= f.text_field :x, type:"hidden" ,id:"x"%>
 	    				<%= f.text_field :y, type:"hidden" ,id: "y"%>
 	    				<%= f.text_field :w, type:"hidden" , id: "w"%>
