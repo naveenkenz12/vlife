@@ -51,6 +51,7 @@
 	    	
 			 <!-- All other Users Post -->
 		<div id = "_1">
+			<% if !@all_members.blank? %>
 			<% for @p in @all_members %>			
 				<div class="cuser-post-middle">
 	    			<div class='media'>
@@ -85,12 +86,10 @@
 								end								
 								%>
 							<div class='friend-list-right' style="float:right;margin-top:2.5%">
-								IIT Bombay
 
 								<div style="margin-top:13%">
 									<% if !@admin.nil? %>
 										<%= button_to "Invite", {controller:"group_pages",action:"invite_member_to_group"}, remote:true, :method => :post, :form_class => "_page_btn2", :class=>"btn btn-default", params:{ :req => {page_id: @page.page_id, u_id: @p[0] }}, :id => "p-button2" %>
-										<% end %>
 									<% end %>
 								</div>
 								
@@ -105,6 +104,8 @@
 	    			</div>
 	  			</div>
 	  			<hr>
+	  		<% end %>
+	  		<% end %>
 		</div>
 
 		</div>

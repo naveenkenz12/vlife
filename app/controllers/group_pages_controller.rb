@@ -339,9 +339,13 @@ class GroupPagesController < ApplicationController
 	end
 
 	def memb
+		if params[:search_inv].blank?
+			redirect_to '/'+current_user.u_id+'/groups/'
+		end
 		@user = current_user
 		@blob = Blob.new
 		@page_id = params[:search_inv][:page_id]
+		
 		@page = GroupPage.find_by(:page_id => @page_id)
 		@newPost = current_user.own_posts.build
 
@@ -360,7 +364,7 @@ class GroupPagesController < ApplicationController
 			@cp = Blob.find_by(:med_id => @cp)
 		end
 
-		ps = GroupUser.find_by(:page_id => params[:page_id], :u_id => current_user.u_id)
+		ps = GroupUser.find_by(:page_id => params[:search_inv][:page_id], :u_id => current_user.u_id)
 		if ps.nil?
 			@status = "N"
 		else
@@ -368,7 +372,7 @@ class GroupPagesController < ApplicationController
 		end
 
 
-		@admin = GroupUser.find_by(:page_id => params[:page_id], :u_id => current_user.u_id, :status => "A")
+		@admin = GroupUser.find_by(:page_id => params[:search_inv][:page_id], :u_id => current_user.u_id, :status => "A")
 		if !@admin.nil?
 			@admin = 'l'
 		end
