@@ -14,13 +14,20 @@
 			<% else %>
 				<a href='/<%= @p.posted_by_id %>/profile/' ><img src="<%= @d.med_id.xsmall %>" class="profile-image" /></a>
 			<%end %>
+			<% if @p.posted_to_id.blank? %>
  			<span style=""> <%= link_to(@p.posted_by_id, '/'+@p.posted_by_id+'/profile/') %> </span>
+ 			<% else %>
+ 			<span style=""> <%= link_to(@p.posted_by_id, '/'+@p.posted_by_id+'/profile/')%> -> <%= link_to(@p.posted_to_id, '/'+@p.posted_to_id+'/profile/')%>  </span>
+ 			<% end %>
  			<span style="float:center"> <%= @p.city %> <%= @p.country %> </span>
  			<span style="float:right"> <%= @p.updated_at %> </span>
  		</div>
  	</div>
  	<div class="user-post-middle">
  		<%= @p.content %>
+ 		<% if !@p.media_id.blank? %>
+ 		<img src = "<%= @p.state %>" />
+ 		<%end%>
  	</div>
  	<hr>
  	<div class="user-post-bottom">

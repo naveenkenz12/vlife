@@ -52,11 +52,10 @@
 	  		<% if @check==0 %>
 	  			<br>
 	  			You have not filled <%= @name.first_name %>'s slam book yet
-	  			&nbsp&nbsp&nbsp&nbsp
-	  			<a href="/<%=@f2_id%>/slams/view">Fill Now</a>
-
-			 <!-- All other Users Post -->
-			 <% else %>
+	  			<br><br>
+	  			
+	  			<a href="/<%=@f2_id%>/slams/view"><input type="button" class="btn btn-default" value="Fill Now"/></a>
+	  		 <% else %>
 			<% i=0 %>
 			 <% for @q in @answer %>
 			 	<% i=i+1 %>
@@ -73,7 +72,7 @@
 			<% end %>
 			 	
 			 	<div class="cuser-post-top-right">
-  				 	<a href="/<%=@f2_id%>/slams/view"><input type="button" class="btn btn-default" value="Edit Responses"/ onclick="enable(<%= @q.q_id %>)"></a>
+  				 	<a href="/<%=@f2_id%>/slams/view"><input type="button" class="btn btn-default" value="Edit Responses"/></a>
 	  				
 	  		  	</div>
 			 	
@@ -81,9 +80,6 @@
 		</div>
 		<div class="col-xs-3">
 		<div class="panel panel-default">
-			  	<div class="panel-body">
-			    	Panel content
-			  	</div>
-			</div>
+		</div>
 		</div>
 </div>
