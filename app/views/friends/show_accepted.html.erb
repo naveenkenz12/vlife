@@ -35,6 +35,8 @@
 			<button type="submit" class="btn btn-default" >Message</button>
 			<% end %>
 		</div>
+
+		
 		<!-- Post to user's timelne -->
 		<div id="dialog_post">
 			<%= form_for(:post, :url => {:controller => 'posts', :action => 'send_post'} , :html =>{:id =>'post_form'},remote: true) do |f| %>
@@ -208,7 +210,7 @@
 							<%= link_to(@userloc, "google-map") %>
 							</h6>
 							<div class= 'friend-button' style="margin-bottom:8%; margin-right:22%;">
-								<%= button_to "Accept", {controller:"friends",action:"accept_f"}, remote:true, :method => :post, :class=>"btn btn-default", params:{ :req => {friend_id: @p[0] }}, :id => "f-button" %>
+								<%= button_to "Accept", {controller:"friends",action:"accept_f"}, remote:true, :method => :post, :form_class => "_friend_btn", :class=>"btn btn-default", params:{ :req => {friend_id: @p[0] }}, :id => "f-button" %>
 							</div>
 				    	</div>
 	    			</div>

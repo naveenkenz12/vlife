@@ -7,10 +7,10 @@ class PostsController < ApplicationController
 		
 		if @newPost.save
 			flash[:success] = "Posted Sucessfully"
-			redirect_to home_url
+			redirect_to :back
 		else
 			flash[:info] = "Could Not Post"
-			redirect_to home_url
+			redirect_to :back
 		end
 	end
 
@@ -30,7 +30,7 @@ class PostsController < ApplicationController
 	end
 
 	def post_params
-		params.require(:post).permit(:content, :posted_to_id, :parent_id)
+		params.require(:post).permit(:content, :posted_to_id, :parent_id, :page_id)
 	end
 
 end

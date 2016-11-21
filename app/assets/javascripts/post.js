@@ -64,6 +64,31 @@ $(document).ready(function(){
     } );
 
 
+  $("#search_inv").autocomplete({
+      source: function( request, response ) {
+        $.ajax( {
+          url: "/group_pages/search_inv/",
+          data: $("#search-form_inv").serialize(),
+          success: function( data ) {
+            //count number of elements
+            var final = [];
+            var i;
+            for(i=0;i <data.length;i++){
+              final.push(data[i]);
+              console.log(data[i]);
+            }
+            response(final);
+          }
+        } );
+      },
+      minLength: 1,      
+      select: function( event, ui ) {
+        window.location = "/"+ui.item.value+"/profile";
+      }
+
+    } );
+
+
 
 //search groups
 $("#search_group").autocomplete({
@@ -129,21 +154,21 @@ $("#search_group").autocomplete({
               window.alert(data['sender']+' : '+data['content']);
             }
           }
-        } ); }, 2000000); //every 2s
+        } ); }, 2000); //every 2s
 
 });
 
 
 //msg = {:sadas => "asdas", :Asda => "asdas" }
 //render :json => msg
-$(document).on("ajax:success", ".button_to", function(event, data, status, xhr) {
+$(document).on("ajax:success", "._friend_btn", function(event, data, status, xhr) {
     
-    alert("sent");
+    //alert("sent");
 
     if(data.buttonvalue != "" && data.action_value !="")
     {
       $("#f-button").val(data.button_value);
-      $(".button_to").attr("action" , "/friends/"+data.action_value+"/"); 
+      $("._friend_btn").attr("action" , "/friends/"+data.action_value+"/"); 
     }
     else{
       alert("Error!!!!");
@@ -166,8 +191,39 @@ $(document).on("ajax:success", "#slam_form", function(event, data, status, xhr) 
     
     console.log("#a"+data.qdone_id);
   }
+});
+
+$(document).on("ajax:success", "._page_btn", function(event, data, status, xhr) {
+    
+    //alert("sent");
+
+    if(data.buttonvalue != "" && data.action_value !="")
+    {
+      $("#p-button").val(data.button_value);
+      $("._page_btn").attr("action" , "/group_pages/"+data.action_value+"/"); 
+    }
+    else{
+      alert("Error!!!!");
+    }
 
 });
+
+
+$(document).on("ajax:success", "._page_btn2", function(event, data, status, xhr) {
+    
+    //alert("sent");
+
+    if(data.buttonvalue != "" && data.action_value !="")
+    {
+      $("#p-button2").val(data.button_value);
+      $("._page_btn2").attr("action" , "/group_pages/"+data.action_value+"/"); 
+    }
+    else{
+      alert("Error!!!!");
+    }
+
+});
+
 
 });
 function _send_msg_(r_id) {
