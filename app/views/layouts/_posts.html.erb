@@ -24,7 +24,7 @@
  		</div>
  	</div>
  	<div class="user-post-middle">
- 		<%= @p.content %>
+ 		<%=h @p.content%>
  		<% if !@p.media_id.blank? %>
  		<% @b = Blob.find(@p.media_id) %>
  		<br>

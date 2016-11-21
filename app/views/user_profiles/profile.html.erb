@@ -8,16 +8,16 @@
 		<div class='intro-bottom'>
 			<ul>
 				<% unless @profile.birthday.nil? %>
-					<li><%= @profile.birthday %></li>
+					<li><%=h @profile.birthday %></li>
 				<% end %>
 				<% unless @profile.rel_status.blank? %>
-					<li><%= @profile.rel_status %></li>
+					<li><%=h @profile.rel_status %></li>
 				<% end %>
 					<% unless @profile.country.blank? %>
-					<li><%= @profile.country %></li>
+					<li><%=h @profile.country %></li>
 				<% end %>
 				<% unless @profile.state.blank? %>
-					<li><%= @profile.state %></li>
+					<li><%=h @profile.state %></li>
 				<% end %>
 			</ul>
 		</div>
@@ -77,8 +77,6 @@
 
 		</div>
 		<div class="col-xs-3">
-		<div class="panel panel-default">
-		</div>
 	</div>
 </div>
 <script>
