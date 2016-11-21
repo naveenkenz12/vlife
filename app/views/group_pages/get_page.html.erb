@@ -56,6 +56,11 @@
 	  				<%= flash[:info] %>
 	  			</div>
 	  			<div class="cuser-post-top-right">
+	  			<%= f.text_field :y, type:"hidden" ,id: "py"%>
+	    			<%= f.text_field :w, type:"hidden" , id: "pw"%>
+	    			<%= f.text_field :h, type:"hidden" ,id:"ph"%>
+	    			<%= f.file_field :med_id , type:"file", id:"p_file" ,onchange: "pimfile(this)", class: "", style: "float:left;" %>
+	  				
 	  			<button type="submit" class="btn btn-default">Post</button>
 	  			</div>
 	  			<% end %>
@@ -71,3 +76,53 @@
 		<div class="col-xs-3">
 		</div>
 </div>
+<script>
+function pimfile(input) {
+	console.log("submitted")
+    //input image
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {          
+            $('#image_file')
+                .attr('src', e.target.result)
+                .attr('style', 'max-width:800px;max-height:800px;');
+                
+        };
+        reader.readAsDataURL(input.files[0]);
+	}
+
+	
+	//show dialog
+	$("#im-dialog").dialog({
+      modal: true,
+      scrollable: true,
+      width: 'auto',
+      height: 'auto',
+      resizable: false,
+      position: { my: "left top", at: "left top", of:window,  collision: 'none'  },
+      buttons: {
+        Ok: function() {
+          $("#im-dialog").dialog("close");
+          api.destroy(); 
+
+        }
+      },
+      close: function() {
+      	 $("#im-dialog").dialog("close");
+      	 api.destroy();
+      }
+    });
+    
+	setTimeout("api = $.Jcrop('#image_file',{ aspectRatio: 1, onSelect: showCoords, onChange: showCoords     });",500);
+};
+
+function showCoords(c)
+{
+		$('#px').val(c.x);
+		$('#py').val(c.y);
+		$('#pw').val(c.w);
+		$('#ph').val(c.h);
+};
+
+</script>
