@@ -297,15 +297,6 @@ $(document).on("turbolinks:load", function() {
       }
 
   });
-  //Dp - success
-  $(document).on("ajax:success", ".new_blob", function(event, data, status, xhr) {
-      
-      //alert("sent");
-      alert(JSON.stringify(data));
-      $('.profile-image').attr('src', data.med_id.small);
-
-  });
-
 
   $(document).on("ajax:success", "#slam_form", function(event, data, status, xhr) {
     
