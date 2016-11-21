@@ -69,3 +69,7 @@ gem 'countries'
 gem 'bootstrap-datepicker-rails'
 
 gem 'language-select'
+
+gem 'populator'
+
+gem 'faker'
