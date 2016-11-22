@@ -220,15 +220,13 @@ Follow the steps below or detailed description from this link https://docs.basho
 
 ######## YOUR RIAK SERVER IS UP NOW####### FOLLOW THE STEPS BELOW I+EVEN IF YOU DONT WANT TO SET UP RIAK ######
 
-9)   	To set up the database relations and populate them :
+9)   	To set up the database relations and populate them (to be dome only if you are running for 1st time ):
 		goto 140050013_140050021_140050027_140050027/scripts		
 	
 		Execute: 
 			sudo chmod 755 populate.sh 
-			sudo chmod 755 run_server.sh 
-			./populate.sh (only if you are running for 1st time )(while runnning this script your psql server must be up)
-			./run_server.sh  (to be executed everytime)
-	
+			./populate.sh (while runnning this script your psql server must be up)
+			
 	*** every time you run populate.sh it will delete all the relations in the databse and eill set up the database again***
 	***The script populate creates some random data in the database, which is required to view the functionality of the webapp. It create 		   30 fake users with username =username0 to username 29 and password=password (required to login or you could create your own 		   account). It also fills some random posts and make some random users friends.*****
    
@@ -242,7 +240,7 @@ Follow the steps below or detailed description from this link https://docs.basho
 			rails server -b 0.0.0.0
 
 
-12) You are good to go now, just go to any web browser and run either of the following:	
+11) You are good to go now, just go to any web browser and run either of the following:	
 	a) 0.0.0.0:3000
 	b) 127.0.0:3000
 	c) you lan/wlan ip:3000
