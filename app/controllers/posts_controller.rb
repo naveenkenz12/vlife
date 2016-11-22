@@ -10,6 +10,9 @@ class PostsController < ApplicationController
 			@blob = Blob.new(post_blob_params.except(:med_id))
     		@blob.med_id = params[:post][:med_id];
     		@newPost.media_id = @blob.med_id.filename;
+    		if @newPost.content.blank?
+    			@newPost.content="Posted a photo"
+    		end
     	end
     		
 		Post.transaction do
