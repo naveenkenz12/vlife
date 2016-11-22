@@ -1,0 +1,250 @@
+		README
+Follow these steps to set up your computer to set up and populate database and set up the server: 
+				
+****assuming postgres installed*****
+
+1) Start Your postgres server and connect to it
+
+	/usr/lib/postgresql/9.5/bin/pg_ctl -D ~/postgresql/dbis -l logfile start
+
+	psql -h localhost -p xyza -d [database name]  (# xyza is your connection port number) ( to check if postgre server is running)
+
+2) updates + install some necessary resources
+
+	sudo apt-get update
+	
+	sudo apt-get install git-core curl zlib1g-dev build-essential libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev 	libxslt1-dev libcurl4-openssl-dev python-software-properties libffi-dev
+
+
+3) install rbenv and rubuy
+
+	cd
+
+	git clone https://github.com/rbenv/rbenv.git ~/.rbenv
+
+	echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
+
+	echo 'eval "$(rbenv init -)"' >> ~/.bashrc
+	
+	exec $SHELL
+
+	git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
+
+	echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"' >> ~/.bashrc
+
+	exec $SHELL
+
+	rbenv install 2.3.1
+	
+	rbenv global 2.3.1
+
+
+4) installing nodejs
+
+	curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
+	
+	sudo apt-get install -y nodejs
+	
+
+5) installing rails
+
+	gem install rails -v 5.0.0
+	
+	rbenv rehash
+
+6) now goto project folder (140050013_140050021_140050027_140050032/src/vlife)
+
+	sudo apt-get install libpg-dev
+	
+	gem install pg -v 0.19.0
+	
+	sudo apt-get install libmagickcore-dev
+	
+	sudo apt-get install graphicsmagick-libmagick-dev-compat
+	
+	sudo apt-get install libmagickwand-dev
+
+	sudo apt-get install imagemagick
+	
+	gem install rmagick
+
+	bundle install
+
+
+7) changing database.yml in config folder (140050013_140050021_140050027_140050032/src/vlife/config)
+	
+	goto 140050013_140050021_140050027_140050032/src/vlife/config/database.yml
+
+	change username to username of psql at all places
+	change password to password of psql at all places
+	change host to host ip if psql not running on 127.0.0.1 at all places
+	change port to the port of the psql at all places
+ 
+	(if psql server is not running on localhost then change allowed host to * in psql configuration file)
+
+
+#################################################################
+
+8)	SETUP OF RIAK SERVER FOR IMAGES: This part is not mandatory.
+	But if not done : images won't appear
+
+
+------------STEP h is mandatory even if steps are followed from link-------------
+Follow the steps below or detailed description from this link https://docs.basho.com/riak/cs/2.1.1/tutorials/fast-track/local-testing-environment/
+
+
+	a) Downloads:
+
+		From this link: https://docs.basho.com/riak/cs/2.1.1/downloads/
+			1) Riak-CS download deb : Ubuntu trusty and install
+			2) Stanchion download deb : Ubuntu trusty and install
+
+		From this link: http://docs.basho.com/riak/kv/2.1.4/downloads/
+
+			1) Download Riak-KV deb: Ubuntu trusty
+
+	b) open this file with root /etc/security/limits.conf	
+
+		append these lines at the end
+		*              soft     nofile          65536
+		*              hard     nofile          65536
+
+	
+	c) open this file with sudo permission /etc/riak/riak.conf
+
+		## Delete this line
+		storage_backend = . . .
+
+		## Append this line at the end of the file
+		buckets.default.allow_mult = true
+		
+		#This ports must be free : 8080 8098 8097 (default)
+		#or change the following to map to other ports- >
+		listener.http.internal = 127.0.0.1:8098
+		listener.protobuf.internal = 127.0.0.1:8097
+	
+	
+   	d) create this file with root permission /etc/riak/advanced.config
+   	   Paste this :
+		   [
+		 {riak_kv, [
+		              {add_paths, ["/usr/lib/riak-cs/lib/riak_cs-2.1.1/ebin"]},
+		              {storage_backend, riak_cs_kv_multi_backend},
+		              {multi_backend_prefix_list, [{<<"0b:">>, be_blocks}]},
+		              {multi_backend_default, be_default},
+		              {multi_backend, [
+		                  {be_default, riak_kv_eleveldb_backend, [
+		                      {total_leveldb_mem_percent, 30},
+		                      {data_root, "/var/lib/riak/leveldb"}
+		                  ]},
+		                  {be_blocks, riak_kv_bitcask_backend, [
+		                      {data_root, "/var/lib/riak/bitcask"}
+		                  ]}
+		              ]}
+		  ]}
+		].
+
+   	e) open /etc/riak-cs/advanced.config and replace the content of the file with this
+   		
+		[
+		 {riak_cs,
+		  [
+		  	{auth_v4_enabled, true}
+		  ]}
+		].
+
+   	f) open this file with root permission : /etc/riak-cs/riak-cs.conf
+
+		Ports must be free : 8080 8087 8085 (default)
+		
+		##Change 
+		listener=0.0.0.0:8080
+		
+		##To better customize
+		
+		listener = 127.0.0.1:8080
+		riak_host = 127.0.0.1:8087
+		stanchion_host = 127.0.0.1:8085
+		##to
+		##riak-cs.conf
+		listener = 10.0.2.10:8080
+		riak_host = 10.0.2.10:8087
+		stanchion_host = 10.0.2.10:8085
+
+		##To listen on all interfaces use:
+		listener = 0.0.0.0
+
+	 g) if stanchion_host is changed in previous step change this file : /etc/stanchion/stanchion.conf accordingly
+
+		listener = 127.0.0.1:8085
+		riak_host = 127.0.0.1:8087
+
+		to
+
+		listener = 10.0.2.10:8085
+		riak_host = 10.0.2.10:8087
+
+
+------------This is mandatory even if steps are followed from link-------------
+   
+
+ 	h) Setup admin:
+
+  	-> Before creating an admin user, you must first set `anonymous_user_creation = on` in the Riak CS `riak-cs.conf`
+
+  	->execute:
+		 curl -H 'Content-Type: application/json' \-XPOST http://0.0.0.0:8080/riak-cs/user \--data '{"email":"admin@example.com", 			"name":"admin"}'
+ 	
+ 	->set the admin key and secret key in /etc/riak-cs/riak.conf
+
+  		##admin.key = OUCXMB6I3HOZ6D0GWO2D
+		##admin.secret = a58Mqd3qN-SqCoFIta58Mqd3qN7umE2hnunGag== (replace these two keys with the key generated in above step)
+
+
+	
+	->#########Create BUCKET ################## Execute in command line:
+		
+		sudo apt-get install s3cmd
+
+		s3cmd --configure
+	
+	-> config the admin key ,secret key, proxy to riak-cs listener i.e. (if default) 0.0.0.0 port 8080 
+	
+	->Execute:
+		 s3cmd mb s3://riakbucket
+	
+	->Run with sudo permission: 
+		riak start
+		stanchion start
+		riak-cs start
+
+######## YOUR RIAK SERVER IS UP NOW####### FOLLOW THE STEPS BELOW EVEN IF YOU DONT WANT TO SET UP RIAK ######
+
+9)   	To set up the database relations and populate them (to be dome only if you are running for 1st time ):
+		goto 140050013_140050021_140050027_140050027/scripts		
+	
+		Execute: 
+			sudo chmod 755 populate.sh 
+			./populate.sh (while runnning this script your psql server must be up)
+			
+	*** every time you run populate.sh it will delete all the relations in the databse and eill set up the database again***
+	***The script populate creates some random data in the database, which is required to view the functionality of the webapp. It create 		   30 fake users with username =username0 to username 29 and password=password (required to login or you could create your own 		   account). It also fills some random posts and make some random users friends.*****
+   
+10)   Finally to run the server:
+		goto 140050013_140050021_140050027_140050027/src/vlife		
+	
+		Execute:
+			export ASSET_HOST='UrIPaddress'
+			export ASSET_PORT='riak-cs port no (default is 8080)'
+			export SECRET="<SKEY>"    			#These are the keys generated in the riak admin process,should be 				export KEY="<KEY>"				#right if you want to access image via riak 
+			rails server -b 0.0.0.0
+
+
+11) You are good to go now, just go to any web browser and run either of the following:	
+	a) 0.0.0.0:3000
+	b) 127.0.0:3000
+	c) you lan/wlan ip:3000
+
+
+You are al ready now, enjoy your Virtual life with our vLife
+ 
