@@ -1,0 +1,197 @@
+assuming postgre installed
+
+/usr/lib/postgresql/9.5/bin/pg_ctl -D ~/postgresql/dbis -l logfile start
+psql -h localhost -p xyz0 -d postgres
+
+update + sqlite 3
+
+sudo apt-get update
+sudo apt-get install git-core curl zlib1g-dev build-essential libssl-dev libreadline-dev libyaml-dev libsqlite3-dev 
+sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev python-software-properties libffi-dev
+
+
+install rbenv and rubuy
+
+cd
+git clone https://github.com/rbenv/rbenv.git ~/.rbenv
+echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
+echo 'eval "$(rbenv init -)"' >> ~/.bashrc
+exec $SHELL
+
+git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
+echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"' >> ~/.bashrc
+exec $SHELL
+
+rbenv install 2.3.1
+rbenv global 2.3.1
+
+installing nodejs
+
+curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
+sudo apt-get install -y nodejs
+
+installing rails
+
+gem install rails -v 4.2.6
+rbenv rehash
+
+goto project folder
+
+sudo apt-get install libpg-dev
+gem install pg -v 0.19.0
+sudo apt-get install libmagickcore-dev
+sudo apt-get install graphicsmagick-libmagick-dev-compat
+sudo apt-get install libmagickwand-dev
+sudo apt-get install imagemagick
+gem install rmagick
+bundle install
+
+
+changing database.yml in config folder
+goto folder -> config -> database.yml
+
+	change username to username of psql
+	change password to password of psql
+	change host to host ip if psql not running on 127.0.0.1
+	change port to the port of the psql
+
+
+
+#################################################################
+SETUP OF RIAK SERVER FOR IMAGES: This part is not mandatory.
+But if not done : images won't appear
+
+
+------------STEP 4 is mandatory even if steps are followed from link-------------
+Follow the steps below or detailed description from this link https://docs.basho.com/riak/cs/2.1.1/tutorials/fast-track/local-testing-environment/
+
+
+Downloads:
+
+	From this link: https://docs.basho.com/riak/cs/2.1.1/downloads/
+		1) Riak-CS download deb : Ubuntu trusty and install
+		2) Stanchion download deb : Ubuntu trusty and install
+
+	From this link: http://docs.basho.com/riak/kv/2.1.4/downloads/
+
+		1) Download Riak-KV deb: Ubuntu trusty
+
+	1)open this file with root /etc/security/limits.conf
+
+		append these lines
+		*              soft     nofile          65536
+		*              hard     nofile          65536
+
+	
+	2) open this file with sudo permission /etc/riak/riak.conf
+
+		a)sudo subl /etc/riak/riak.conf
+			## Delete this line
+			storage_backend = . . .
+
+			## Append this line at the end of the file
+			buckets.default.allow_mult = true
+
+			This ports must be free : 8080 8098 8097 (default)
+			or change the following to map to other ports- >
+
+			listener.http.internal = 127.0.0.1:8098
+			listener.protobuf.internal = 127.0.0.1:8097
+	
+	
+   3) create this file with root permission /etc/riak/advanced.config
+   Paste this :
+		   [
+		 {riak_kv, [
+		              {add_paths, ["/usr/lib/riak-cs/lib/riak_cs-2.1.1/ebin"]},
+		              {storage_backend, riak_cs_kv_multi_backend},
+		              {multi_backend_prefix_list, [{<<"0b:">>, be_blocks}]},
+		              {multi_backend_default, be_default},
+		              {multi_backend, [
+		                  {be_default, riak_kv_eleveldb_backend, [
+		                      {total_leveldb_mem_percent, 30},
+		                      {data_root, "/var/lib/riak/leveldb"}
+		                  ]},
+		                  {be_blocks, riak_kv_bitcask_backend, [
+		                      {data_root, "/var/lib/riak/bitcask"}
+		                  ]}
+		              ]}
+		  ]}
+		].
+   4)open /etc/riak-cs/advanced.config and replace with this
+   		[
+		 {riak_cs,
+		  [
+		  	{auth_v4_enabled, true}
+		  ]}
+		].
+
+   5) open this file with root permission : /etc/riak-cs/riak-cs.conf
+
+		Ports must be free : 8080 8087 8085 (default)
+		
+		##Change 
+		listener=0.0.0.0:8080
+		
+		To better customize
+		
+		listener = 127.0.0.1:8080
+		riak_host = 127.0.0.1:8087
+		stanchion_host = 127.0.0.1:8085
+		to
+		riak-cs.conf
+		listener = 10.0.2.10:8080
+		riak_host = 10.0.2.10:8087
+		stanchion_host = 10.0.2.10:8085
+
+		To listen on all interfaces use:
+		listener = 0.0.0.0
+
+	6)->	if stanchion_host is changed in previous step change this file : /etc/stanchion/stanchion.conf accordingly
+
+		listener = 127.0.0.1:8085
+		riak_host = 127.0.0.1:8087
+
+		to
+
+		listener = 10.0.2.10:8085
+		riak_host = 10.0.2.10:8087
+
+
+------------STEP 4 is mandatory even if steps are followed from link-------------
+   
+
+ ---Setup admin:
+
+   Before creating an admin user, you must first set `anonymous_user_creation = on` in the Riak CS `riak-cs.conf`
+
+   curl -H 'Content-Type: application/json' \
+  	-XPOST http://0.0.0.0:8080/riak-cs/user \
+  	--data '{"email":"admin@example.com", "name":"admin"}'
+ 	
+ 	set the admin key and secret key in /etc/riak-cs/riak.conf
+
+  	admin.key = OUCXMB6I3HOZ6D0GWO2D
+	admin.secret = a58Mqd3qN-SqCoFIta58Mqd3qN7umE2hnunGag==
+
+
+	Run with sudo permission: 
+	riak start
+	stanchion start
+	riak-cs start
+
+	#########Create BUCKET ##################
+	sudo apt-get install s3cmd
+	Run : s3cmd --configure
+	
+	config the admin key ,secret key, proxy to riak-cs listener i.e. (if default) 0.0.0.0 port 8080 
+	
+	Run : s3cmd mb s3://riakbucket
+
+
+	set environment variable either in .bashrc or in terminal shell(works for one session only):
+	export ASSET_HOST='UrIPaddress'
+	export ASSET_PORT='riak-cs port no 8080 default'
+	export SECRET="<SKEY>"
+	export KEY="<KEY>"
+
