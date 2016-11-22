@@ -9,7 +9,14 @@ class BlobUploader < CarrierWave::Uploader::Base
   def initialize(mount,mounter)
     super
     time = Time.new
-    @name=Digest::SHA256.hexdigest(time.year.to_s+time.month.to_s+(time.hour*3600+time.min*60).to_s+"zcbhsuhdf")
+    temp=nil
+    if !original_filename.nil?
+      temp=original_filename;
+    else
+      temp="asdasdxvsdf";
+    end
+
+    @name=Digest::SHA256.hexdigest(temp+time.year.to_s+time.month.to_s+(time.hour*3600+time.min*60).to_s+"zcbhsuhdf")
   end
 
  

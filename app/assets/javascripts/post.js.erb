@@ -236,6 +236,9 @@ $(document).on("turbolinks:load", function() {
           var final = [];
           var i;
           var url="";
+          if(data.length!=0)
+            $('#notifglobe').attr("style","color:blue;");
+
           for(var i = 0;i<data.length;i++)
           {
             console.log(data[i][0].p_id);
@@ -260,7 +263,7 @@ $(document).on("turbolinks:load", function() {
           
         }
       });
-    }(), 300000);   //every 5 min
+    }(), 120000);   //every 2 min
               
       $("#dialog").dialog({
         autoOpen: false

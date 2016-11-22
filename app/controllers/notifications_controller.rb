@@ -2,7 +2,7 @@ class NotificationsController < ApplicationController
 	before_action :logged_in_user , only: [:notify]
 
 	def notify
-		@ntf = NotifyTo.where(:to_id => current_user.u_id, :status => 'N').pluck(:not_id, :from_id, :to_id)
+		@ntf = NotifyTo.where(:to_id => current_user.u_id, :status => 'N').pluck(:not_id, :from_id, :to_id)+NotifyTo.where(:to_id => current_user.u_id, :status => 'S').limit(10).pluck(:not_id, :from_id, :to_id)
 		puts @ntf
 		@notification = []
 		for @u in @ntf

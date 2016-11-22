@@ -5,8 +5,8 @@ CarrierWave.configure do |config|
       :host           => ENV["ASSET_HOST"],
       :port           => ENV["ASSET_PORT"].to_i,
       :scheme               => 'http',
-      :aws_access_key_id      => ENV["KEY"],
-      :aws_secret_access_key  => ENV["SECRET"],
+      :aws_access_key_id      => ENV["ASSET_KEY"],
+      :aws_secret_access_key  => ENV["ASSET_SECRET"],
       
   }
   config.fog_public = true
