@@ -73,3 +73,5 @@ gem 'language-select'
 gem 'populator'
 
 gem 'faker'
+
+gem 'factory_girl'
