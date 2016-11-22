@@ -229,8 +229,7 @@ Follow the steps below or detailed description from this link https://docs.basho
 			./populate.sh (only if you are running for 1st time )(while runnning this script your psql server must be up)
 			./run_server.sh  (to be executed everytime)
 	
-	*** every time you run populate.sh it will delete all the relations in the databse and eill set up the database again****
-
+	*** every time you run populate.sh it will delete all the relations in the databse and eill set up the database again***
 	***The script populate creates some random data in the database, which is required to view the functionality of the webapp. It create 		   30 fake users with username =username0 to username 29 and password=password (required to login or you could create your own 		   account). It also fills some random posts and make some random users friends.*****
    
 10)   Finally to run the server:
