@@ -5,10 +5,10 @@ class FriendsController < ApplicationController
 
 	def show_accepted
 	  	@user = current_user
-  	  	
+  	  	@u_id = params[:id]
   	  	#no sql injection possible here as no term is taken as input from user
-  	  	@all_friends = Friend.find_by_sql("select user_id as frn from friends where friend_id = '" + current_user.u_id +
-  	   "' and status = 'accepted' union select friend_id as frn from friends where user_id = '"+ current_user.u_id + "' and "+
+  	  	@all_friends = Friend.find_by_sql("select user_id as frn from friends where friend_id = '" + @u_id +
+  	   "' and status = 'accepted' union select friend_id as frn from friends where user_id = '"+ @u_id + "' and "+
   	   " status = 'accepted' ")
   	  	@count_friends = @all_friends.count()
 
@@ -32,7 +32,7 @@ class FriendsController < ApplicationController
   	  	@all_friends = @all_friends.zip(@name_fr, @location_fr, @dp_fr)
   	  	
   	  	#following, request sent by user but yet to be accepted(waiting)
-  	  	@all_followings = Friend.find_by_sql("select friend_id as frn from friends where user_id = '"+ current_user.u_id + "' and "+
+  	  	@all_followings = Friend.find_by_sql("select friend_id as frn from friends where user_id = '"+ @u_id + "' and "+
   	   " status = 'waiting' ")
 		@count_followings = @all_followings.count()
 
@@ -56,7 +56,7 @@ class FriendsController < ApplicationController
   	  	@all_followings = @all_followings.zip(@name_fol, @location_fol, @dp_fol)
 
   	  	###
-  	  	@all_requests = Friend.find_by_sql("select user_id as frn from friends where friend_id = '"+ current_user.u_id + "' and "+
+  	  	@all_requests = Friend.find_by_sql("select user_id as frn from friends where friend_id = '"+ @u_id + "' and "+
   	   " status = 'waiting' ")
 		@count_requests = @all_requests.count()
 
