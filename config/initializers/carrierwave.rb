@@ -5,8 +5,8 @@ CarrierWave.configure do |config|
       :host           => ENV["ASSET_HOST"],
       :port           => ENV["ASSET_PORT"].to_i,
       :scheme               => 'http',
-      :aws_access_key_id      => "TICN3MI355BLA9FZDYCY",
-      :aws_secret_access_key  => "K3ydjJYHjVbRws5PnbVtwsa25tpBDFw_iNWJ6w==",
+      :aws_access_key_id      => ENV["KEY"],
+      :aws_secret_access_key  => ENV["SECRET"],
       
   }
   config.fog_public = true
@@ -14,3 +14,6 @@ CarrierWave.configure do |config|
   config.fog_use_ssl_for_aws = false
   config.storage             = :fog
 end
+
+#KEY=TICN3MI355BLA9FZDYCY
+#SECRET=K3ydjJYHjVbRws5PnbVtwsa25tpBDFw_iNWJ6w==

@@ -1,7 +1,9 @@
 #!/bin/sh
 
 cd ../src/vlife/
-echo "creating database\n"
+echo "deleting previous data if any\n"
+rake db:drop
+echo "\ncreating database\n"
 rake db:create
 echo "\ncreating relations\n"
 rake db:migrate

@@ -16,7 +16,7 @@ class UsersController < ApplicationController
   		flash[:color] = "valid"
       redirect_to '/home'
   	else
-  		flash[:notice] = "Bad username and password"
+  		flash[:notice] = "Bad username and password, Sign Up Again!"
   		flash[:color] = "invalid"
   	  redirect_to root_url
     end
