@@ -30,7 +30,7 @@
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><a role="button" aria-haspopup="true" aria-expanded="false" onclick="notifToggle()"><span class="glyphicon glyphicon-globe" aria-hidden="true"></a></li>
+        <li><a role="button" aria-haspopup="true" aria-expanded="false" onclick="notifToggle()"><span class="glyphicon glyphicon-globe" id="notifglobe" aria-hidden="true"></a></li>
         <li><a href="/<%= current_user.u_id %>/messages/" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></a></li>
       </ul>
         
@@ -64,5 +64,6 @@
 function notifToggle()
 {
   $('#notif').toggle();
+  $('#notifglobe').attr('style',"color:black;");
 }
 </script>
