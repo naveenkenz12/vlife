@@ -105,7 +105,7 @@
 			<p class="col-lg-4 editinfo">
 				<i class="fa fa-address-book"></i>
 				<% @us = User.find(current_user.u_id) %>
-				<%=h @us.email %>
+				<%=h @user.email %>
 			</p>
 		</div>
 		<hr class="col-lg-7 editline">
@@ -116,14 +116,23 @@
 				<span class="editheading">Relationship Status:</span>
 				<%=h @profile.rel_status %>
 			</p>
+			<% if @user.u_id == current_user.u_id %>
+
 			<a href="#" role="button" data-toggle="modal" data-target="#login-modal" class="col-lg-1">
 				<i class="fa fa-pencil" style="margin-left:75%;"></i>
 			</a>
+			<% else %>
+			<a  data-toggle="modal" data-target="" class="col-lg-1">
+				
+			</a>
+			
+			<% end %>
+
 			</div>
 			<div class="col-lg-1"></div>
 			<p class="col-lg-4 editinfo">
 				<i class="fa fa-lg fa-mobile-phone"></i>
-				<%=h @us.phone_no %>
+				<%=h @user.phone_no %>
 			</p>
 		</div>
 		<hr class="col-lg-7 editline">
@@ -137,9 +146,13 @@
 				<% if !@profile.country.nil? %><a href=""><%=h @profile.country %></a><% end %>
 
 			</p>
+			<% if @user.u_id == current_user.u_id %>
+
 			<a href="#" role="button" data-toggle="modal" data-target="#modify_location" class="col-lg-1">
 				<i class="fa fa-pencil" style="margin-left:75%;"></i>
 			</a>
+
+			<% end %>
 			</div>
 			<div class="col-lg-1"></div>
 			
@@ -150,9 +163,11 @@
 		<div class="row">
 			<p class="col-lg-12 edittitle">
 				<span class="editheading">Institutions:</span>
+				<% if @user.u_id == current_user.u_id %>
 				<a href="#" role="button" data-toggle="modal" data-target="#add_institution" ><i class="glyphicon glyphicon-plus" style="margin-left:40%;"></i></a>
+				<% end %>
 				<br>
-				<%	@ins = UserInstitution.where(:u_id => current_user.u_id)
+				<%	@ins = UserInstitution.where(:u_id => @user.u_id)
 					@ins_details = []
 					for @i in @ins
 						@ins_details.push(Institution.find(@i.ins_id))
