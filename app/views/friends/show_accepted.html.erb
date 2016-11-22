@@ -17,9 +17,10 @@
   			<div class="container-fluid">
     			<ul class="nav navbar-nav">
       				<li ><button id='_fr' class="btn btn-link" style="color:orange"><%= "Friends("+@count_friends.to_s+")" %></button></li>
-      				<li class=""><button id='_fl' class="btn btn-link"><%= "Request Sent("+@count_followings.to_s+")" %></button></li>
-      				<li class=""><button id='_rq' class="btn btn-link"><%= "Requests("+@count_requests.to_s+")" %></button></li>
-    			
+					<% if @user.u_id == @u_id %>			<!-- show only when own accoun friend -->
+      					<li class=""><button id='_fl' class="btn btn-link"><%= "Request Sent("+@count_followings.to_s+")" %></button></li>
+      					<li class=""><button id='_rq' class="btn btn-link"><%= "Requests("+@count_requests.to_s+")" %></button></li>
+    				<% end %>
 	    			<%= form_for(:search, :html =>{:id =>'search-form', :action => "#"}) do |f| %>
 					<%= f.text_field :term ,class:"form-control",placeholder:"Search...", id: "search" %>
 					<script>
@@ -107,6 +108,7 @@
 	  			<hr>
 			<% end %>
 		</div>
+		<% if @user.u_id == @u_id %>			<!-- show only when own accoun friend -->
 		<div id = "_2" style="display:none">
 			<% for @p in @all_followings %>
 				<div class="cuser-post-middle">
@@ -223,7 +225,7 @@
 	  			<hr>
 			<% end %>
 		</div>
-
+		<% end %>
 
 		<script>
 			$("#_fr").on('click', function() {
